@@ -1,0 +1,189 @@
+package edu.gatech.sophia;
+
+import com.jme3.app.Application;
+import com.jme3.app.SimpleApplication;
+import com.jme3.system.AppSettings;
+import com.jme3.system.JmeCanvasContext;
+import com.jme3.util.JmeFormatter;
+import java.awt.BorderLayout;
+import java.awt.Canvas;
+import java.awt.Container;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.concurrent.Callable;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Handler;
+import java.util.logging.Logger;
+import javax.swing.*;
+
+public class SophiaView {
+    private static JmeCanvasContext context;
+    private static Canvas canvas;
+    private static Application app;
+    private static JFrame frame;
+    private static Container canvasPanel;
+    private static final String appClass = "edu.gatech.sophia.PlaybackView";
+    
+    //Set up the JPanel that the jME canvas will be in
+    private static void createPlaybackPanel() {
+    	canvasPanel = new JPanel();
+    	canvasPanel.setLayout(new BorderLayout());
+    	frame.add("Center", canvasPanel);
+    }
+    
+    //Create the top menu bar
+    private static void createMenu(){
+        JMenuBar menuBar = new JMenuBar();
+        frame.setJMenuBar(menuBar);
+
+        /*
+         * File menu
+         */
+        JMenu menuFile = new JMenu("File");
+        menuBar.add(menuFile);
+        
+        final JMenuItem itemOpen = new JMenuItem("Open");
+        menuFile.add(itemOpen);
+        itemOpen.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		
+        	}
+        });
+        
+        final JMenuItem itemClose = new JMenuItem("Close");
+        menuFile.add(itemClose);
+        itemClose.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		
+        	}
+        });
+
+        JMenuItem itemExit = new JMenuItem("Exit");
+        menuFile.add(itemExit);
+        itemExit.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ae) {
+                frame.dispose();
+                app.stop();
+            }
+        });
+        
+        /*
+         * Edit menu
+         */
+        JMenu menuEdit = new JMenu("Edit");
+        menuBar.add(menuEdit);
+        
+        final JMenuItem itemPrefs = new JMenuItem("Preferences");
+        menuEdit.add(itemPrefs);
+        itemPrefs.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		
+        	}
+        });
+    }
+    
+    //Sets up the main SOPHIA application window
+    private static void createFrame(){
+        frame = new JFrame("SOPHIA");
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setLayout(new BorderLayout());
+        frame.addWindowListener(new WindowAdapter(){
+            @Override
+            public void windowClosed(WindowEvent e) {
+                app.stop();
+            }
+        });
+        
+        //Set up the panel for the 3D simulation playback canvas
+        createPlaybackPanel();
+        
+        //Create the file picker view
+        FilePickerView fpView = new FilePickerView();
+        frame.add("West", fpView);
+        
+        //Create the menu bar
+        createMenu();
+    }
+
+    //Set up the jME canvas which will be added to the swing GUI
+    public static void createCanvas(String appClass){
+    	//Load default settings and set resolution
+        AppSettings settings = new AppSettings(true);
+        settings.setWidth(640);
+        settings.setHeight(480);
+
+        //Initialize the jME Application instance
+        try{
+            Class<? extends Application> clazz = (Class<? extends Application>) Class.forName(appClass);
+            app = clazz.newInstance();
+        }catch (ClassNotFoundException ex){
+            ex.printStackTrace();
+        }catch (InstantiationException ex){
+            ex.printStackTrace();
+        }catch (IllegalAccessException ex){
+            ex.printStackTrace();
+        }
+
+        //Make sure rendering continues if user clicks somewhere else
+        app.setPauseOnLostFocus(false);
+        
+        //Standard initialization for SimpleApplication
+        app.setSettings(settings);
+        app.createCanvas();
+        app.startCanvas();
+
+        //Get the canvas from jME for use in the GUI
+        context = (JmeCanvasContext) app.getContext();
+        canvas = context.getCanvas();
+        canvas.setSize(settings.getWidth(), settings.getHeight());
+    }
+
+    //Starts the jME rendering
+    public static void startApp(){
+        app.startCanvas();
+        app.enqueue(new Callable<Void>(){
+            public Void call(){
+                if (app instanceof SimpleApplication){
+                    SimpleApplication simpleApp = (SimpleApplication) app;
+                    simpleApp.getFlyByCamera().setDragToRotate(true);
+                }
+                return null;
+            }
+        });
+    }
+
+    //Main entry point
+    public static void main(String[] args){
+    	//Logging setup
+        JmeFormatter formatter = new JmeFormatter();
+        Handler consoleHandler = new ConsoleHandler();
+        consoleHandler.setFormatter(formatter);
+
+        Logger.getLogger("").removeHandler(Logger.getLogger("").getHandlers()[0]);
+        Logger.getLogger("").addHandler(consoleHandler);
+        
+        //Set up the jME canvas
+        createCanvas(appClass);
+        
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException ex) {
+        }
+        
+        SwingUtilities.invokeLater(new Runnable(){
+            public void run(){
+                JPopupMenu.setDefaultLightWeightPopupEnabled(false);
+
+                createFrame();
+                
+                canvasPanel.add(canvas, BorderLayout.CENTER);
+                frame.pack();
+                startApp();
+                frame.setLocationRelativeTo(null);
+                frame.setVisible(true);
+            }
+        });
+    }
+}

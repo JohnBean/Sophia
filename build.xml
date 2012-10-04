@@ -1,0 +1,71 @@
+<project name="SOPHIA" default="all" basedir="." >
+    <path id="SOPHIA.classpath">
+        <pathelement location="libs/eventbus.jar"/>
+        <pathelement location="libs/jinput.jar"/>
+        <pathelement location="libs/jME3-lwjgl-natives.jar"/>
+        <pathelement location="libs/jMonkeyEngine3.jar"/>
+        <pathelement location="libs/j-ogg-oggd.jar"/>
+        <pathelement location="libs/j-ogg-vorbisd.jar"/>
+        <pathelement location="libs/lwjgl.jar"/>
+        <pathelement location="libs/proguard.jar"/>
+        <pathelement location="libs/retrace.jar"/>
+        <pathelement location="libs/stack-alloc.jar"/>
+        <pathelement location="libs/vecmath.jar"/>
+        <pathelement location="libs/xmlpull-xpp3.jar"/>
+    </path>
+    <target name="init" >
+        <property name="src.dir" location="./src" />
+        <property name="build.dir" location="./build/" />
+        <property name="lib.dir" location="./libs/" />
+        <property name="doc.dir" location="./apidoc" />
+        <property name="reports.dir" location="./reports" /> 
+        <property name="appname" value="SOPHIA" />
+    </target>
+    <target name="prepare" depends="init" >
+        <mkdir dir="${build.dir}" />
+        <mkdir dir="${doc.dir}" />
+        <mkdir dir="${reports.dir}" />
+        <mkdir dir="${reports.dir}/raw/" />
+    </target>
+    <target name="compile" depends="prepare" >
+        <javac destdir="${build.dir}">
+            <src path="${src.dir}" />
+            <classpath refid="SOPHIA.classpath"/>
+        </javac>
+    </target>
+    <target name="javadoc" depends="prepare" >
+        <javadoc sourcepath="${src.dir}" access="public" destdir="${doc.dir}" packagenames="edu.gatech.sophia">
+            <fileset dir="${src.dir}">
+                <include name="**/*.java" />
+            </fileset>
+            <bottom>
+                <![CDATA[<i>Copyright &#169; 2012 Team JARVIS.  All Rights Reserved.</i>]]>
+            </bottom>
+            <classpath refid="SOPHIA.classpath"/>
+        </javadoc>
+    </target>
+    <target name="jar" depends="compile">
+        <jar destfile="${build.dir}/${appname}.jar" basedir="${build.dir}" excludes="${appname}.jar">
+            <manifest>
+                <attribute name="Main-Class" value="edu.gatech.sophia.SophiaView"/>
+            </manifest>
+            <fileset dir="${build.dir}" includes="**/*.class" />
+            <zipgroupfileset dir="${lib.dir}" includes="**/*.jar" />
+        </jar>
+    </target>
+    <target name="run" depends="jar" >
+        <java jar="${build.dir}/${appname}.jar" fork="true">
+            <classpath refid="SOPHIA.classpath"/>
+        </java>
+    </target>
+    <target name="all" depends="javadoc,run">
+
+    </target>
+    <target name="clean" depends="init" >
+        <delete includeEmptyDirs="true">
+            <fileset dir="${build.dir}" />
+            <fileset dir="${doc.dir}" />
+            <fileset dir="${reports.dir}" />
+        </delete>
+    </target>
+</project>
