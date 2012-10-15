@@ -6,8 +6,9 @@ package edu.gatech.sophia;
 public class Atom {
     private Point3D location;
     private Vector3D velocity;
-
-    public Atom() {
-
+    private String atomName;
+    public Atom(String name, double x, double y, double z){
+        atomName=name;
+        location= new Point3D(x,y,z);
     }
 }
