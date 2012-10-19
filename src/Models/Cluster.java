@@ -36,15 +36,23 @@ public class Cluster {
      */
    public void readFromFiles(String coordinateFilename, String structureFilename) {
         String curLine;
-        
+        Atom[] atoms;
+        Atom atom;
         try (FileReader fr = new FileReader(coordinateFilename) ){
             BufferedReader br = new BufferedReader(fr);
             System.out.println("reading");
             while ((curLine = br.readLine()) != null) {
-             /*   if(curLine.substring(0,4).compareTo("ATOM")==0){
-                    System.out.println("this is an atom:"+curLine);
-                }*/
-		System.out.println(curLine);
+                String[] tokens = curLine.split("[ ]+");
+               
+                 if(tokens[0].compareTo("ATOM")==0){
+                    atom= new Atom(tokens[3],Float.parseFloat(tokens[6]),Float.parseFloat(tokens[7]),Float.parseFloat(tokens[8]));
+                    atom.printString();
+                    System.out.println("this is an atom:"+curLine.substring(5,curLine.length()));
+                 }
+                   
+             
+               
+		//System.out.println(curLine);
                 //TODO build atoms from data red in
             }       
         }

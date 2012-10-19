@@ -11,4 +11,7 @@ public class Atom {
         atomName=name;
         location= new Point3D(x,y,z);
     }
+    public void printString(){
+        System.out.println("Atom of " +atomName + " Pos:"+location.x+","+location.y+","+location.z);
+    }
 }
