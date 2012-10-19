@@ -14,12 +14,18 @@ public class Cluster {
     private ArrayList<AtomAssociation> associations;
 
     public Cluster() {
-
+        String path= System.getProperty("java.class.path");
+         System.out.println(path);
+        path = path.substring(0,path.length()-16)+"test.pdb";
+        System.out.println("************Cluster Test Initiated***************");
+        System.out.println(System.getProperty("user.dir"));
+        System.out.println(path);
+        readFromFiles(path, "structureFilename");
     }
 
     public Cluster(String coordinateFilename, String structureFilename) {
         System.out.println("************Cluster Initiated***************");
-        readFromFiles(coordinateFilename, structureFilename); 
+         
     }
 
     /**
@@ -29,17 +35,23 @@ public class Cluster {
      * @param structureFilename The name of the file to read associations from (.sf file)
      */
    public void readFromFiles(String coordinateFilename, String structureFilename) {
-        String sCurrentLine;
-        try (BufferedReader br = new BufferedReader(new FileReader(coordinateFilename))){
-            while ((sCurrentLine = br.readLine()) != null) {
-		System.out.println(sCurrentLine);
+        String curLine;
+        
+        try (FileReader fr = new FileReader(coordinateFilename) ){
+            BufferedReader br = new BufferedReader(fr);
+            System.out.println("reading");
+            while ((curLine = br.readLine()) != null) {
+             /*   if(curLine.substring(0,4).compareTo("ATOM")==0){
+                    System.out.println("this is an atom:"+curLine);
+                }*/
+		System.out.println(curLine);
                 //TODO build atoms from data red in
             }       
         }
         catch(IOException e){
             e.printStackTrace();
         }
-        sCurrentLine=null;
+      /*  sCurrentLine=null;
         try (BufferedReader br = new BufferedReader(new FileReader(structureFilename))){
             while ((sCurrentLine = br.readLine()) != null) {
 		System.out.println(sCurrentLine);
@@ -48,6 +60,6 @@ public class Cluster {
         }
         catch(IOException e){
             e.printStackTrace();
-        }
+        }*/
     }
 }

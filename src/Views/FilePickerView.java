@@ -68,6 +68,7 @@ public class FilePickerView extends JPanel {
         picker2Button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
                 sfChooser.showOpenDialog(null);
+                Cluster testCluster = new Cluster();
             }
         });
         picker2.add(picker2Button);
