@@ -18,6 +18,7 @@ public class Cluster {
     }
 
     public Cluster(String coordinateFilename, String structureFilename) {
+        System.out.println("************Cluster Initiated***************");
         readFromFiles(coordinateFilename, structureFilename); 
     }
 

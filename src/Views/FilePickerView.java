@@ -2,6 +2,7 @@ package edu.gatech.sophia;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -50,6 +51,11 @@ public class FilePickerView extends JPanel {
         JLabel sfpLabel = new JLabel("Choose structure file");
         sfpLabel.setHorizontalTextPosition(JLabel.LEFT);
         this.add(sfpLabel);
+        
+        Atom atom = new Atom("tester test test",10,40,60);
+         JLabel sfpLabelTest = new JLabel(atom.atomName);
+        sfpLabelTest.setHorizontalTextPosition(JLabel.LEFT);
+        this.add(sfpLabelTest);
         
         JPanel picker2 = new JPanel();
         picker2.setLayout(new BoxLayout(picker2, BoxLayout.LINE_AXIS));
