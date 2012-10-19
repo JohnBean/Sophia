@@ -35,8 +35,8 @@ public class Cluster {
      * @param structureFilename The name of the file to read associations from (.sf file)
      */
    public void readFromFiles(String coordinateFilename, String structureFilename) {
-        String curLine;
-        Atom[] atoms;
+        String curLine;//line being read in
+       atoms= new ArrayList();// saved atoms
         Atom atom;
         try (FileReader fr = new FileReader(coordinateFilename) ){
             BufferedReader br = new BufferedReader(fr);
@@ -46,8 +46,9 @@ public class Cluster {
                
                  if(tokens[0].compareTo("ATOM")==0){
                     atom= new Atom(tokens[3],Float.parseFloat(tokens[6]),Float.parseFloat(tokens[7]),Float.parseFloat(tokens[8]));
+                    atoms.add(atom);
                     atom.printString();
-                    System.out.println("this is an atom:"+curLine.substring(5,curLine.length()));
+                   System.out.println(atoms.size()+" total atoms created.");
                  }
                    
              
