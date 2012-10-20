@@ -16,16 +16,14 @@ public class Cluster {
     public Cluster() {
         String path= System.getProperty("java.class.path");
          System.out.println(path);
-        path = path.substring(0,path.length()-16)+"test.pdb";
+        path = path.substring(0,path.length()-16);
         System.out.println("************Cluster Test Initiated***************");
-        System.out.println(System.getProperty("user.dir"));
         System.out.println(path);
-        readFromFiles(path, "structureFilename");
+        readFromFiles(path+"ethane_5.pdb", path+"ethane_5.sf");
     }
 
     public Cluster(String coordinateFilename, String structureFilename) {
         System.out.println("************Cluster Initiated***************");
-         
     }
 
     /**
@@ -48,27 +46,22 @@ public class Cluster {
                     atom= new Atom(tokens[3],Float.parseFloat(tokens[6]),Float.parseFloat(tokens[7]),Float.parseFloat(tokens[8]));
                     atoms.add(atom);
                     atom.printString();
-                   System.out.println(atoms.size()+" total atoms created.");
+                   //System.out.println(atoms.size()+" total atoms created.");
                  }
-                   
-             
-               
-		//System.out.println(curLine);
-                //TODO build atoms from data red in
             }       
         }
         catch(IOException e){
             e.printStackTrace();
         }
-      /*  sCurrentLine=null;
+        curLine=null;
         try (BufferedReader br = new BufferedReader(new FileReader(structureFilename))){
-            while ((sCurrentLine = br.readLine()) != null) {
-		System.out.println(sCurrentLine);
+            while ((curLine = br.readLine()) != null) {
+		System.out.println(curLine);
                 //TODO build atoms connections from data red in
             }       
         }
         catch(IOException e){
             e.printStackTrace();
-        }*/
+        }
     }
 }
