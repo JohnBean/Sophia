@@ -46,7 +46,7 @@ public class Cluster {
                     atom= new Atom(tokens[3],Float.parseFloat(tokens[6]),Float.parseFloat(tokens[7]),Float.parseFloat(tokens[8]));
                     atoms.add(atom);
                     atom.printString();
-                   //System.out.println(atoms.size()+" total atoms created.");
+                   System.out.println(atoms.size()+" total atoms created.");
                  }
             }       
         }
@@ -56,6 +56,7 @@ public class Cluster {
         curLine=null;
         try (BufferedReader br = new BufferedReader(new FileReader(structureFilename))){
             while ((curLine = br.readLine()) != null) {
+                String[] tokens = curLine.split("[ ]+");
 		System.out.println(curLine);
                 //TODO build atoms connections from data red in
             }       
