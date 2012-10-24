@@ -43,9 +43,11 @@ public class Cluster {
                 String[] tokens = curLine.split("[ ]+");
                
                  if(tokens[0].compareTo("ATOM")==0){
-                    atom= new Atom(tokens[3],Float.parseFloat(tokens[6]),Float.parseFloat(tokens[7]),Float.parseFloat(tokens[8]));
+                    //              Atom     Molocule   ChainID     sequenceID                  location.x                      location.y              location.z                      Occupancy                   Temperature Factor              Mass                                Radius                      Charge
+                    atom= new Atom(tokens[2],tokens[3],tokens[4],Integer.parseInt(tokens[5]),Float.parseFloat(tokens[6]),Float.parseFloat(tokens[7]),Float.parseFloat(tokens[8]),Double.parseDouble(tokens[9]),Double.parseDouble(tokens[10]),Double.parseDouble(tokens[11]),Double.parseDouble(tokens[12]),Double.parseDouble(tokens[13]));
                     atoms.add(atom);
-                    atom.printString();
+                    System.out.println(atom.toString());
+                   // atom.printString();
                    System.out.println(atoms.size()+" total atoms created.");
                  }
             }       

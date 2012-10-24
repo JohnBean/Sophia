@@ -225,6 +225,7 @@ public class FilePickerView extends JPanel {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
+        Cluster cluster=new Cluster();
     }
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {
