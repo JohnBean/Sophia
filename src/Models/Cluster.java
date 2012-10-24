@@ -15,10 +15,8 @@ public class Cluster {
 
     public Cluster() {
         String path= System.getProperty("java.class.path");
-         System.out.println(path);
         path = path.substring(0,path.length()-16);
         System.out.println("************Cluster Test Initiated***************");
-        System.out.println(path);
         readFromFiles(path+"ethane_5.pdb", path+"ethane_5.sf");
     }
 
@@ -34,37 +32,48 @@ public class Cluster {
      */
    public void readFromFiles(String coordinateFilename, String structureFilename) {
         String curLine;//line being read in
-       atoms= new ArrayList();// saved atoms
+        atoms= new ArrayList();// saved atoms
         Atom atom;
-        try (FileReader fr = new FileReader(coordinateFilename) ){
+        try{
+            FileReader fr = new FileReader(coordinateFilename);
             BufferedReader br = new BufferedReader(fr);
             System.out.println("reading");
             while ((curLine = br.readLine()) != null) {
-                String[] tokens = curLine.split("[ ]+");
+                String[] atomInfo = curLine.split("[ ]+");
                
-                 if(tokens[0].compareTo("ATOM")==0){
+                 if(atomInfo[0].compareTo("ATOM")==0){
                     //              Atom     Molocule   ChainID     sequenceID                  location.x                      location.y              location.z                      Occupancy                   Temperature Factor              Mass                                Radius                      Charge
-                    atom= new Atom(tokens[2],tokens[3],tokens[4],Integer.parseInt(tokens[5]),Float.parseFloat(tokens[6]),Float.parseFloat(tokens[7]),Float.parseFloat(tokens[8]),Double.parseDouble(tokens[9]),Double.parseDouble(tokens[10]),Double.parseDouble(tokens[11]),Double.parseDouble(tokens[12]),Double.parseDouble(tokens[13]));
+                    atom= new Atom(atomInfo[2],atomInfo[3],atomInfo[4],Integer.parseInt(atomInfo[5]),Float.parseFloat(atomInfo[6]),Float.parseFloat(atomInfo[7]),Float.parseFloat(atomInfo[8]),Double.parseDouble(atomInfo[9]),Double.parseDouble(atomInfo[10]),Double.parseDouble(atomInfo[11]),Double.parseDouble(atomInfo[12]),Double.parseDouble(atomInfo[13]));
                     atoms.add(atom);
                     System.out.println(atom.toString());
                    // atom.printString();
-                   System.out.println(atoms.size()+" total atoms created.");
+                   
                  }
-            }       
+            }
+            System.out.println(atoms.size()+" total atoms created.");
         }
         catch(IOException e){
             e.printStackTrace();
         }
         curLine=null;
-        try (BufferedReader br = new BufferedReader(new FileReader(structureFilename))){
+        try{
+            BufferedReader br = new BufferedReader(new FileReader(structureFilename));
             while ((curLine = br.readLine()) != null) {
-                String[] tokens = curLine.split("[ ]+");
-		System.out.println(curLine);
+                String[] structInfo = curLine.split("[ \t\n\f\r]");
+                if(structInfo[0].compareTo("BOND")==0){
+                    //System.out.println(curLine);
+                }
+                else if(structInfo[0].compareTo("ANGLE")==0){
+                    //System.out.println(curLine);
+                }
+             //  System.out.println(struct[1]);
+		
                 //TODO build atoms connections from data red in
             }       
         }
         catch(IOException e){
             e.printStackTrace();
         }
+        System.out.println("************Cluster Test Completed Successfully***************");
     }
 }
