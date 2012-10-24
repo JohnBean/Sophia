@@ -76,4 +76,20 @@ public class Cluster {
         }
         System.out.println("************Cluster Test Completed Successfully***************");
     }
+   
+   /**
+    * Getter for Atoms
+    * @return List of atoms
+    */
+   public ArrayList<Atom> getAtoms() {
+	   return atoms;
+   }
+   
+   /**
+    * Getter for Associations
+    * @return List of Associations
+    */
+   public ArrayList<AtomAssociation> getAtomAssociation(){
+	   return associations;
+   }
 }
