@@ -8,9 +8,20 @@ import java.util.*;
  */
 public class Recording {
     private ArrayList<Frame> frames;
-    private Cluster cluster;
 
     public Recording() {
+        frames = new ArrayList<Frame>();
+    }
 
+    public int getNumFrames() {
+        return frames.size();
+    }
+
+    public void addFrame(Frame frame) {
+        frames.add(frame);
+    }
+
+    public Frame getFrame(int index) {
+        return frames.get(index);
     }
 }

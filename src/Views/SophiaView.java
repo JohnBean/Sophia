@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.CardLayout;
 import java.util.concurrent.Callable;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
@@ -27,8 +28,20 @@ public class SophiaView {
     private static Canvas canvas;
     private static Application app;
     private static JFrame frame;
+    private static JPanel cards;
     private static Container canvasPanel;
     private static final String appClass = "edu.gatech.sophia.PlaybackView";
+
+    /**
+     * Name of file picker view for card switching
+     */
+    private final static String SFILEPICKERPANEL = "SFilePicker";
+
+    /**
+     * Controllers
+     */
+    private static SimulationController simController;
+    private static VisualizationController vController;
     
     /**
      *Sets up the JPanel that the jME canvas will be in
@@ -108,13 +121,30 @@ public class SophiaView {
         
         //Set up the panel for the 3D simulation playback canvas
         createPlaybackPanel();
+
+        //Set up card stack for switching GUIs
+        cards = new JPanel(new CardLayout());
         
         //Create the file picker view
-        FilePickerView fpView = new FilePickerView();
-        frame.add("West", fpView);
+        FilePickerView fpView = new FilePickerView(simController);
+        simController.setFilePickerView(fpView);
+        cards.add(fpView, SFILEPICKERPANEL);
+        
+        //Set card stack to left side of window
+        frame.add("West", cards);
         
         //Create the menu bar
         createMenu();
+    }
+
+    /**
+     * Switches the left side view to the supplied card name
+     *
+     * @param cardName String representing the card to switch to
+     */
+    private static void switchView(String cardName) {
+        CardLayout cl = (CardLayout)(cards.getLayout());
+        cl.show(cards, cardName);
     }
 
     /**
@@ -181,9 +211,17 @@ public class SophiaView {
 
         Logger.getLogger("").removeHandler(Logger.getLogger("").getHandlers()[0]);
         Logger.getLogger("").addHandler(consoleHandler);
+
+        //Set up visualization controller
+        vController = new VisualizationController();
+
+        //Set up simulation controller for view callbacks
+        simController = new SimulationController();
+        simController.setVisualizationController(vController);
         
         //Set up the jME canvas
         createCanvas(appClass);
+        vController.setPlaybackView((PlaybackView)app);
         
         try {
             Thread.sleep(500);

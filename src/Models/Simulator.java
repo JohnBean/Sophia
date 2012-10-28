@@ -8,7 +8,7 @@ abstract class Simulator {
      * This is the type of simulator and must be unique for all simulators.
      * Should be set in the simulator's constructor
      */
-    private int type;
+    protected int type;
 
     /**
      * Returns the type of simulator

@@ -1,17 +1,26 @@
 package edu.gatech.sophia;
 
+import java.util.*;
+
 /**
  * Stores information about each Atom at a discreet point
  * in time such as locations, energy, etc
  */
 public class Frame {
     /**
-     * Location of each atom. Index into this should be the same as the
-     * corresponding atom in the cluster array
+     * List of all atoms
      */
-    private Point3D[] positions;
+    private ArrayList<Atom> atoms;
 
     public Frame() {
         
+    }
+
+    public void setAtoms(ArrayList<Atom> atoms) {
+        this.atoms = atoms;
+    }
+
+    public ArrayList<Atom> getAtoms() {
+        return atoms;
     }
 }

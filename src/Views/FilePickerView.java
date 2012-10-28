@@ -3,6 +3,7 @@ package edu.gatech.sophia;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.io.File;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -36,7 +37,15 @@ public class FilePickerView extends JPanel {
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
 
-    public FilePickerView() {
+    private SimulationController controller;
+
+    /**
+     * State variables for file choices
+     */
+    private String coordinateFileName = "";
+    private String structureFileName = "";
+
+    public FilePickerView(SimulationController simController) {
         jPopupMenu1 = new javax.swing.JPopupMenu();
         jSeparator1 = new javax.swing.JSeparator();
         jFileChooser1 = new javax.swing.JFileChooser();
@@ -60,6 +69,8 @@ public class FilePickerView extends JPanel {
         jRadioButton3 = new javax.swing.JRadioButton();
         jLabel5 = new javax.swing.JLabel();
         jTextField3 = new javax.swing.JTextField();
+
+        controller = simController;
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
@@ -101,7 +112,7 @@ public class FilePickerView extends JPanel {
         jButton3.setText("Next");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                controller.filePickerNext();
             }
         });
 
@@ -109,7 +120,7 @@ public class FilePickerView extends JPanel {
         jButton4.setText("Cancel");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                controller.filePickerCancel();
             }
         });
 
@@ -224,20 +235,21 @@ public class FilePickerView extends JPanel {
     }
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
-        Cluster cluster=new Cluster();
+        int choice = jFileChooser1.showOpenDialog(null);
+        if(choice == JFileChooser.APPROVE_OPTION) {
+            File chosenFile = jFileChooser1.getSelectedFile();
+            coordinateFileName = chosenFile.getPath();
+            jTextField1.setText(coordinateFileName);
+        }
     }
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
-    }
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
-    }
-
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+        int choice = jFileChooser1.showOpenDialog(null);
+        if(choice == JFileChooser.APPROVE_OPTION) {
+            File chosenFile = jFileChooser1.getSelectedFile();
+            structureFileName = chosenFile.getPath();
+            jTextField2.setText(structureFileName);
+        }
     }
 
     private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {
@@ -246,5 +258,13 @@ public class FilePickerView extends JPanel {
 
     private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
+    }
+
+    public String getCoordinateFileName() {
+        return coordinateFileName;
+    }
+
+    public String getStructureFileName() {
+        return structureFileName;
     }
 }
