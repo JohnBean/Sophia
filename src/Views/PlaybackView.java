@@ -1,6 +1,7 @@
 package edu.gatech.sophia;
 
 import java.util.*;
+import java.awt.Color;
 import com.jme3.app.SimpleApplication;
 import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
@@ -15,6 +16,9 @@ import com.jme3.scene.shape.Sphere;
  * during the playback of a recording
  */
 public class PlaybackView extends SimpleApplication {
+    private Frame currentFrame = null;
+    private boolean updateFlag = false;
+
     @Override
     public void simpleInitApp() {
         //Add a light to the scene
@@ -26,11 +30,42 @@ public class PlaybackView extends SimpleApplication {
         //Turn off stats displays
         this.setDisplayFps(false);
         this.setDisplayStatView(false);
+
+        viewPort.setBackgroundColor(new ColorRGBA(0.9f, 0.9f, 0.9f, 1.0f));
     }
 
     @Override
     public void simpleUpdate(float tpf) {
-        //TODO: add update code
+        if(updateFlag) {
+            //Set up spheres for each atom
+            ArrayList<Atom> atoms = currentFrame.getAtoms();
+            int currentId = 0;
+            for(Atom a : atoms) {
+                //Add a sphere to the scene
+                Sphere s = new Sphere(20, 20, 0.5f);
+                Geometry geom = new Geometry("Atom" + currentId, s);
+
+                float[] color = new float[3];
+                a.color.getRGBColorComponents(color);
+
+                Material mat = new Material(assetManager, "Common/MatDefs/Light/Lighting.j3md");
+                mat.setBoolean("UseMaterialColors",true);
+                mat.setColor("Diffuse",new ColorRGBA(color[0], color[1], color[2], 1.0f));
+                mat.setColor("Specular",ColorRGBA.Black);
+                mat.setColor("Ambient", ColorRGBA.Black);
+                mat.setFloat("Shininess", 5f); 
+
+                geom.setMaterial(mat);
+
+                geom.move((float)a.location.x, (float)a.location.y, (float)a.location.z);
+
+                rootNode.attachChild(geom);
+
+                currentId++;
+            }
+
+            updateFlag = false;
+        }
     }
 
     @Override
@@ -39,25 +74,7 @@ public class PlaybackView extends SimpleApplication {
     }
 
     public void showInitialFrame(Frame frame) {
-        //Set up spheres for each atom
-        ArrayList<Atom> atoms = frame.getAtoms();
-        int currentId = 0;
-        for(Atom a : atoms) {
-            //Add a sphere to the scene
-            Sphere s = new Sphere(20, 20, 1.0f);
-            Geometry geom = new Geometry("Atom" + currentId, s);
-
-            Material mat = new Material(assetManager, "Common/MatDefs/Light/Lighting.j3md");
-            mat.setColor("Specular",ColorRGBA.Blue);
-            mat.setColor("Diffuse",ColorRGBA.White);
-            mat.setFloat("Shininess", 5f); 
-            geom.setMaterial(mat);
-
-            geom.move((float)a.location.x, (float)a.location.y, (float)a.location.z);
-
-            rootNode.attachChild(geom);
-
-            currentId++;
-        }
+        currentFrame = frame;
+        updateFlag = true;
     }
 }
