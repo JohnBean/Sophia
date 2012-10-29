@@ -1,5 +1,7 @@
 package edu.gatech.sophia;
 
+import java.util.ArrayList;
+
 /**
  * Defines a relationship between two or more atoms
  */
@@ -9,20 +11,34 @@ abstract class AtomAssociation {
      *
      * @return An array of atom indexes of involved atoms
      */
-    public Atom atoms[];
+    private ArrayList<Atom> atoms;
     public String type;
-    public double angle;
-    public double bondUnknown1;
-    public double bondUnknown2;
-    public double angleUnkown1;
-    public AtomAssociation(Atom atom1, Atom atom2, double unknown1, double unknown2){
+    public double angle;//equilibrium atom
+    public double forceConstant;//in kcal/(mol A) for Bonds. in kcal/(mol rad^2)for Angles
+    public double bondLength;//equilibrium length of the bond
+    
+    public AtomAssociation(Atom atom1, Atom atom2, double force, double length){
        //Bond constructor
+       type="BOND";//There are only two atoms so it is a bond not an angle
+       atoms.add(atom1);
+       atoms.add(atom2);
+       forceConstant=force;
+       bondLength=length;
     }
-    public AtomAssociation(Atom atom1, Atom atom2, Atom atom3, double unknown){
+    public AtomAssociation(Atom atom1, Atom atom2, Atom atom3, double force, double equilibriumAngle){
         //Angle constructor
+       type="Angle";//Three atoms means this is an angle not a single bond
+       atoms.add(atom1);
+       atoms.add(atom2);
+       atoms.add(atom3);
+       forceConstant=force;
+       angle=equilibriumAngle;
     }
     abstract public Atom[] getAtoms();
-
+    
+    public ArrayList<Atom> getAtomList(){
+        return atoms;
+    }
     /**
      * Applys the force of the association to each involved atom
      *
