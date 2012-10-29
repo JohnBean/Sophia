@@ -4,6 +4,7 @@ import java.util.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.awt.Color;
 /**
  * Contains information about atoms and their associations (bonds, torsions, etc)
  * Can be thought of as a graph stored as an edgelist where atoms are nodes and
@@ -43,8 +44,28 @@ public class Cluster {
                 String[] atomInfo = curLine.split("[ ]+");
                
                  if(atomInfo[0].compareTo("ATOM")==0){
+                     
+                     //if(Color picking algorthing set to CPK (basic)){
+                        Color atomicColor=Color.pink;//Default for unspecified elements
+                        switch (atomInfo[2]) {//what type of atom is it? what color corresponds?
+                             case "C":
+                                 atomicColor = Color.black;//Carbon
+                                 break;
+                             case "H":
+                                 atomicColor = Color.white;//Hydrogen
+                                 break;
+                             case "O":
+                                 atomicColor = Color.red;//Oxygen
+                                 break;
+                             case "N":
+                                 atomicColor = Color.blue;//Nitrogen
+                                 break;
+                             
+                        }
+                        System.out.println(atomicColor.toString());
+                    // }
                     //              Atom     Molocule   ChainID     sequenceID                  location.x                      location.y              location.z                      Occupancy                   Temperature Factor              Mass                                Radius                      Charge
-                    atom= new Atom(atomInfo[2],atomInfo[3],atomInfo[4],Integer.parseInt(atomInfo[5]),Float.parseFloat(atomInfo[6]),Float.parseFloat(atomInfo[7]),Float.parseFloat(atomInfo[8]),Double.parseDouble(atomInfo[9]),Double.parseDouble(atomInfo[10]),Double.parseDouble(atomInfo[11]),Double.parseDouble(atomInfo[12]),Double.parseDouble(atomInfo[13]));
+                    atom= new Atom(atomInfo[2],atomInfo[3],atomInfo[4],Integer.parseInt(atomInfo[5]),Float.parseFloat(atomInfo[6]),Float.parseFloat(atomInfo[7]),Float.parseFloat(atomInfo[8]),Double.parseDouble(atomInfo[9]),Double.parseDouble(atomInfo[10]),Double.parseDouble(atomInfo[11]),Double.parseDouble(atomInfo[12]),Double.parseDouble(atomInfo[13]),atomicColor);
                     atoms.add(atom);
                     System.out.println(atom.toString());
                    // atom.printString();

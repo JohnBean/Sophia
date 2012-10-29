@@ -1,4 +1,5 @@
 package edu.gatech.sophia;
+import java.awt.Color;
 
 /**
  * Contains state information about an atom
@@ -16,7 +17,8 @@ public class Atom {
     public double mass;
     public double radius;
     public double charge;
-    public Atom(String atom, String molName, String chainID, int sequenceID,double x, double y, double z, double occupancy,double temperatureFactor,double mass,double radius, double charge){
+    public Color color;
+    public Atom(String atom, String molName, String chainID, int sequenceID,double x, double y, double z, double occupancy,double temperatureFactor,double mass,double radius, double charge, Color atomicColor){
         this.atomType=atom;
         this.moloculeName=molName;
         this.chainId=chainID;
@@ -27,6 +29,7 @@ public class Atom {
         this.mass=mass;
         this.radius=radius;
         this.charge=charge;
+        this.color= atomicColor;
     } 
 
     public String toString(){

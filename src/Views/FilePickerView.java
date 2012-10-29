@@ -117,10 +117,11 @@ public class FilePickerView extends JPanel {
         });
 
         jButton4.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
-        jButton4.setText("Cancel");
+        jButton4.setText("Test");//TEXT SHOULD READ CANCEL TODO
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 controller.filePickerCancel();
+                Cluster cluster = new Cluster();
             }
         });
 
