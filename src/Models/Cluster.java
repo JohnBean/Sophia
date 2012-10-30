@@ -54,22 +54,44 @@ public class Cluster {
                              case "H":
                                  atomicColor = Color.white;//Hydrogen
                                  break;
-                             case "O":
-                                 atomicColor = Color.red;//Oxygen
+                             case "Br"://Bromine
+                             case "O"://Oxygen
+                                 atomicColor = Color.red;
                                  break;
-                             case "N":
-                                 atomicColor = Color.blue;//Nitrogen
+                             case "N"://Nitrogen
+                                 atomicColor = Color.blue;
                                  break;
-                             
+                             case "F"://fluorine
+                             case "Cl"://chlorine
+                                 atomicColor = Color.green;
+                                 break;
+                             case "Fe"://iron
+                             case "P"://phosphorus
+                                 atomicColor=Color.orange;
+                                 break;
+                             case "Ti"://titanium
+                                 atomicColor=Color.gray;
+                                 break;
+                             case "S"://Sulfur
+                                 atomicColor= Color.yellow;
+                                 break;
+                             case "I"://Iodine
+                                 atomicColor=Color.magenta;
+                                 break;
+                             case "He"://Helium
+                             case "Ne"://Neon
+                             case "Ar"://Argon
+                             case "Xe"://Xenon
+                             case "Kr"://Krypton
+                                 atomicColor= Color.cyan;
+                                 break;
+                                 
                         }
                         System.out.println(atomicColor.toString());
                     // }
                     //              Atom     Molocule   ChainID     sequenceID                  location.x                      location.y              location.z                      Occupancy                   Temperature Factor              Mass                                Radius                      Charge
                     atom= new Atom(atomInfo[2],atomInfo[3],atomInfo[4],Integer.parseInt(atomInfo[5]),Float.parseFloat(atomInfo[6]),Float.parseFloat(atomInfo[7]),Float.parseFloat(atomInfo[8]),Double.parseDouble(atomInfo[9]),Double.parseDouble(atomInfo[10]),Double.parseDouble(atomInfo[11]),Double.parseDouble(atomInfo[12]),Double.parseDouble(atomInfo[13]),atomicColor);
                     atoms.add(atom);
-                    System.out.println(atom.toString());
-                   // atom.printString();
-                   
                  }
             }
             System.out.println(atoms.size()+" total atoms created.");
@@ -83,10 +105,10 @@ public class Cluster {
             while ((curLine = br.readLine()) != null) {
                 String[] structInfo = curLine.split("[ \t\n\f\r]");
                 if(structInfo[0].compareTo("BOND")==0){
-                    //System.out.println(curLine);
+                    associations.add(AtomAssociation(structInfo[1], structInfo[2], structInfo[3], structInfo[4]));
                 }
                 else if(structInfo[0].compareTo("ANGLE")==0){
-                    //System.out.println(curLine);
+                    associations.add(AtomAssociation(structInfo[1], structInfo[2], structInfo[3], structInfo[4], structInfo[5]));
                 }
              //  System.out.println(struct[1]);
 		
