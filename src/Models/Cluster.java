@@ -136,4 +136,23 @@ public class Cluster {
    public ArrayList<AtomAssociation> getAtomAssociation(){
 	   return associations;
    }
+
+    /**
+     * Calculates and applies force on each atom using associations
+     */
+    public void calculateForces() {
+        int i;
+
+        //Zero forces on all atoms
+        int count = atoms.size();
+        for(i = 0; i < count; i++) {
+            atoms.get(i).force.zero();
+        }
+
+        count = associations.size();
+        for(i = 0; i < count; i++) {
+            //Applies force of the association
+            associations.get(i).applyForces();
+        }
+    }
 }

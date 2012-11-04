@@ -12,4 +12,10 @@ public class Vector3D {
         this.y = y;
         this.z = z;
     }
+
+    public void zero() {
+        x = 0.0;
+        y = 0.0;
+        z = 0.0;
+    }
 }

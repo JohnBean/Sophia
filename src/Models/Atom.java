@@ -7,6 +7,8 @@ import java.awt.Color;
 public class Atom {
     public Point3D location;
     public Vector3D velocity;
+    public Vector3D acceleration;
+    public Vector3D force;
     public String atomType;
     public String moloculeName;
     public String chainId;
@@ -15,6 +17,7 @@ public class Atom {
     public double occupancy;
     public double temperatureFactor;
     public double mass;
+    public double inverseMass;
     public double radius;
     public double charge;
     public Color color;
@@ -30,6 +33,8 @@ public class Atom {
         this.radius=radius;
         this.charge=charge;
         this.color= atomicColor;
+
+        this.inverseMass = 1.0 / this.mass;
     } 
 
     public String toString(){
@@ -37,7 +42,14 @@ public class Atom {
         rVal= rVal+ " Part of an "+moloculeName + " molocule of chain " + chainId + " seqeunce "+ sequenceId + ". Occupancy:"+ occupancy;
         return rVal+ " Temperature Factor:" + temperatureFactor + " Mass:"+mass + " Radius:"+radius + " Charge:"+charge;
     }
+
     public void printString(){
         System.out.println("Atom of " +atomType + " Pos:"+location.x+","+location.y+","+location.z);
+    }
+
+    public void calculateAcceleration() {
+        acceleration.x = force.x * inverseMass;
+        acceleration.y = force.y * inverseMass;
+        acceleration.z = force.z * inverseMass;
     }
 }

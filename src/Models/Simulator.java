@@ -11,6 +11,21 @@ abstract class Simulator {
     protected int type;
 
     /**
+     * This is the seconds per timestep in the simulation
+     */
+    protected double timestep;
+
+    /**
+     * The number of steps to simulation
+     */
+    protected int numSteps;
+
+    /**
+     * The number of steps between each frame
+     */
+    protected int outputInterval;
+
+    /**
      * Returns the type of simulator
      *
      * @return The unique id of this simulator type

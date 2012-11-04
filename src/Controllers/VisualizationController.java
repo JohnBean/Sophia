@@ -13,7 +13,7 @@ public class VisualizationController {
 
     public void setRecording(Recording recording) {
         this.recording = recording;
-        pbView.showInitialFrame(recording.getFrame(0));
+        pbView.showInitialFrame(recording.getFrame(0), recording.getCluster());
     }
 
     public void setPlaybackView(PlaybackView pbView) {

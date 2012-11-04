@@ -10,17 +10,17 @@ public class Frame {
     /**
      * List of all atoms
      */
-    private ArrayList<Atom> atoms;
+    private ArrayList<Point3D> locations;
 
     public Frame() {
         
     }
 
-    public void setAtoms(ArrayList<Atom> atoms) {
-        this.atoms = atoms;
+    public void setLocations(ArrayList<Point3D> locations) {
+        this.locations = locations;
     }
 
-    public ArrayList<Atom> getAtoms() {
-        return atoms;
+    public ArrayList<Point3D> getLocations() {
+        return locations;
     }
 }

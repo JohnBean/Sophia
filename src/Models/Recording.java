@@ -8,8 +8,10 @@ import java.util.*;
  */
 public class Recording {
     private ArrayList<Frame> frames;
+    private Cluster cluster;
 
-    public Recording() {
+    public Recording(Cluster c) {
+        cluster = c;
         frames = new ArrayList<Frame>();
     }
 
@@ -23,5 +25,9 @@ public class Recording {
 
     public Frame getFrame(int index) {
         return frames.get(index);
+    }
+
+    public Cluster getCluster() {
+        return cluster;
     }
 }

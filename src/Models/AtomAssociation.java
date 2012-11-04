@@ -41,11 +41,9 @@ abstract class AtomAssociation {
     }
     /**
      * Applys the force of the association to each involved atom
-     *
-     * @param atoms The atoms involved in their pre-interaction state
-     * @return The atoms involved in their post-interaction state
      */
-    abstract public Atom[] applyForces(Atom[] atoms);
+    abstract public void applyForces();
+
     public boolean isBond(){
         boolean rVal=false;
         if(type.compareTo("BOND")==0){

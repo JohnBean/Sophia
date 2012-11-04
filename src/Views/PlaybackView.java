@@ -17,7 +17,9 @@ import com.jme3.scene.shape.Sphere;
  */
 public class PlaybackView extends SimpleApplication {
     private Frame currentFrame = null;
+    private Cluster currentCluster = null;
     private boolean updateFlag = false;
+    private boolean setupFlag = false;
 
     @Override
     public void simpleInitApp() {
@@ -36,9 +38,9 @@ public class PlaybackView extends SimpleApplication {
 
     @Override
     public void simpleUpdate(float tpf) {
-        if(updateFlag) {
+        if(setupFlag) {
             //Set up spheres for each atom
-            ArrayList<Atom> atoms = currentFrame.getAtoms();
+            ArrayList<Atom> atoms = currentCluster.getAtoms();
             int currentId = 0;
             for(Atom a : atoms) {
                 //Add a sphere to the scene
@@ -64,6 +66,12 @@ public class PlaybackView extends SimpleApplication {
                 currentId++;
             }
 
+            setupFlag = false;
+        }
+
+        if(updateFlag) {
+            //TODO: update positions of all atoms
+
             updateFlag = false;
         }
     }
@@ -73,7 +81,14 @@ public class PlaybackView extends SimpleApplication {
         //TODO: add render code
     }
 
-    public void showInitialFrame(Frame frame) {
+    public void showInitialFrame(Frame frame, Cluster cluster) {
+        currentFrame = frame;
+        currentCluster = cluster;
+        updateFlag = true;
+        setupFlag = true;
+    }
+
+    public void showFrame(Frame frame) {
         currentFrame = frame;
         updateFlag = true;
     }
