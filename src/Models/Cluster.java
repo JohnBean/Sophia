@@ -47,45 +47,26 @@ public class Cluster {
                      
                      //if(Color picking algorthing set to CPK (basic)){
                         Color atomicColor=Color.pink;//Default for unspecified elements
-                        switch (atomInfo[2]) {//what type of atom is it? what color corresponds?
-                             case "C":
-                                 atomicColor = Color.black;//Carbon
-                                 break;
-                             case "H":
-                                 atomicColor = Color.white;//Hydrogen
-                                 break;
-                             case "Br"://Bromine
-                             case "O"://Oxygen
-                                 atomicColor = Color.red;
-                                 break;
-                             case "N"://Nitrogen
-                                 atomicColor = Color.blue;
-                                 break;
-                             case "F"://fluorine
-                             case "Cl"://chlorine
-                                 atomicColor = Color.green;
-                                 break;
-                             case "Fe"://iron
-                             case "P"://phosphorus
-                                 atomicColor=Color.orange;
-                                 break;
-                             case "Ti"://titanium
-                                 atomicColor=Color.gray;
-                                 break;
-                             case "S"://Sulfur
-                                 atomicColor= Color.yellow;
-                                 break;
-                             case "I"://Iodine
-                                 atomicColor=Color.magenta;
-                                 break;
-                             case "He"://Helium
-                             case "Ne"://Neon
-                             case "Ar"://Argon
-                             case "Xe"://Xenon
-                             case "Kr"://Krypton
-                                 atomicColor= Color.cyan;
-                                 break;
-                                 
+                        if(atomInfo[2].equals("C")){ 
+                        	atomicColor = Color.black;//Carbon
+                        } else if (atomInfo[2].equals("H")) {
+                        	atomicColor = Color.white;//Hydrogen
+                        } else if (atomInfo[2].equals("Br") || atomInfo[2].equals("O")) { 
+                        	atomicColor = Color.red;
+                        } else if (atomInfo[2].equals("N")){
+                        	atomicColor = Color.blue;
+                        } else if (atomInfo[2].equals("F") || atomInfo[2].equals("Cl")){
+                        	atomicColor = Color.green;
+                        } else if (atomInfo[2].equals("Fe") || atomInfo[2].equals("P")){
+                        	atomicColor=Color.orange;
+                        } else if (atomInfo[2].equals("Ti")){
+                        	atomicColor=Color.gray;
+                        } else if (atomInfo[2].equals("S")){
+                        	atomicColor= Color.yellow;
+                        } else if (atomInfo[2].equals("I")){
+                        	atomicColor=Color.magenta;
+                        } else if (atomInfo[2].equals("He") || atomInfo[2].equals("Ne") || atomInfo[2].equals("Ar") || atomInfo[2].equals("Kr") || atomInfo[2].equals("Xe")){
+                        	atomicColor= Color.cyan;
                         }
                         System.out.println(atomicColor.toString());
                     // }
@@ -99,25 +80,31 @@ public class Cluster {
         catch(IOException e){
             e.printStackTrace();
         }
-        curLine=null;
-        try{
-            BufferedReader br = new BufferedReader(new FileReader(structureFilename));
-            while ((curLine = br.readLine()) != null) {
-                String[] structInfo = curLine.split("[ \t\n\f\r]");
-                if(structInfo[0].compareTo("BOND")==0){
-                    associations.add(AtomAssociation(structInfo[1], structInfo[2], structInfo[3], structInfo[4]));
-                }
-                else if(structInfo[0].compareTo("ANGLE")==0){
-                    associations.add(AtomAssociation(structInfo[1], structInfo[2], structInfo[3], structInfo[4], structInfo[5]));
-                }
-             //  System.out.println(struct[1]);
-		
-                //TODO build atoms connections from data red in
-            }       
-        }
-        catch(IOException e){
-            e.printStackTrace();
-        }
+//        curLine=null;
+//        try{
+//            BufferedReader br = new BufferedReader(new FileReader(structureFilename));
+//            while ((curLine = br.readLine()) != null) {
+//                String[] structInfo = curLine.split("[ \t\n\f\r]");
+//                if(structInfo[0].compareTo("BOND")==0){
+//                	Atom atom1 = atoms.get(Integer.parseInt(structInfo[1]));
+//                	Atom atom2 = atoms.get(Integer.parseInt(structInfo[2]));
+//                	//Bond newBond = new Bond(atom1, atom2, Double.valueOf(structInfo[3]), Double.valueOf(structInfo[4]));
+//                    //associations.add(newBond);
+//                }
+//                else if(structInfo[0].compareTo("ANGLE")==0){
+//                	Atom atom1 = atoms.get(Integer.parseInt(structInfo[1]));
+//                	Atom atom2 = atoms.get(Integer.parseInt(structInfo[2]));
+//                	Atom atom3 = atoms.get(Integer.parseInt(structInfo[3]));
+//                	//Angle newAngle = new Angle(atom1, atom2, atom3, Double.valueOf(structInfo[4]), Double.valueOf(structInfo[5]));
+//                    //associations.add(newAngle);
+//                }
+//		
+//                //TODO build atoms connections from data red in
+//            }       
+//        }
+//        catch(IOException e){
+//            e.printStackTrace();
+//        }
         System.out.println("************Cluster Test Completed Successfully***************");
     }
    
