@@ -17,12 +17,12 @@ abstract class AtomAssociation {
     protected double forceConstant;//in kcal/(mol A) for Bonds. in kcal/(mol rad^2)for Angles
     protected double bondLength;//equilibrium length of the bond
         
-    abstract public Atom[] getAtoms();
+    public abstract Atom[] getAtoms();
 
     /**
      * Applys the force of the association to each involved atom
      */
-    abstract public void applyForces();
+    public abstract void applyForces();
 
    
     public boolean isBond(){

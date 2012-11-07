@@ -1,10 +1,11 @@
+package edu.gatech.sophia;
 
 /**
  * Van der Waals, non-bonded energy term. 12-6 Lennard-Jones potential.
  * Originally developed by Geoff Rollins
  * @author JARVIS 
  */
-public class VanDerWaals extends AbstractEnergyTerm {
+public class VanDerWaals extends EnergyTerm {
 
   //String identifier for the Energy Term
   static final String IDENTIFIER = "VDW";
@@ -30,7 +31,7 @@ public class VanDerWaals extends AbstractEnergyTerm {
     this.setAtoms( atoms );
     myWellDepth = wellDepth;
     myEquilibriumSeparation = equilibriumSeparation;
-    setName( IDENTIFIER );
+    setEnergyTermType( IDENTIFIER );
 
     f12 = new double[3];
     f21 = new double[3];
@@ -47,9 +48,9 @@ public class VanDerWaals extends AbstractEnergyTerm {
    */
   public double calculateEnergy() {
 
-      dx = myAtoms[1].getX() - myAtoms[0].getX();
-      dy = myAtoms[1].getY() - myAtoms[0].getY();
-      dz = myAtoms[1].getZ() - myAtoms[0].getZ();
+      dx = atoms[1].getX() - atoms[0].getX();
+      dy = atoms[1].getY() - atoms[0].getY();
+      dz = atoms[1].getZ() - atoms[0].getZ();
 
       r2 = dx*dx + dy*dy + dz*dz;
       r2i = 1.0/r2;
@@ -97,8 +98,8 @@ public class VanDerWaals extends AbstractEnergyTerm {
 
   @Override 
   public String toString() {
-    return myAtoms[0].getSerialNumber() + "\t"
-        + myAtoms[1].getSerialNumber() + "\t"
+    return atoms[0].printString() + "\t"
+        + atoms[1].printString() + "\t"
         + myWellDepth/CEU_CONVERSION_FACTOR + "\t"
         + myEquilibriumSeparation;
   }

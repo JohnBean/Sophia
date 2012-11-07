@@ -1,3 +1,5 @@
+package edu.gatech.sophia;
+
 /**
  * Abstract Model Class for Energy Terms such as
  * 		• VanDerWaals
