@@ -31,8 +31,8 @@ public class Bond extends AtomAssociation {
      * @param atoms The atoms involved in their pre-interaction state
      * @return The atoms involved in their post-interaction state
      */
-	public Atom[] applyForces(Atom[] atoms){
-		return this.atoms.toArray(new Atom[this.atoms.size()]);
+	public void applyForces() {
+	
 	}
 	
 	
