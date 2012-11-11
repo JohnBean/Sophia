@@ -1,5 +1,7 @@
 package edu.gatech.sophia;
 
+import java.util.ArrayList;
+
 public class Angle extends AtomAssociation {
     private double angle;
     /**
@@ -22,6 +24,7 @@ public class Angle extends AtomAssociation {
     public Angle(Atom atom1, Atom atom2, Atom atom3, double force, double equilibriumAngle){
         //Angle constructor
         type="Angle";
+        this.atoms = new ArrayList<Atom>();
         atoms.add(atom1);
         atoms.add(atom2);
         atoms.add(atom3);

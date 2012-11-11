@@ -1,5 +1,6 @@
 package edu.gatech.sophia;
 
+import java.util.ArrayList;
 
 public class VanDerWaal extends AtomAssociation {
     private double equilibriumSeparation;
@@ -10,6 +11,7 @@ public class VanDerWaal extends AtomAssociation {
 
     public VanDerWaal(Atom atom1, Atom atom2, double equilibriumSeparation, double wellDepth) {
         this.type = "VANDERWAAL";
+        this.atoms = new ArrayList<Atom>();
         this.atoms.add(atom1);
         this.atoms.add(atom2);
         this.equilibriumSeparation = equilibriumSeparation;

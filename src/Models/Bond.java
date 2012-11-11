@@ -24,6 +24,7 @@ public class Bond extends AtomAssociation {
 
 	public Bond(Atom atom1, Atom atom2, double force, double length){
 		   this.type="BOND";
+           this.atoms = new ArrayList<Atom>();
 	       this.atoms.add(atom1);
 	       this.atoms.add(atom2);
 	       this.forceConstant=force;
