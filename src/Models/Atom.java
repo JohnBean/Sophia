@@ -52,4 +52,10 @@ public class Atom {
         acceleration.y = force.y * inverseMass;
         acceleration.z = force.z * inverseMass;
     }
+
+    public void addForce(double[] df) {
+        force.x += df[0];
+        force.y += df[1];
+        force.z += df[2];
+    }
 }

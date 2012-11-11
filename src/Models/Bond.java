@@ -8,13 +8,29 @@ import java.util.ArrayList;
  *
  */
 public class Bond extends AtomAssociation {
+    /**
+     * equilibrium length of the bond
+     */
+    private double bondLength;
+    /**
+     * in kcal/(mol A) for Bonds. in kcal/(mol rad^2)for Angles
+     */
+    private double forceConstant;
+    /**
+     * Used in force calculations
+     */
+    private double[] f12;
+    private double[] f21;
 
 	public Bond(Atom atom1, Atom atom2, double force, double length){
-		   this.type="BOND";//There are only two atoms so it is a bond not an angle
+		   this.type="BOND";
 	       this.atoms.add(atom1);
 	       this.atoms.add(atom2);
 	       this.forceConstant=force;
 	       this.bondLength=length;
+
+           f12 = new double[3];
+           f21 = new double[3];
 	}
 	
 	/**
@@ -28,12 +44,33 @@ public class Bond extends AtomAssociation {
 	/**
      * Applys the force of the association to each involved atom
      *
-     * @param atoms The atoms involved in their pre-interaction state
-     * @return The atoms involved in their post-interaction state
+     * F = -forceConstant * (length - equilibriumLength)
      */
 	public void applyForces() {
-	
+        double x = atoms.get(1).location.x - atoms.get(0).location.x;
+        double y = atoms.get(1).location.y - atoms.get(0).location.y;
+        double z = atoms.get(1).location.z - atoms.get(0).location.z;
+        double r = Math.sqrt(x*x + y*y + z*z);
+        double diff = r - bondLength;
+
+        //TODO: from original code
+        //energy = 0.5 * myForceConstant * diff * diff;
+
+        double f = -forceConstant * diff;
+        double fri = f / r;
+        
+        f12[0] = fri * x;
+        f12[1] = fri * y;
+        f12[2] = fri * z;
+
+        f21[0] = -f12[0];
+        f21[1] = -f12[1];
+        f21[2] = -f12[2];
+
+        atoms.get(0).addForce(f21);
+        atoms.get(1).addForce(f12);
+        
+        //TODO: from original code
+        //return (f*r);
 	}
-	
-	
 }

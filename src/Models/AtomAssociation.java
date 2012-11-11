@@ -13,9 +13,6 @@ abstract class AtomAssociation {
      */
     protected ArrayList<Atom> atoms;
     protected String type;
-    protected double angle;//equilibrium atom
-    protected double forceConstant;//in kcal/(mol A) for Bonds. in kcal/(mol rad^2)for Angles
-    protected double bondLength;//equilibrium length of the bond
         
     public abstract Atom[] getAtoms();
 
@@ -23,7 +20,6 @@ abstract class AtomAssociation {
      * Applys the force of the association to each involved atom
      */
     public abstract void applyForces();
-
    
     public boolean isBond(){
         boolean rVal=false;
