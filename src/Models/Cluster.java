@@ -81,20 +81,21 @@ public class Cluster {
             e.printStackTrace();
         }
         curLine=null;
+        associations = new ArrayList<AtomAssociation>();
         try{
             BufferedReader br = new BufferedReader(new FileReader(structureFilename));
             while ((curLine = br.readLine()) != null) {
                 String[] structInfo = curLine.split("[ \t\n\f\r]");
                 if(structInfo[0].compareTo("BOND")==0){
-                	Atom atom1 = atoms.get(Integer.parseInt(structInfo[1]));
-                	Atom atom2 = atoms.get(Integer.parseInt(structInfo[2]));
+                	Atom atom1 = atoms.get(Integer.parseInt(structInfo[1]) - 1);
+                	Atom atom2 = atoms.get(Integer.parseInt(structInfo[2]) - 1);
                 	Bond newBond = new Bond(atom1, atom2, Double.valueOf(structInfo[3]), Double.valueOf(structInfo[4]));
                     associations.add(newBond);
                 }
                 else if(structInfo[0].compareTo("ANGLE")==0){
-                	Atom atom1 = atoms.get(Integer.parseInt(structInfo[1]));
-                	Atom atom2 = atoms.get(Integer.parseInt(structInfo[2]));
-                	Atom atom3 = atoms.get(Integer.parseInt(structInfo[3]));
+                	Atom atom1 = atoms.get(Integer.parseInt(structInfo[1]) - 1);
+                	Atom atom2 = atoms.get(Integer.parseInt(structInfo[2]) - 1);
+                	Atom atom3 = atoms.get(Integer.parseInt(structInfo[3]) - 1);
                 	Angle newAngle = new Angle(atom1, atom2, atom3, Double.valueOf(structInfo[4]), Double.valueOf(structInfo[5]));
                     associations.add(newAngle);
                 }
@@ -102,7 +103,8 @@ public class Cluster {
                 //TODO build atoms connections from data red in
             }       
         }
-        catch(IOException e){
+        catch(Exception e){
+            System.out.println("Exception caught when reading atom associations Cluster.java:106");
             e.printStackTrace();
         }
         System.out.println("************Cluster Test Completed Successfully***************");
