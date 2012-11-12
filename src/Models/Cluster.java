@@ -68,7 +68,7 @@ public class Cluster {
                         } else if (atomInfo[2].equals("He") || atomInfo[2].equals("Ne") || atomInfo[2].equals("Ar") || atomInfo[2].equals("Kr") || atomInfo[2].equals("Xe")){
                         	atomicColor= Color.cyan;
                         }
-                        System.out.println(atomicColor.toString());
+                        //System.out.println(atomicColor.toString());
                     // }
                     //              Atom     Molocule   ChainID     sequenceID                  location.x                      location.y              location.z                      Occupancy                   Temperature Factor              Mass                                Radius                      Charge
                     atom= new Atom(atomInfo[2],atomInfo[3],atomInfo[4],Integer.parseInt(atomInfo[5]),Float.parseFloat(atomInfo[6]),Float.parseFloat(atomInfo[7]),Float.parseFloat(atomInfo[8]),Double.parseDouble(atomInfo[9]),Double.parseDouble(atomInfo[10]),Double.parseDouble(atomInfo[11]),Double.parseDouble(atomInfo[12]),Double.parseDouble(atomInfo[13]),atomicColor);
@@ -89,6 +89,8 @@ public class Cluster {
                 if(structInfo[0].compareTo("BOND")==0){
                 	Atom atom1 = atoms.get(Integer.parseInt(structInfo[1]) - 1);
                 	Atom atom2 = atoms.get(Integer.parseInt(structInfo[2]) - 1);
+                        atom1.addBond(atom2, atoms.size());
+                        atom2.addBond(atom1,atoms.size());
                 	Bond newBond = new Bond(atom1, atom2, Double.valueOf(structInfo[3]), Double.valueOf(structInfo[4]));
                     associations.add(newBond);
                 }
@@ -107,7 +109,17 @@ public class Cluster {
             System.out.println("Exception caught when reading atom associations Cluster.java:106");
             e.printStackTrace();
         }
-        System.out.println("************Cluster Test Completed Successfully***************");
+        // van der Waals Associations
+        int i = 0;
+        int count = atoms.size();
+        Object[] atomArray=atoms.toArray();
+        Atom curAtom;
+        for(i = 0; i < count; i++) {
+            curAtom=(Atom)atomArray[i];
+            curAtom.setVDW(atoms);
+        }
+
+        System.out.println("************Cluster Completed Successfully***************");
     }
    
    /**
