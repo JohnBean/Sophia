@@ -101,7 +101,8 @@ public class SophiaView {
         menuEdit.add(simParams);
         simParams.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                    //TODO: open the simparams window on the left
+                    //TODO: open the simparams window
+                
                 
             }
         });
