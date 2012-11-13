@@ -36,6 +36,7 @@ public class SophiaView {
      * Name of file picker view for card switching
      */
     private final static String SFILEPICKERPANEL = "SFilePicker";
+    private final static String SIMPARAMPANEL = "SimParam";
 
     /**
      * Controllers
@@ -96,10 +97,11 @@ public class SophiaView {
         JMenu menuEdit = new JMenu("Edit");
         menuBar.add(menuEdit);
         
-        final JMenuItem itemPrefs = new JMenuItem("Preferences");
-        menuEdit.add(itemPrefs);
-        itemPrefs.addActionListener(new ActionListener() {
+        final JMenuItem simParams = new JMenuItem("Simulation Parameters");
+        menuEdit.add(simParams);
+        simParams.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                    //TODO: open the simparams window on the left
                 
             }
         });
