@@ -243,6 +243,6 @@ public class SimulationSettingsView extends JPanel {
 
     public int getOutputInterval() {
         //TODO: add gui control for this
-        return 1000;
+        return 1;
     }
 }

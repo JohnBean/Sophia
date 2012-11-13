@@ -92,7 +92,8 @@ public class SimulationController {
     public void simViewVisualize() {
         vController.setRecording(output);
 
-        //TODO: switch to visualization view
+        //Switch to visualization view
+        SophiaView.switchView(SophiaView.PLAYBACKPANEL);
     }
 
     /**

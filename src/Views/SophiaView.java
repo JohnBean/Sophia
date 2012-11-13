@@ -38,6 +38,7 @@ public class SophiaView {
     public final static String SFILEPICKERPANEL = "SFilePicker";
     public final static String SIMSETTINGPANEL = "SimSetting";
     public final static String SIMPROGRESSPANEL = "SimProgress";
+    public final static String PLAYBACKPANEL = "Playback";
 
     /**
      * Controllers
@@ -142,6 +143,11 @@ public class SophiaView {
         SimulationView smView = new SimulationView(simController);
         simController.setSimulationProgressView(smView);
         cards.add(smView, SIMPROGRESSPANEL);
+
+        //Create visualization settings panel
+        PlaybackSettingsView psView = new PlaybackSettingsView(vController);
+        vController.setSettingsView(psView);
+        cards.add(psView, PLAYBACKPANEL);
         
         //Set card stack to left side of window
         frame.add("West", cards);

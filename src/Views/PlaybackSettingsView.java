@@ -15,7 +15,9 @@ import javax.swing.JTextField;
   *Includes the play/pause, stop, seek controls
   */
 public class PlaybackSettingsView extends JPanel {
-    public PlaybackSettingsView() {
+    private VisualizationController controller;
+
+    public PlaybackSettingsView(VisualizationController controller) {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jComboBox1 = new javax.swing.JComboBox();
         jComboBox2 = new javax.swing.JComboBox();
@@ -42,6 +44,8 @@ public class PlaybackSettingsView extends JPanel {
         jLabel11 = new javax.swing.JLabel();
         jSpinner2 = new javax.swing.JSpinner();
         jButton3 = new javax.swing.JButton();
+
+        this.controller = controller;
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Name", "Type", "Element", "ResName", "ResType", "ResID", "Chain", "SegName", "Conformation", "Molecule", "Secondary Structure", "Color ID", "Beta", "Occupancy", "Mass", "Charge", "Position", "Trajectory", "Fragment", "Index", "Backbone", "Throb"}));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
@@ -278,7 +282,7 @@ public class PlaybackSettingsView extends JPanel {
     }
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+        controller.applySettings();
     }
 
     // Variables declaration - do not modify
