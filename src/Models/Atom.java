@@ -48,6 +48,10 @@ public class Atom {
     public void killVDW(Atom connectedAtom){
         if(vdwAssoc!=null && connectedAtom!=null && vdwAssoc.contains(connectedAtom))vdwAssoc.remove(connectedAtom);
     }
+    public void releaseVDWs() {
+        //VDW array is just used to create associations array, but is still in scope
+        vdwAssoc = null;
+    }
     /**Requires all bonds to be complete
      * Takes in all of the atoms.
      * Creates the initail van der Waals asocciations, Removes itself, all bonded atoms, and all atoms

@@ -31,7 +31,7 @@ public class SimulationController {
      */
     public void filePickerNext() {
         cluster = new Cluster(fpView.getCoordinateFileName(), fpView.getStructureFileName());
-
+        
         //TODO: Remove test code
         //Set up test simulator and generate a single frame to show in viewer
         NullSimulator simulator = new NullSimulator();

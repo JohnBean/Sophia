@@ -13,6 +13,8 @@ import java.awt.Color;
 public class Cluster {
     private ArrayList<Atom> atoms;
     private ArrayList<AtomAssociation> associations;
+    static final double VDW_Radius = 3.5; // angstroms
+    static final double wellDepth = 41.8; // CEU
 
     public Cluster() {
         String path= System.getProperty("java.class.path");
@@ -82,6 +84,7 @@ public class Cluster {
         }
         curLine=null;
         associations = new ArrayList<AtomAssociation>();
+        System.out.println(atoms.size()+" total atoms created.1");
         try{
             BufferedReader br = new BufferedReader(new FileReader(structureFilename));
             while ((curLine = br.readLine()) != null) {
@@ -109,6 +112,8 @@ public class Cluster {
             System.out.println("Exception caught when reading atom associations Cluster.java:106");
             e.printStackTrace();
         }
+        System.out.println(atoms.size()+" total atoms created.2");
+        
         // van der Waals Associations
         int i = 0;
         int count = atoms.size();
@@ -119,7 +124,22 @@ public class Cluster {
             curAtom.setVDW(atoms);
         }
 
+        //Add Van Der Waals to associations array
+        for(Atom a : atoms) {
+            for(Atom b : a.vdwAssoc) {
+                associations.add(new VanDerWaal(a, b, VDW_Radius, wellDepth));
+
+                //Remove a from b's associations to prevent duplicate vdw
+                b.vdwAssoc.remove(a);
+            }
+        }
+
+        //Release VDW arrays in atoms to limit redundant data
+        for(Atom a : atoms)
+            a.releaseVDWs();
+
         System.out.println("************Cluster Completed Successfully***************");
+        System.out.println("Cluster has" + atoms.size() + "atoms3");
     }
    
    /**

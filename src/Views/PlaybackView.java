@@ -86,6 +86,7 @@ public class PlaybackView extends SimpleApplication {
         currentCluster = cluster;
         updateFlag = true;
         setupFlag = true;
+        System.out.println("Cluster has " + cluster.getAtoms().size() + " atoms");
     }
 
     public void showFrame(Frame frame) {
