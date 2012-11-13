@@ -10,7 +10,7 @@ public class Frame {
     /**
      * List of all atoms
      */
-    private ArrayList<Point3D> locations;
+    public ArrayList<Point3D> locations;
 
     public Frame() {
         

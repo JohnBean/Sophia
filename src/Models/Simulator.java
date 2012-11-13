@@ -1,5 +1,7 @@
 package edu.gatech.sophia;
 
+import javax.swing.JProgressBar;
+
 /**
  * Abstract class defines what methods a simulator must implement
  */
@@ -44,5 +46,17 @@ abstract class Simulator {
      * @param cluster The cluster object containing all atoms and associations to simulate
      * @return A recording object with each simulated frame
      */
-    abstract Recording run(Cluster cluster);
+    abstract Recording run(Cluster cluster, JProgressBar prog);
+
+    public void setTimeStep(double timestep) {
+        this.timestep = timestep;
+    }
+
+    public void setNumSteps(int numSteps) {
+        this.numSteps = numSteps;
+    }
+
+    public void setOutputInterval(int outputInterval) {
+        this.outputInterval = outputInterval;
+    }
 }

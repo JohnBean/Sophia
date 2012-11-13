@@ -1,18 +1,25 @@
 package edu.gatech.sophia;
 
 import java.util.ArrayList;
+import javax.swing.JProgressBar;
 
 public class MolecularDynamicsSimulator extends Simulator {
     public MolecularDynamicsSimulator() {
         type = 1;
     }
 
-    public Recording run(Cluster cluster) {
+    public Recording run(Cluster cluster, JProgressBar prog) {
         ArrayList<Atom> atoms = cluster.getAtoms();
         int step = 0;
+        int progress = 0;
 
         //Set up the output recording
         Recording output = new Recording(cluster);
+
+        //Set up the progress bar
+        prog.setMinimum(0);
+        prog.setMaximum(numSteps);
+        prog.setValue(0);
 
         //Add the initial frame
         Frame initial = new Frame();
@@ -55,6 +62,8 @@ public class MolecularDynamicsSimulator extends Simulator {
                 f.setLocations(locations);
                 output.addFrame(f);
             }
+
+            prog.setValue(++progress);
         }
 
         return output;

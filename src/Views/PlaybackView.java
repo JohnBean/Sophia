@@ -10,6 +10,7 @@ import com.jme3.math.Vector3f;
 import com.jme3.renderer.RenderManager;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.shape.Sphere;
+import com.jme3.scene.Spatial;
 
 /**
  * The jME application class responsible for rendering atoms
@@ -42,6 +43,7 @@ public class PlaybackView extends SimpleApplication {
             //Set up spheres for each atom
             ArrayList<Atom> atoms = currentCluster.getAtoms();
             int currentId = 0;
+            Point3D location;
             for(Atom a : atoms) {
                 //Add a sphere to the scene
                 Sphere s = new Sphere(20, 20, 0.5f);
@@ -58,9 +60,6 @@ public class PlaybackView extends SimpleApplication {
                 mat.setFloat("Shininess", 5f); 
 
                 geom.setMaterial(mat);
-
-                geom.move((float)a.location.x, (float)a.location.y, (float)a.location.z);
-
                 rootNode.attachChild(geom);
 
                 currentId++;
@@ -70,7 +69,19 @@ public class PlaybackView extends SimpleApplication {
         }
 
         if(updateFlag) {
-            //TODO: update positions of all atoms
+            //update positions of all atoms
+            int numAtoms = currentCluster.getAtoms().size();
+            Point3D location;
+            Spatial currentAtom;
+            for(int currentId = 0; currentId < numAtoms; currentId++) {
+                //Get location from frame
+                location = currentFrame.locations.get(currentId);
+
+                //Get the atom geometry
+                currentAtom = rootNode.getChild("Atom" + currentId);
+
+                currentAtom.setLocalTranslation(new Vector3f((float)location.x, (float)location.y, (float)location.z));
+            }
 
             updateFlag = false;
         }

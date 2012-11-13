@@ -1,13 +1,14 @@
 package edu.gatech.sophia;
 
 import java.util.ArrayList;
+import javax.swing.JProgressBar;
 
 public class NullSimulator extends Simulator {
     public NullSimulator() {
         type = 0;
     }
 
-    public Recording run(Cluster cluster) {
+    public Recording run(Cluster cluster, JProgressBar prog) {
         //Set up the output recording
         Recording output = new Recording(cluster);
 

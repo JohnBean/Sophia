@@ -38,6 +38,10 @@ public class Atom {
         this.color= atomicColor;
 
         this.inverseMass = 1.0 / this.mass;
+
+        this.velocity = new Vector3D();
+        this.acceleration = new Vector3D();
+        this.force = new Vector3D();
     } 
     public void addBond(Atom curAtom, int size){
         if(bonds==null){

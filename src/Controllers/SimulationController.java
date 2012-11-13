@@ -6,7 +6,19 @@ public class SimulationController {
      */
     private Cluster cluster;
     private FilePickerView fpView;
+    private SimulationSettingsView ssView;
     private VisualizationController vController;
+    private SimulationView smView;
+
+    /*
+     * Simulator object hold sim params and implements equations
+     */
+    private Simulator simulator;
+
+    /**
+     * Output from the simulator
+     */
+    private Recording output;
 
     public SimulationController() {
         
@@ -20,6 +32,20 @@ public class SimulationController {
     }
 
     /**
+     * Setter for simulation settings view
+     */
+    public void setSimulationSettingsView(SimulationSettingsView ssView) {
+        this.ssView = ssView;
+    }
+
+    /**
+     * Setter for the simulation progress view
+     */
+    public void setSimulationProgressView(SimulationView smView) {
+        this.smView = smView;
+    }
+
+    /**
      * Setter for the visualization controller
      */
     public void setVisualizationController(VisualizationController vController) {
@@ -30,12 +56,27 @@ public class SimulationController {
      * Action called when the next button in the file picker is selected
      */
     public void filePickerNext() {
-        cluster = new Cluster(fpView.getCoordinateFileName(), fpView.getStructureFileName());
-        
-        //TODO: Remove test code
-        //Set up test simulator and generate a single frame to show in viewer
-        NullSimulator simulator = new NullSimulator();
-        vController.setRecording(simulator.run(cluster));
+        //Switch to next view
+        SophiaView.switchView(SophiaView.SIMSETTINGPANEL);
+    }
+
+    /**
+     * Action called when next button in the settings view is selected
+     */
+    public void simSettingsNext() {
+        //Switch to next view
+        SophiaView.switchView(SophiaView.SIMPROGRESSPANEL);
+
+        //Kick off the simulation
+        simulate();
+    }
+
+    /**
+     * Action called when prev button in the settings view is selected
+     */
+    public void simSettingsPrev() {
+        //Switch to previous view
+        SophiaView.switchView(SophiaView.SFILEPICKERPANEL);
     }
 
     /**
@@ -43,5 +84,38 @@ public class SimulationController {
      */
     public void filePickerCancel() {
 
+    }
+
+    /**
+     * Action called when the visualize button is pressed in the simulator
+     */
+    public void simViewVisualize() {
+        vController.setRecording(output);
+
+        //TODO: switch to visualization view
+    }
+
+    /**
+     * Creates the simulator and cluster from GUI selections then runs the simulation
+     */
+    public void simulate() {
+        //Construct the cluster
+        cluster = new Cluster(fpView.getCoordinateFileName(), fpView.getStructureFileName());
+
+        //Determine type of simulator and construct
+        String simulatorType = fpView.getSimulatorType();
+        if(simulatorType == "MolecularDynamics") {
+            MolecularDynamicsSimulator mdSim = new MolecularDynamicsSimulator();
+            simulator = (Simulator)mdSim;
+        } else {
+            simulator = new NullSimulator();
+        }
+
+        //Set common simulation properties
+        simulator.setTimeStep(ssView.getTimeStep());
+        simulator.setNumSteps(ssView.getNumSteps());
+        simulator.setOutputInterval(ssView.getOutputInterval());
+
+        output = simulator.run(cluster, smView.getProgressBar());
     }
 }

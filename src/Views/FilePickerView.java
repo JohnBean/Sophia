@@ -44,6 +44,7 @@ public class FilePickerView extends JPanel {
      */
     private String coordinateFileName = "";
     private String structureFileName = "";
+    private String simulationType = "None";
 
     public FilePickerView(SimulationController simController) {
         jPopupMenu1 = new javax.swing.JPopupMenu();
@@ -257,11 +258,11 @@ public class FilePickerView extends JPanel {
     }
 
     private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+        simulationType = "MolecularDynamics";
     }
 
     private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+        simulationType = "EnergyMinimization";
     }
 
     public String getCoordinateFileName() {
@@ -270,5 +271,9 @@ public class FilePickerView extends JPanel {
 
     public String getStructureFileName() {
         return structureFileName;
+    }
+
+    public String getSimulatorType() {
+        return simulationType;
     }
 }

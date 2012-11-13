@@ -35,8 +35,9 @@ public class SophiaView {
     /**
      * Name of file picker view for card switching
      */
-    private final static String SFILEPICKERPANEL = "SFilePicker";
-    private final static String SIMPARAMPANEL = "SimParam";
+    public final static String SFILEPICKERPANEL = "SFilePicker";
+    public final static String SIMSETTINGPANEL = "SimSetting";
+    public final static String SIMPROGRESSPANEL = "SimProgress";
 
     /**
      * Controllers
@@ -131,6 +132,16 @@ public class SophiaView {
         FilePickerView fpView = new FilePickerView(simController);
         simController.setFilePickerView(fpView);
         cards.add(fpView, SFILEPICKERPANEL);
+
+        //Create the simulation settings view
+        SimulationSettingsView ssView = new SimulationSettingsView(simController);
+        simController.setSimulationSettingsView(ssView);
+        cards.add(ssView, SIMSETTINGPANEL);
+
+        //Create the simulation progress view
+        SimulationView smView = new SimulationView(simController);
+        simController.setSimulationProgressView(smView);
+        cards.add(smView, SIMPROGRESSPANEL);
         
         //Set card stack to left side of window
         frame.add("West", cards);
@@ -144,7 +155,7 @@ public class SophiaView {
      *
      * @param cardName String representing the card to switch to
      */
-    private static void switchView(String cardName) {
+    public static void switchView(String cardName) {
         CardLayout cl = (CardLayout)(cards.getLayout());
         cl.show(cards, cardName);
     }
