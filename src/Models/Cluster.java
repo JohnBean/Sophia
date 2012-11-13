@@ -121,7 +121,7 @@ public class Cluster {
         Atom curAtom;
         for(i = 0; i < count; i++) {
             curAtom=(Atom)atomArray[i];
-            curAtom.setVDW(atoms);
+            curAtom.setVDW((ArrayList<Atom>)atoms.clone());
         }
 
         //Add Van Der Waals to associations array
