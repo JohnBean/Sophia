@@ -91,8 +91,8 @@ public class Cluster {
                 if(structInfo[0].compareTo("BOND")==0){
                 	Atom atom1 = atoms.get(Integer.parseInt(structInfo[1]) - 1);
                 	Atom atom2 = atoms.get(Integer.parseInt(structInfo[2]) - 1);
-                        atom1.addBond(atom2, atoms.size());
-                        atom2.addBond(atom1,atoms.size());
+                        atom1.addBond(atom2);
+                        atom2.addBond(atom1);
                 	Bond newBond = new Bond(atom1, atom2, Double.valueOf(structInfo[3]), Double.valueOf(structInfo[4]));
                     associations.add(newBond);
                 }
@@ -100,6 +100,16 @@ public class Cluster {
                 	Atom atom1 = atoms.get(Integer.parseInt(structInfo[1]) - 1);
                 	Atom atom2 = atoms.get(Integer.parseInt(structInfo[2]) - 1);
                 	Atom atom3 = atoms.get(Integer.parseInt(structInfo[3]) - 1);
+
+                    atom1.addBond(atom2);
+                    atom1.addBond(atom3);
+
+                    atom2.addBond(atom1);
+                    atom2.addBond(atom3);
+
+                    atom3.addBond(atom1);
+                    atom3.addBond(atom2);
+
                 	Angle newAngle = new Angle(atom1, atom2, atom3, Double.valueOf(structInfo[4]), Double.valueOf(structInfo[5]));
                     associations.add(newAngle);
                 }

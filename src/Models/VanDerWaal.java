@@ -42,17 +42,21 @@ public class VanDerWaal extends AtomAssociation {
         double dz = atoms.get(1).location.z - atoms.get(0).location.z;
 
         double r2 = dx*dx + dy*dy + dz*dz;
+        double r = Math.sqrt(r2);
         double r2i = 1.0 / r2;
         double r6i = r2i * r2i * r2i;
 
         //TODO: from original
         //energy = myWellDepth*r06*r6i*(r06*r6i-2.0);
 
-        double ff = 12 * wellDepth * r2i * r06 * r6i * (r06 * r6i - 1.0);
+        double r12i = r6i * r6i;
+        double r012 = r06 * r06;
+        double ff = 4 * wellDepth * ((r012 * r12i) - (r06 * r6i));
+        double ffn = ff / r;
 
-        f12[0] = ff * dx;
-        f12[1] = ff * dy;
-        f12[2] = ff * dz;
+        f12[0] = ffn * dx;
+        f12[1] = ffn * dy;
+        f12[2] = ffn * dz;
 
         f21[0] = -f12[0];
         f21[1] = -f12[1];

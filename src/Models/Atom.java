@@ -43,9 +43,9 @@ public class Atom {
         this.acceleration = new Vector3D();
         this.force = new Vector3D();
     } 
-    public void addBond(Atom curAtom, int size){
+    public void addBond(Atom curAtom){
         if(bonds==null){
-           bonds= new ArrayList(size);
+           bonds= new ArrayList(20);
         }
         bonds.add(curAtom);
     }
