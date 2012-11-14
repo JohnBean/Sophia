@@ -97,6 +97,13 @@ public class SimulationController {
     }
 
     /**
+     * Called by simulation thread to signal that simulation is complete
+     */
+    public void signalFinished(Recording output) {
+        this.output = output;
+    }
+
+    /**
      * Creates the simulator and cluster from GUI selections then runs the simulation
      */
     public void simulate() {
@@ -117,6 +124,7 @@ public class SimulationController {
         simulator.setNumSteps(ssView.getNumSteps());
         simulator.setOutputInterval(ssView.getOutputInterval());
 
-        output = simulator.run(cluster, smView.getProgressBar());
+        //Start the simulation thread
+        new Thread((new SimulationRunner(simulator, cluster, smView.getProgressBar(), this))).start();
     }
 }
