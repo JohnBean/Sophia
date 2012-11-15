@@ -23,7 +23,9 @@ public class SimulationController {
     public SimulationController() {
         
     }
-
+    public Recording getRecording(){
+        return output;
+    }
     /**
      * Setter for file picker view
      */
@@ -101,6 +103,7 @@ public class SimulationController {
      */
     public void signalFinished(Recording output) {
         this.output = output;
+        
     }
 
     /**

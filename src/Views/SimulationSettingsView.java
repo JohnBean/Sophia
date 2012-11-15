@@ -58,7 +58,9 @@ public class SimulationSettingsView extends JPanel {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
+        jTextField2.setText(".00001");
         jTextField3 = new javax.swing.JTextField();
+        jTextField3.setText("10");
         jTextField4 = new javax.swing.JTextField();
         jTextField5 = new javax.swing.JTextField();
         jTextField7 = new javax.swing.JTextField();
@@ -226,7 +228,9 @@ public class SimulationSettingsView extends JPanel {
     }
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
-        controller.simSettingsNext();
+        if(controller.getRecording()==null){
+            controller.simSettingsNext();
+        }
     }
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {

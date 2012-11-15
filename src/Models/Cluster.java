@@ -78,6 +78,7 @@ public class Cluster {
                  }
             }
             System.out.println(atoms.size()+" total atoms created.");
+            br.close();
         }
         catch(IOException e){
             e.printStackTrace();
@@ -115,7 +116,8 @@ public class Cluster {
                 }
 		
                 //TODO build atoms connections from data red in
-            }       
+            }   
+            br.close();
         }
         catch(Exception e){
             System.out.println("Exception caught when reading atom associations Cluster.java:106");
