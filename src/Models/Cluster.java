@@ -15,7 +15,7 @@ public class Cluster {
     private ArrayList<AtomAssociation> associations;
     static final double VDW_Radius = 3.5; // angstroms
     static final double wellDepth = 41.8; // CEU
-
+    public String pdbFile;
     public Cluster() {
         String path= System.getProperty("java.class.path");
         path = path.substring(0,path.length()-16);
@@ -35,12 +35,14 @@ public class Cluster {
      * @param structureFilename The name of the file to read associations from (.sf file)
      */
    public void readFromFiles(String coordinateFilename, String structureFilename) {
+        
         String curLine;//line being read in
         atoms= new ArrayList();// saved atoms
         Atom atom;
         try{
             FileReader fr = new FileReader(coordinateFilename);
             BufferedReader br = new BufferedReader(fr);
+            pdbFile=coordinateFilename;
             System.out.println("reading");
             while ((curLine = br.readLine()) != null) {
                 String[] atomInfo = curLine.split("[ ]+");
