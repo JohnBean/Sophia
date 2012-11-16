@@ -35,6 +35,7 @@ public class Recording {
     public void writeRecord(){
         //String curLine;//line being read in
         int frameNumber;
+        int stepNumber;
         int atomNumber;
         String curLine;//line being read in
         String pdbFile=cluster.pdbFile;
@@ -62,7 +63,14 @@ public class Recording {
                             out.println(curLine);
                         }
                     }
+                    
                 }
+            }
+            out.close();
+            out = new PrintWriter(new BufferedWriter(new FileWriter("foo_at_0_K_energy.txt")));
+            out.println("Step\tVDW\tBond\tAngle\tPotential\tKinetic\tTotal\tTemperature\tPressure");
+            for(stepNumber=0;stepNumber<this.getNumFrames();stepNumber++){
+                out.println(stepNumber+"\t #s");
             }
             out.close();
          }
