@@ -27,7 +27,7 @@ public class Bond extends AtomAssociation {
     static final double CEU_CONVERSION_FACTOR = 418.68;
 
 	public Bond(Atom atom1, Atom atom2, double force, double length){
-		   this.type="BOND";
+		   this.type="Bond";
            this.atoms = new ArrayList<Atom>();
 	       this.atoms.add(atom1);
 	       this.atoms.add(atom2);
@@ -78,4 +78,19 @@ public class Bond extends AtomAssociation {
         //TODO: from original code
         //return (f*r);
 	}
+
+    /**
+     * Calculates the energy of this bond
+     *
+     * @return The potential energy of this bond
+     */
+    public double getEnergy() {
+        double x = atoms.get(1).location.x - atoms.get(0).location.x;
+        double y = atoms.get(1).location.y - atoms.get(0).location.y;
+        double z = atoms.get(1).location.z - atoms.get(0).location.z;
+        double r = Math.sqrt(x*x + y*y + z*z);
+        double diff = r - bondLength;
+
+        return (0.5 * forceConstant * diff * diff);
+    }
 }

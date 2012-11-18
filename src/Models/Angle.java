@@ -113,4 +113,27 @@ public class Angle extends AtomAssociation {
         //TODO: from original
         //return 0.0;
     }
+
+    /**
+     * Calculates the energy of this angle
+     *
+     * @return The potential energy of this angle
+     */
+    public double getEnergy() {
+        r12[0] = atoms.get(0).location.x - atoms.get(1).location.x;
+        r12[1] = atoms.get(0).location.y - atoms.get(1).location.y;
+        r12[2] = atoms.get(0).location.z - atoms.get(1).location.z;
+
+        r32[0] = atoms.get(2).location.x - atoms.get(1).location.x;
+        r32[1] = atoms.get(2).location.y - atoms.get(1).location.y;
+        r32[2] = atoms.get(2).location.z - atoms.get(1).location.z;
+
+        double d12 = Math.sqrt(r12[0] * r12[0] + r12[1] * r12[1] + r12[2] * r12[2]);
+        double d32 = Math.sqrt(r32[0] * r32[0] + r32[1] * r32[1] + r32[2] * r32[2]);
+        double cosTheta = (r12[0] * r32[0] + r12[1] * r32[1] + r12[2] * r32[2]) / (d12 * d32);
+        double theta = Math.acos(cosTheta);
+        double diff = theta - theta0;
+
+        return (0.5 * forceConstant * diff * diff);
+    }
 }

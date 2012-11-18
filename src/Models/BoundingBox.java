@@ -74,4 +74,37 @@ public class BoundingBox extends AtomAssociation {
         //TODO: from original code
         //return 0.0;
     }
+
+    /**
+     * Calculates the energy of this bounding box
+     *
+     * @return The potential energy of this bounding box
+     */
+    public double getEnergy() {
+        double dx, dy, dz;
+        double energy = 0.0;
+
+        for(Atom a : atoms) {
+            dx = Math.abs(a.location.x) - r;
+            dy = Math.abs(a.location.y) - r;
+            dz = Math.abs(a.location.z) - r;
+
+            double[] force = {0.0, 0.0, 0.0};
+
+            if (dx > 0.0) {
+                energy += 0.5 * BOX_FORCE_CONST * dx * dx;
+                force[0] = -Math.signum(a.location.x) * BOX_FORCE_CONST * dx;
+            }
+            if (dy > 0.0) {
+                energy += 0.5 * BOX_FORCE_CONST * dy * dy;
+                force[1] = -Math.signum(a.location.y) * BOX_FORCE_CONST * dy;
+            }
+            if (dz > 0.0) {
+                energy += 0.5 * BOX_FORCE_CONST * dz * dz;
+                force[2] = -Math.signum(a.location.z) * BOX_FORCE_CONST * dz;
+            }
+        }
+
+        return energy;
+    }
 }

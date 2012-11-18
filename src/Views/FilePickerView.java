@@ -276,4 +276,8 @@ public class FilePickerView extends JPanel {
     public String getSimulatorType() {
         return simulationType;
     }
+
+    public String getSimulationName() {
+        return jTextField3.getText();
+    }
 }

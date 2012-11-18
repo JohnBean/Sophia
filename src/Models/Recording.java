@@ -11,10 +11,19 @@ import java.io.*;
 public class Recording {
     private ArrayList<Frame> frames;
     private Cluster cluster;
+    private String name;
 
     public Recording(Cluster c) {
         cluster = c;
         frames = new ArrayList<Frame>();
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public int getNumFrames() {

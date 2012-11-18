@@ -104,6 +104,8 @@ public class SimulationController {
     public void signalFinished(Recording output) {
         this.output = output;
         
+        //Set the name of the recording
+        output.setName(fpView.getSimulationName());
     }
 
     /**

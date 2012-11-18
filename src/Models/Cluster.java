@@ -191,4 +191,29 @@ public class Cluster {
             associations.get(i).applyForces();
         }
     }
+
+    /**
+     * Calculates potential energies for each association and returns a collection
+     */
+    public HashMap<String, Double> getEnergies() {
+        HashMap<String, Double> output = new HashMap<String, Double>();
+
+        int i;
+        int count = associations.size();
+        AtomAssociation currentAssociation;
+        Double currentValue;
+        for(i = 0; i < count; i++) {
+            currentAssociation = associations.get(i);
+
+            //Add energy of this association to total for its type
+            currentValue = output.get(currentAssociation.type);
+            if(currentValue == null) {
+                output.put(currentAssociation.type, currentAssociation.getEnergy());
+            } else {
+                output.put(currentAssociation.type, currentValue.doubleValue() + currentAssociation.getEnergy());
+            }
+        }
+
+        return output;
+    }
 }

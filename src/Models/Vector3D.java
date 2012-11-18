@@ -22,4 +22,12 @@ public class Vector3D {
         y = 0.0;
         z = 0.0;
     }
+
+    public double magnitudeSquared() {
+        return x * x + y * y + z * z;
+    }
+
+    public double magnitude() {
+        return Math.sqrt(magnitudeSquared());
+    }
 }

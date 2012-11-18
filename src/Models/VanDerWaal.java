@@ -10,7 +10,7 @@ public class VanDerWaal extends AtomAssociation {
     private double[] f21;
 
     public VanDerWaal(Atom atom1, Atom atom2, double equilibriumSeparation, double wellDepth) {
-        this.type = "VANDERWAAL";
+        this.type = "VDW";
         this.atoms = new ArrayList<Atom>();
         this.atoms.add(atom1);
         this.atoms.add(atom2);
@@ -67,5 +67,23 @@ public class VanDerWaal extends AtomAssociation {
 
         //TODO: from original
         //return (ff*r2);
+    }
+
+    /**
+     * Calculates the energy of this van der waal
+     *
+     * @return The potential energy of this van der waal
+     */
+    public double getEnergy() {
+        double dx = atoms.get(1).location.x - atoms.get(0).location.x;
+        double dy = atoms.get(1).location.y - atoms.get(0).location.y;
+        double dz = atoms.get(1).location.z - atoms.get(0).location.z;
+
+        double r2 = dx*dx + dy*dy + dz*dz;
+        double r = Math.sqrt(r2);
+        double r2i = 1.0 / r2;
+        double r6i = r2i * r2i * r2i;
+
+        return (wellDepth * r06 * r6i * (r06 * r6i - 2.0));
     }
 }

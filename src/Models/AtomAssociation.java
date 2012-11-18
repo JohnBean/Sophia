@@ -12,18 +12,25 @@ abstract class AtomAssociation {
      * @return An array of atom indexes of involved atoms
      */
     protected ArrayList<Atom> atoms;
-    protected String type;
+    public String type;
         
     public abstract Atom[] getAtoms();
 
     /**
-     * Applys the force of the association to each involved atom
+     * Applies the force of the association to each involved atom
      */
     public abstract void applyForces();
+
+    /**
+     * Calculates the energy of this association
+     *
+     * @return The potential energy of this association
+     */
+    public abstract double getEnergy();
    
     public boolean isBond(){
         boolean rVal=false;
-        if(type.compareTo("BOND")==0){
+        if(type.compareTo("Bond")==0){
             rVal=true;
         }
         return rVal;
@@ -31,7 +38,7 @@ abstract class AtomAssociation {
     
     public boolean isAngle(){
         boolean rVal=false;
-        if(type.compareTo("ANGLE")==0){
+        if(type.compareTo("Angle")==0){
             rVal=true;
         }
         return rVal;
