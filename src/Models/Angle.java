@@ -13,6 +13,11 @@ public class Angle extends AtomAssociation {
     private double theta0;
 
     /**
+     * Must convert kcal/mol into CEU
+     */
+    static final double CEU_CONVERSION_FACTOR = 418.68;
+
+    /**
      * Used in calculations
      */
     private double[] r12;
@@ -28,7 +33,7 @@ public class Angle extends AtomAssociation {
         atoms.add(atom1);
         atoms.add(atom2);
         atoms.add(atom3);
-        forceConstant=force;
+        forceConstant=force * CEU_CONVERSION_FACTOR;
         angle=equilibriumAngle;
         theta0 = equilibriumAngle * RADIAN_CONVERSION_FACTOR;
 

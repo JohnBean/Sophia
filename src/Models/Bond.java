@@ -21,13 +21,17 @@ public class Bond extends AtomAssociation {
      */
     private double[] f12;
     private double[] f21;
+    /**
+     * Must convert kcal/mol into CEU
+     */
+    static final double CEU_CONVERSION_FACTOR = 418.68;
 
 	public Bond(Atom atom1, Atom atom2, double force, double length){
 		   this.type="BOND";
            this.atoms = new ArrayList<Atom>();
 	       this.atoms.add(atom1);
 	       this.atoms.add(atom2);
-	       this.forceConstant=force;
+	       this.forceConstant=force * CEU_CONVERSION_FACTOR;
 	       this.bondLength=length;
 
            f12 = new double[3];

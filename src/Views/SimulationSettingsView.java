@@ -115,7 +115,7 @@ public class SimulationSettingsView extends JPanel {
         jLabel7.setText("Number of Dimensions");
 
         jLabel8.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
-        jLabel8.setText("Seed");
+        jLabel8.setText("Output Interval");
 
         jLabel9.setText("picoseconds");
 
@@ -242,7 +242,6 @@ public class SimulationSettingsView extends JPanel {
     }
 
     public int getOutputInterval() {
-        //TODO: add gui control for this
-        return 100;
+        return Integer.parseInt(jTextField7.getText());
     }
 }
