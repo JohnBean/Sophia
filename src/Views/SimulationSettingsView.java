@@ -226,7 +226,9 @@ public class SimulationSettingsView extends JPanel {
     }
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
-        controller.simSettingsNext();
+        if(controller.getRecording()==null){
+            controller.simSettingsNext();
+        }
     }
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {

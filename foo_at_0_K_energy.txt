@@ -1,0 +1,3 @@
+Step	VDW	Bond	Angle	Potential	Kinetic	Total	Temperature	Pressure
+0	 #s
+1	 #s
