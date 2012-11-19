@@ -1,3 +1,0 @@
-Step	VDW	Bond	Angle	Potential	Kinetic	Total	Temperature	Pressure
-0	vdw#	bond#	angle#	25.242428800022935	0.0	25.242428800022935	0.0	preasure#
-1	vdw#	bond#	angle#	25.242427635386917	3.017036143632597E-7	25.242427937090532	3.800451215906206E-6	preasure#
