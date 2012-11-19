@@ -126,6 +126,11 @@ public class SophiaView {
         //Set up the panel for the 3D simulation playback canvas
         createPlaybackPanel();
 
+        //Create the playback controls panel
+        PlaybackControlsView pbcView = new PlaybackControlsView(vController);
+        vController.setPlaybackControlsView(pbcView);
+        frame.add("South", pbcView);
+
         //Set up card stack for switching GUIs
         cards = new JPanel(new CardLayout());
         
