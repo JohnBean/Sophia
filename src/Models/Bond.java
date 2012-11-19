@@ -93,4 +93,18 @@ public class Bond extends AtomAssociation {
 
         return (0.5 * forceConstant * diff * diff);
     }
+
+    /**
+     * Returns ID of first atom endpoint
+     */
+    public int getEnd1() {
+        return atoms.get(0).id;
+    }
+
+    /**
+     * Returns ID of second atom endpoint
+     */
+    public int getEnd2() {
+        return atoms.get(1).id;
+    }
 }

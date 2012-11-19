@@ -12,4 +12,10 @@ public class Point3D {
         this.y = y;
         this.z = z;
     }
+
+    public Point3D() {
+        this.x = 0.0;
+        this.y = 0.0;
+        this.z = 0.0;
+    }
 }

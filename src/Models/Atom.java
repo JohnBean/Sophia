@@ -14,6 +14,7 @@ public class Atom {
     public String moloculeName;
     public String chainId;
     public int sequenceId;
+    public int id;
     
     public double occupancy;
     public double temperatureFactor;
@@ -24,7 +25,8 @@ public class Atom {
     public Color color;
     public ArrayList<Atom> bonds;
     public ArrayList<Atom> vdwAssoc;
-    public Atom(String atom, String molName, String chainID, int sequenceID,double x, double y, double z, double occupancy,double temperatureFactor,double mass,double radius, double charge, Color atomicColor){
+    public Atom(int id, String atom, String molName, String chainID, int sequenceID,double x, double y, double z, double occupancy,double temperatureFactor,double mass,double radius, double charge, Color atomicColor){
+        this.id = id;
         this.atomType=atom;
         this.moloculeName=molName;
         this.chainId=chainID;

@@ -10,7 +10,9 @@ import com.jme3.math.Vector3f;
 import com.jme3.renderer.RenderManager;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.shape.Sphere;
+import com.jme3.scene.shape.Cylinder;
 import com.jme3.scene.Spatial;
+import com.jme3.math.Quaternion;
 
 /**
  * The jME application class responsible for rendering atoms
@@ -21,6 +23,12 @@ public class PlaybackView extends SimpleApplication {
     private Cluster currentCluster = null;
     private boolean updateFlag = false;
     private boolean setupFlag = false;
+
+    /**
+     * Stores endpoints for bonds
+     */
+    private ArrayList<Integer> end1 = null;
+    private ArrayList<Integer> end2 = null;
 
     @Override
     public void simpleInitApp() {
@@ -65,6 +73,38 @@ public class PlaybackView extends SimpleApplication {
                 currentId++;
             }
 
+            //All bonds share a material
+            Material bondMat = new Material(assetManager, "Common/MatDefs/Light/Lighting.j3md");
+            bondMat.setBoolean("UseMaterialColors",true);
+            bondMat.setColor("Diffuse",new ColorRGBA(0.5f, 0.5f, 0.5f, 1.0f));
+            bondMat.setColor("Specular",ColorRGBA.Black);
+            bondMat.setColor("Ambient", ColorRGBA.Black);
+            bondMat.setFloat("Shininess", 5f);
+
+            //Add cylinders for each bond
+            end1 = new ArrayList<Integer>(atoms.size() / 2);
+            end2 = new ArrayList<Integer>(atoms.size() / 2);
+            ArrayList<AtomAssociation> associations = currentCluster.getAtomAssociation();
+            currentId = 0;
+            for(AtomAssociation aa : associations) {
+                if(aa.isBond()) {
+                    Bond b = (Bond)aa;
+
+                    //Set up endpoints for frame transformations
+                    end1.add(new Integer(b.getEnd1()));
+                    end2.add(new Integer(b.getEnd2()));
+
+                    //Create a unit length cylinder that can be scaled, rotated, and transformed for this bond
+                    Cylinder c = new Cylinder(2, 20, 0.1f, 1.0f);
+                    Geometry geom = new Geometry("Bond" + currentId, c);
+                    //geom.rotate((float)Math.PI / 2.0f, 0.0f, 0.0f);
+                    geom.setMaterial(bondMat);
+                    rootNode.attachChild(geom);
+
+                    currentId++;
+                }
+            }
+
             setupFlag = false;
         }
 
@@ -81,6 +121,50 @@ public class PlaybackView extends SimpleApplication {
                 currentAtom = rootNode.getChild("Atom" + currentId);
 
                 currentAtom.setLocalTranslation(new Vector3f((float)location.x, (float)location.y, (float)location.z));
+            }
+
+            //Update positions, rotations, and scalings of all bonds
+            Spatial currentBond;
+            Vector3D bondVector = new Vector3D();
+            Point3D bondLocation = new Point3D();
+            Point3D location1, location2;
+            double bondLength;
+            double invBondLength;
+            int numBonds = end1.size();
+            for(int currentId = 0; currentId < numBonds; currentId++) {
+                //Get the bond geometry
+                currentBond = rootNode.getChild("Bond" + currentId);
+
+                //Create a vector to represent the bond
+                location1 = currentFrame.locations.get(end1.get(currentId));
+                location2 = currentFrame.locations.get(end2.get(currentId));
+                bondVector.x = location1.x - location2.x;
+                bondVector.y = location1.y - location2.y;
+                bondVector.z = location1.z - location2.z;
+
+                //Determine the midpoint of the bond
+                bondLocation.x = (location1.x + location2.x) * 0.5;
+                bondLocation.y = (location1.y + location2.y) * 0.5;
+                bondLocation.z = (location1.z + location2.z) * 0.5;
+
+                //Find length of this bond
+                bondLength = bondVector.magnitude();
+
+                //Normalize the bond vector to only preserve direction
+                invBondLength = 1.0 / bondLength;
+                bondVector.x *= invBondLength;
+                bondVector.y *= invBondLength;
+                bondVector.z *= invBondLength;
+
+                //Scale to cylinder to bond length
+                currentBond.setLocalScale(new Vector3f(1.0f, (float)bondLength, 1.0f));
+
+                //Rotate the cylinder to the calculated up vector
+                currentBond.rotateUpTo(new Vector3f((float)bondVector.x, (float)bondVector.y, (float)bondVector.z));
+                currentBond.rotate((float)Math.PI / 2.0f, 0.0f, 0.0f);
+
+                //Translate the cylinder to the bond midpoint
+                currentBond.setLocalTranslation(new Vector3f((float)bondLocation.x, (float)bondLocation.y, (float)bondLocation.z));
             }
 
             updateFlag = false;
