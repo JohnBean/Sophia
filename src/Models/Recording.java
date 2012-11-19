@@ -50,11 +50,22 @@ public class Recording {
         String pdbFile=cluster.pdbFile;
         ArrayList<Atom> atoms= this.getCluster().getAtoms();
         Atom curAtom;
+        String name=this.getName();
+        if(name==null||name.length()<2){
+            name="test";
+        }
         Frame curFrame;
          try{
-            PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("foo.txt")));
+            PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("samples\\" + name +".txt")));
+            PrintWriter energyOut = new PrintWriter(new BufferedWriter(new FileWriter("samples\\" + name+"_at_0_K_energy.txt")));
+            energyOut.println("Step\tVDW\tBond\tAngle\tPotential\t\tKinetic\t\tTotal\t\tTemperature\t\tPressure");
             for(frameNumber=0; frameNumber<this.getNumFrames();frameNumber++){
                 curFrame=this.getFrame(frameNumber);
+                
+                energyOut.print(frameNumber+"\tvdw#\tbond#\tangle#\t"+curFrame.potentialEnergy+"\t");
+                energyOut.print(curFrame.kineticEnergy+"\t"+curFrame.totalEnergy+"\t"+curFrame.temperature);
+                energyOut.println("\t"+"preasure#");
+                
                 out.println("HEADER	Coordinates at Step "+frameNumber);
                 for(atomNumber=0; atomNumber<atoms.size();atomNumber++){
                    curAtom= atoms.get(atomNumber);
@@ -76,12 +87,7 @@ public class Recording {
                 }
             }
             out.close();
-            out = new PrintWriter(new BufferedWriter(new FileWriter("foo_at_0_K_energy.txt")));
-            out.println("Step\tVDW\tBond\tAngle\tPotential\tKinetic\tTotal\tTemperature\tPressure");
-            for(stepNumber=0;stepNumber<this.getNumFrames();stepNumber++){
-                out.println(stepNumber+"\t #s");
-            }
-            out.close();
+            energyOut.close();
          }
          catch(IOException e){
             e.printStackTrace();
