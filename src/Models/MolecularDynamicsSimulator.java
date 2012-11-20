@@ -84,9 +84,9 @@ public class MolecularDynamicsSimulator extends Simulator {
                 Vector3D halfStepVelocity = new Vector3D();
 
                 for(Atom a : atoms) {
-                    halfStepVelocity.x += a.velocity.x - a.acceleration.x * halfStep;
-                    halfStepVelocity.y += a.velocity.y - a.acceleration.y * halfStep;
-                    halfStepVelocity.z += a.velocity.z - a.acceleration.z * halfStep;
+                    halfStepVelocity.x = a.velocity.x - a.acceleration.x * halfStep;
+                    halfStepVelocity.y = a.velocity.y - a.acceleration.y * halfStep;
+                    halfStepVelocity.z = a.velocity.z - a.acceleration.z * halfStep;
 
                     kineticEnergy += (0.5 * a.mass * halfStepVelocity.magnitudeSquared());
                 }
