@@ -58,13 +58,17 @@ public class Recording {
          try{
             PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("samples\\" + name +".txt")));
             PrintWriter energyOut = new PrintWriter(new BufferedWriter(new FileWriter("samples\\" + name+"_at_0_K_energy.txt")));
-            energyOut.println("Step\tVDW\tBond\tAngle\tPotential\t\tKinetic\t\tTotal\t\tTemperature\t\tPressure");
+            energyOut.println("Step\tVDW\tBond\tAngle\tPotential      Kinetic\tTotal\tTemperature\tPressure");
             for(frameNumber=0; frameNumber<this.getNumFrames();frameNumber++){
                 curFrame=this.getFrame(frameNumber);
                 
-                energyOut.print(frameNumber+"\tvdw#\tbond#\tangle#\t"+curFrame.potentialEnergy+"\t");
-                energyOut.print(curFrame.kineticEnergy+"\t"+curFrame.totalEnergy+"\t"+curFrame.temperature);
-                energyOut.println("\t"+"preasure#");
+                energyOut.print(frameNumber+"\t"+String.valueOf(curFrame.energies.get("VDW")).trim().substring(0,Math.min(6,String.valueOf(curFrame.energies.get("VDW")).trim().length())));
+                energyOut.print("\t"+String.valueOf(curFrame.energies.get("Bond")).trim().substring(0,Math.min(6,String.valueOf(curFrame.energies.get("Bond")).trim().length())));
+                energyOut.print("\t"+String.valueOf(curFrame.energies.get("Angle")).trim().substring(0,Math.min(6,String.valueOf(curFrame.energies.get("Angle")).trim().length()))+"\t");
+                energyOut.print(String.valueOf(curFrame.potentialEnergy).trim().substring(0,Math.min(6,String.valueOf(curFrame.potentialEnergy).trim().length()))+"\t\t");
+                energyOut.print(String.valueOf(curFrame.kineticEnergy).trim().substring(0,Math.min(6,String.valueOf(curFrame.kineticEnergy).trim().length()))+"\t");
+                energyOut.print(String.valueOf(curFrame.totalEnergy).trim().substring(0,Math.min(6,String.valueOf(curFrame.totalEnergy).trim().length()))+"\t");
+                energyOut.println(String.valueOf(curFrame.temperature).trim().substring(0,Math.min(6,String.valueOf(curFrame.temperature).trim().length()))+"\t\t"+"preasure#");
                 
                 out.println("HEADER	Coordinates at Step "+frameNumber);
                 for(atomNumber=0; atomNumber<atoms.size();atomNumber++){
