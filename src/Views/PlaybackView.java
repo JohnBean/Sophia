@@ -51,6 +51,8 @@ public class PlaybackView extends SimpleApplication {
         chaseCam.setDefaultHorizontalRotation((float)Math.PI * 0.5f);
         chaseCam.setMaxDistance(100.0f);
         chaseCam.setMinDistance(5.0f);
+        chaseCam.setInvertHorizontalAxis(false);
+        chaseCam.setInvertVerticalAxis(false);
 
         viewPort.setBackgroundColor(new ColorRGBA(0.9f, 0.9f, 0.9f, 1.0f));
     }
