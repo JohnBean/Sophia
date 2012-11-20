@@ -13,6 +13,8 @@ import com.jme3.scene.shape.Sphere;
 import com.jme3.scene.shape.Cylinder;
 import com.jme3.scene.Spatial;
 import com.jme3.math.Quaternion;
+import com.jme3.renderer.Camera;
+import com.jme3.input.ChaseCamera;
 
 /**
  * The jME application class responsible for rendering atoms
@@ -23,6 +25,7 @@ public class PlaybackView extends SimpleApplication {
     private Cluster currentCluster = null;
     private boolean updateFlag = false;
     private boolean setupFlag = false;
+    private ChaseCamera chaseCam = null;
 
     /**
      * Stores endpoints for bonds
@@ -41,6 +44,13 @@ public class PlaybackView extends SimpleApplication {
         //Turn off stats displays
         this.setDisplayFps(false);
         this.setDisplayStatView(false);
+
+        //Set up a chase camera which allows the viewer to rotate around the center of the scene
+        chaseCam = new ChaseCamera(cam, rootNode, inputManager);
+        chaseCam.setDefaultDistance(20.0f);
+        chaseCam.setDefaultHorizontalRotation((float)Math.PI * 0.5f);
+        chaseCam.setMaxDistance(100.0f);
+        chaseCam.setMinDistance(5.0f);
 
         viewPort.setBackgroundColor(new ColorRGBA(0.9f, 0.9f, 0.9f, 1.0f));
     }
