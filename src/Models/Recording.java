@@ -74,7 +74,9 @@ public class Recording {
                 for(atomNumber=0; atomNumber<atoms.size();atomNumber++){
                    curAtom= atoms.get(atomNumber);
                    out.print("ATOM\t"+atomNumber + "\t" + curAtom.atomType + "\t" +curAtom.moloculeName + " " + curAtom.chainId + "\t" + curAtom.sequenceId);
-                   out.print("\t"+curFrame.locations.get(atomNumber).x+ "\t"+ curFrame.locations.get(atomNumber).y+ "\t"+curFrame.locations.get(atomNumber).z+ "\t" );
+                   out.print("\t"+String.valueOf(curFrame.locations.get(atomNumber).x).trim().substring(0,Math.min(6,String.valueOf(curFrame.locations.get(atomNumber).x).trim().length()))+ "\t");
+                   out.print(String.valueOf(curFrame.locations.get(atomNumber).y).trim().substring(0,Math.min(6,String.valueOf(curFrame.locations.get(atomNumber).y).trim().length()))+ "\t");
+                   out.print(String.valueOf(curFrame.locations.get(atomNumber).z).trim().substring(0,Math.min(6,String.valueOf(curFrame.locations.get(atomNumber).z).trim().length()))+ "\t" );
                    out.println(curAtom.occupancy +"\t"+ curAtom.temperatureFactor+ "\t" + curAtom.mass + "\t"+ curAtom.radius + "\t" +curAtom.charge);
                 }
                 if(frameNumber==0){//after the first set of atoms display the connections
