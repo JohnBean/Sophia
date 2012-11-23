@@ -36,14 +36,29 @@ public class Frame {
         
     }
 
+    /**
+     * Set the array of locations for this frame
+     *
+     * @param locations An array of locations with one for each atom in the cluster
+     */
     public void setLocations(ArrayList<Point3D> locations) {
         this.locations = locations;
     }
 
+    /**
+     * Set the values for potential energy of each association type
+     *
+     * @param energies A hash map String -> Double with values for potential energy
+     */
     public void setEnergies(HashMap<String, Double> energies) {
         this.energies = energies;
     }
 
+    /**
+     * Get the array of locations
+     *
+     * @return The array of atoms locations stored in this frame
+     */
     public ArrayList<Point3D> getLocations() {
         return locations;
     }

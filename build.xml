@@ -13,6 +13,8 @@
         <pathelement location="libs/vecmath.jar"/>
         <pathelement location="libs/xmlpull-xpp3.jar"/>
         <pathelement location="libs/swing-layout-1.0.2.jar"/>
+        <pathelement location="libs/jcommon-1.0.17.jar"/>
+        <pathelement location="libs/jfreechart-1.0.14.jar"/>
     </path>
     <target name="init" >
         <property name="src.dir" location="./src" />

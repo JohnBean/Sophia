@@ -2,6 +2,10 @@ package edu.gatech.sophia;
 
 import java.util.ArrayList;
 
+/**
+ * Atom association code for Van Der Waals which are interactions between non-bonded atoms.
+ * Uses the Lennard Jones approximation
+ */
 public class VanDerWaal extends AtomAssociation {
     private double equilibriumSeparation;
     private double wellDepth;
@@ -9,6 +13,14 @@ public class VanDerWaal extends AtomAssociation {
     private double[] f12;
     private double[] f21;
 
+    /**
+     * Constructs a new Van Der Waal association
+     *
+     * @param atom1 the first atom in the association
+     * @param atom2 the second atom in the association
+     * @param equilibriumSeparation the separation between the atoms at which there is no force
+     * @param wellDepth the maximum repelling force
+     */
     public VanDerWaal(Atom atom1, Atom atom2, double equilibriumSeparation, double wellDepth) {
         this.type = "VDW";
         this.atoms = new ArrayList<Atom>();

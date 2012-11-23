@@ -4,43 +4,95 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.*;
 import java.io.*;
+
 /**
  * Contains frames that can be rendered by the 3D view and
- * has playback controls to allow playing, pausing, seeking.
+ * supports playback by fetching frames and information about the recording
  */
 public class Recording {
+    /**
+     * A list of frames constaining per-frame data such as locations
+     */
     private ArrayList<Frame> frames;
+
+    /**
+     * The cluster object describing the atoms and associations in this recording
+     */
     private Cluster cluster;
+
+    /**
+     * Name of the recording for writing to files
+     */
     private String name;
 
+    /**
+     * Constructs a new recording
+     *
+     * @param c The cluster containing atoms and associations represented
+     */
     public Recording(Cluster c) {
         cluster = c;
         frames = new ArrayList<Frame>();
     }
 
+    /**
+     * Sets the name of the recording
+     *
+     * @param name name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Gets the name of the recording
+     *
+     * @return name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Returns the number of frames stored in the recording
+     *
+     * @return number of frames
+     */
     public int getNumFrames() {
         return frames.size();
     }
 
+    /**
+     * Adds a frame to the end of the recording
+     *
+     * @param frame the frame object to add
+     */
     public void addFrame(Frame frame) {
         frames.add(frame);
     }
 
+    /**
+     * Gets the frame with requested index
+     *
+     * @param index Sequential number of the frame (starting from 0)
+     * @return the frame object at this index
+     */
     public Frame getFrame(int index) {
         return frames.get(index);
     }
 
+    /**
+     * Returns the cluster object represented by this recording
+     *
+     * @return cluster
+     */
     public Cluster getCluster() {
         return cluster;
     }
+
+    /**
+     * Saves the recording to files
+     */
     public void writeRecord(){
         //String curLine;//line being read in
         int frameNumber;

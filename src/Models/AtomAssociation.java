@@ -7,13 +7,20 @@ import java.util.ArrayList;
  */
 abstract class AtomAssociation {
     /**
-     * Get the IDs of the atoms involved in this association
-     *
-     * @return An array of atom indexes of involved atoms
+     * List of atoms involved in this association
      */
     protected ArrayList<Atom> atoms;
+
+    /**
+     * Identifies the type of association
+     */
     public String type;
         
+    /**
+     * Gets the atoms in this association in array form
+     *
+     * @return array of involved atoms
+     */
     public abstract Atom[] getAtoms();
 
     /**

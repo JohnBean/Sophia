@@ -3,11 +3,25 @@ package edu.gatech.sophia;
 import java.util.ArrayList;
 import javax.swing.JProgressBar;
 
+/**
+ * Default stand in simulator when no other implemented simulator is chosen.
+ * Just generates a single frame snapshot of the system.
+ */
 public class NullSimulator extends Simulator {
+    /**
+     * Constructs a new null simulator
+     */
     public NullSimulator() {
         type = 0;
     }
 
+    /**
+     * Runs a simulation on the specified cluster
+     *
+     * @param cluster the cluster of molecules to simulate
+     * @param prog a progress bar on the GUI to update with the progress of the simulation
+     * @return a Recording object containing a single frame
+     */
     public Recording run(Cluster cluster, JProgressBar prog) {
         //Set up the output recording
         Recording output = new Recording(cluster);

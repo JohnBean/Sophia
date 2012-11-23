@@ -5,6 +5,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.awt.Color;
+
 /**
  * Contains information about atoms and their associations (bonds, torsions, etc)
  * Can be thought of as a graph stored as an edgelist where atoms are nodes and
@@ -16,13 +17,20 @@ public class Cluster {
     static final double VDW_Radius = 3.5; // angstroms
     static final double wellDepth = 41.8; // CEU
     public String pdbFile;
+    
+    /**
+     * Default constructor for cluster
+     */
     public Cluster() {
-        String path= System.getProperty("java.class.path");
-        path = path.substring(0,path.length()-16);
-        System.out.println("************Cluster Test Initiated***************");
-        readFromFiles(path+"ethane_5.pdb", path+"ethane_5.sf");
+        
     }
 
+    /**
+     * Constructs a new cluster from files
+     *
+     * @param coordinateFilename the PDB (protein data bank) file to use for atom information
+     * @param structureFilename the SF (structure file) file to use for associations between atoms
+     */
     public Cluster(String coordinateFilename, String structureFilename) {
         System.out.println("************Cluster Initiated***************");
         readFromFiles(coordinateFilename, structureFilename);

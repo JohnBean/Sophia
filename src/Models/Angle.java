@@ -2,6 +2,9 @@ package edu.gatech.sophia;
 
 import java.util.ArrayList;
 
+/**
+ * Atom interaction for Harmonic Angles. Relates 3 atoms
+ */
 public class Angle extends AtomAssociation {
     private double angle;
     /**
@@ -26,6 +29,15 @@ public class Angle extends AtomAssociation {
     private double[] force2;
     private double[] force3;
 
+    /**
+     * Constructs a new Angle interaction
+     *
+     * @param atom1 the first atom in the angle
+     * @param atom2 the middle atom in the angle
+     * @param atom3 the last atom in the angle
+     * @param force the force constant to use for this angle
+     * @param equilibriumAngle the angle at which the system would have no force
+     */
     public Angle(Atom atom1, Atom atom2, Atom atom3, double force, double equilibriumAngle){
         //Angle constructor
         type="Angle";

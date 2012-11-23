@@ -4,8 +4,10 @@ import java.util.ArrayList;
 
 /**
  * Bounding box prevents atoms from passing through the walls
- * @author JARVIS
+ * The bounding box usually stores a list of all atoms for its
+ * associations since all atoms are bounded
  *
+ * @author JARVIS
  */
 public class BoundingBox extends AtomAssociation {
     /**
@@ -27,6 +29,7 @@ public class BoundingBox extends AtomAssociation {
     
     /**
      * Common Getter for the Array List of Atoms in the Bond
+     *
      * @return The Atoms before the interaction
      */
     public Atom[] getAtoms(){
@@ -35,9 +38,6 @@ public class BoundingBox extends AtomAssociation {
 
     /**
      * Applys the force of the association to each involved atom
-     *
-     * @param atoms The atoms involved in their pre-interaction state
-     * @return The atoms involved in their post-interaction state
      */
     public void applyForces() {
         double dx, dy, dz;

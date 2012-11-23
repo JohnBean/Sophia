@@ -4,13 +4,26 @@ import java.awt.event.*;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * Controller for the visualization portion of SOPHIA
+ * Handles playback and visual representation actions
+ */
 public class VisualizationController {
+    /**
+     * The current recording that the user is visualizing
+     */
     private Recording recording;
 
+    /**
+     * References to view objects to allow the controller to get and send information
+     */
     private PlaybackView pbView;
     private PlaybackSettingsView psView;
     private PlaybackControlsView pbcView;
 
+    /**
+     * Index of the current frame being visualized
+     */
     private int currentFrame;
 
     /**
@@ -23,10 +36,18 @@ public class VisualizationController {
      */
     private boolean playing = false;
 
+    /**
+     * Constructs a new visualization controller
+     */
     public VisualizationController() {
 
     }
 
+    /**
+     * Sets up a new recording in the visualization window by initializing the 3D scenegraph and setting up the GUI
+     *
+     * @param recording the recording to start visualizing
+     */
     public void setRecording(Recording recording) {
         this.recording = recording;
         currentFrame = 0;
@@ -36,18 +57,36 @@ public class VisualizationController {
         recording.writeRecord();
     }
 
+    /**
+     * Set the playback view that will be visible in the main window
+     *
+     * @param pbView the playback view
+     */
     public void setPlaybackView(PlaybackView pbView) {
         this.pbView = pbView;
     }
 
+    /**
+     * Set the visualization settings view that will be visible for playback
+     *
+     * @param psView the playback settings view
+     */
     public void setSettingsView(PlaybackSettingsView psView) {
         this.psView = psView;
     }
 
+    /**
+     * Set the playback controls viewer that allows the user to seek and control playback
+     *
+     * @param pbcView the playback controls view
+     */
     public void setPlaybackControlsView(PlaybackControlsView pbcView) {
         this.pbcView = pbcView;
     }
 
+    /**
+     * Increments to the next frame and displays it in the visualization. Resets to 0 if at the end.
+     */
     public void nextFrame() {
         if(recording != null) {
             currentFrame++;
@@ -59,6 +98,9 @@ public class VisualizationController {
         }
     }
 
+    /**
+     * Decrements to the previous frame and displays it in the visualization
+     */
     public void prevFrame() {
         if(recording != null) {
             currentFrame--;
@@ -70,6 +112,11 @@ public class VisualizationController {
         }
     }
 
+    /**
+     * Sets which frame to display
+     *
+     * @param frameId the index of the frame to display
+     */
     public void setFrame(int frameId) {
         if(recording != null && frameId >= 0 && frameId < recording.getNumFrames()) {
             currentFrame = frameId;
@@ -100,6 +147,10 @@ public class VisualizationController {
         playing = false;
     }
 
+    /**
+     * Called to auto advance to the next frame and sets up a timer which calls itself to keep
+     * continuous playback
+     */
     private void autoAdvanceFrame() {
         if(playing) {
             currentFrame++;

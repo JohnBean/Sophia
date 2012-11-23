@@ -48,14 +48,29 @@ abstract class Simulator {
      */
     abstract Recording run(Cluster cluster, JProgressBar prog);
 
+    /**
+     * Set the timestep
+     *
+     * @param timestep the amount to increment time by for each step in picoseconds
+     */
     public void setTimeStep(double timestep) {
         this.timestep = timestep;
     }
 
+    /**
+     * Set the total number of steps to calculate
+     *
+     * @param numSteps the number of steps to run through
+     */
     public void setNumSteps(int numSteps) {
         this.numSteps = numSteps;
     }
 
+    /**
+     * Sets the interval at which frames are written
+     *
+     * @param outputInterval the number of steps in between each frame
+     */
     public void setOutputInterval(int outputInterval) {
         this.outputInterval = outputInterval;
     }

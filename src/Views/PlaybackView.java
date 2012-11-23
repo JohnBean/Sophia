@@ -33,6 +33,9 @@ public class PlaybackView extends SimpleApplication {
     private ArrayList<Integer> end1 = null;
     private ArrayList<Integer> end2 = null;
 
+    /**
+     * Initializes the scene and camera
+     */
     @Override
     public void simpleInitApp() {
         //Add a light to the scene
@@ -57,6 +60,15 @@ public class PlaybackView extends SimpleApplication {
         viewPort.setBackgroundColor(new ColorRGBA(0.9f, 0.9f, 0.9f, 1.0f));
     }
 
+    /**
+     * Contains code that updates frames.
+     *
+     * Frame information is set by other threads, but the rendering thread must
+     * update the scenegraph so flags are used to signal the the scene should
+     * be updated with the new frame information
+     *
+     * @param tpf time since last frame?
+     */
     @Override
     public void simpleUpdate(float tpf) {
         if(setupFlag) {
@@ -188,6 +200,14 @@ public class PlaybackView extends SimpleApplication {
         //TODO: add render code
     }
 
+    /**
+     * Sets up a new recording in the visualization.
+     *
+     * Triggers code that builds the atomic representation from spheres and cylinders
+     *
+     * @param frame the initial frame to show
+     * @param cluster the cluster to use for atom and bond information
+     */
     public void showInitialFrame(Frame frame, Cluster cluster) {
         currentFrame = frame;
         currentCluster = cluster;
@@ -196,6 +216,11 @@ public class PlaybackView extends SimpleApplication {
         System.out.println("Cluster has " + cluster.getAtoms().size() + " atoms");
     }
 
+    /**
+     * Sets up a new frame to visualize. showInitialFrame must have already been called with the appropriate cluster
+     *
+     * @param frame the new frame to show
+     */
     public void showFrame(Frame frame) {
         currentFrame = frame;
         updateFlag = true;

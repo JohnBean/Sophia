@@ -5,7 +5,6 @@ import java.util.ArrayList;
 /**
  * Data Model for holding the relevant bond information from the Abstract Atom Association class
  * @author JARVIS
- *
  */
 public class Bond extends AtomAssociation {
     /**
@@ -26,6 +25,14 @@ public class Bond extends AtomAssociation {
      */
     static final double CEU_CONVERSION_FACTOR = 418.68;
 
+    /**
+     * Constructs a new harmonic bond association
+     *
+     * @param atom1 the first bonded atom
+     * @param atom2 the second bonded atom
+     * @param force the force constant to use in energy/force calculations
+     * @param length the equalibrium length of this bond
+     */
 	public Bond(Atom atom1, Atom atom2, double force, double length){
 		   this.type="Bond";
            this.atoms = new ArrayList<Atom>();
