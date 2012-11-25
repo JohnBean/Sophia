@@ -2,24 +2,25 @@ package edu.gatech.sophia;
 
 import java.awt.event.*;
 
-import Models.Double;
-import Models.HashMap;
-import Models.String;
+public class PlotController {
+    /**
+     * Reference to the view that displays plots
+     */
+    private PlotView pView = null;
 
-public class PlotController implements ActionListener {
-	private PlotView plotView;
-	
-	
-	
-	public setNewEnergies(HashMap<String, Double>){
-		//Energies are being stored as Type and Double --> Only For Potential Energy
-		//Need Kinetic and Total for the Graph
-		//Need the Step as well
-		
-	}
-	
-	
-    public void actionPerformed(ActionEvent e) {
+    /**
+     * Construct a new Plot Controller
+     */
+    public PlotController() {
 
+    }
+
+    /**
+     * Set the plot view where controller can update the plot display
+     *
+     * @param pView the plot view
+     */
+    public void setPlotView(PlotView pView) {
+        this.pView = pView;
     }
 }

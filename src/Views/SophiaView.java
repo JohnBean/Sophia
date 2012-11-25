@@ -5,6 +5,10 @@ import com.jme3.app.SimpleApplication;
 import com.jme3.system.AppSettings;
 import com.jme3.system.JmeCanvasContext;
 import com.jme3.util.JmeFormatter;
+
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.XYPlot;
+
 import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Container;
@@ -45,6 +49,7 @@ public class SophiaView {
      */
     private static SimulationController simController;
     private static VisualizationController vController;
+    private static PlotController pController;
     
     /**
      *Sets up the JPanel that the jME canvas will be in
@@ -126,10 +131,23 @@ public class SophiaView {
         //Set up the panel for the 3D simulation playback canvas
         createPlaybackPanel();
 
+        //Create an empty chart to display initially
+        JFreeChart initialChart = new JFreeChart("Empty Plot", new XYPlot());
+
+        //Create the plot view panel
+        PlotView pView = new PlotView(initialChart);
+        pController.setPlotView(pView);
+
         //Create the playback controls panel
         PlaybackControlsView pbcView = new PlaybackControlsView(vController);
         vController.setPlaybackControlsView(pbcView);
-        frame.add("South", pbcView);
+
+        //Add plot view and playback controls to main window
+        JPanel southPanel = new JPanel();
+        southPanel.setLayout(new BoxLayout(southPanel, BoxLayout.Y_AXIS));
+        southPanel.add(pbcView);
+        southPanel.add(pView);
+        frame.add("South", southPanel);
 
         //Set up card stack for switching GUIs
         cards = new JPanel(new CardLayout());
@@ -238,6 +256,9 @@ public class SophiaView {
 
         //Set up visualization controller
         vController = new VisualizationController();
+
+        //Set up plot controller
+        pController = new PlotController();
 
         //Set up simulation controller for view callbacks
         simController = new SimulationController();
