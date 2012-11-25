@@ -33,4 +33,14 @@ public class PlotView extends ChartPanel {
         //Set the size of the panel
         setPreferredSize(new java.awt.Dimension(1000, 250));
     }
+
+    /**
+     * Sets the currently visible plot
+     *
+     * @param chart the JFreeChart object to display
+     */
+    public void setPlot(JFreeChart chart) {
+        if(chart != null)
+            setChart(chart);
+    }
 }

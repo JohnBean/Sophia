@@ -263,6 +263,7 @@ public class SophiaView {
         //Set up simulation controller for view callbacks
         simController = new SimulationController();
         simController.setVisualizationController(vController);
+        simController.setPlotController(pController);
         
         //Set up the jME canvas
         createCanvas(appClass);

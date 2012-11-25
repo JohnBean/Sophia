@@ -22,6 +22,11 @@ public class SimulationController {
      */
     private VisualizationController vController;
 
+    /**
+     * Reference to the plot controller so that we can send the recording over one finished
+     */
+    private PlotController pController;
+
     /*
      * Simulator object hold sim params and implements equations
      */
@@ -83,6 +88,15 @@ public class SimulationController {
     }
 
     /**
+     * Setter for the plot controller
+     *
+     * @param pController the plot controller
+     */
+    public void setPlotController(PlotController pController) {
+        this.pController = pController;
+    }
+
+    /**
      * Action called when the next button in the file picker is selected
      */
     public void filePickerNext() {
@@ -121,6 +135,7 @@ public class SimulationController {
      */
     public void simViewVisualize() {
         vController.setRecording(output);
+        pController.setRecording(output);
 
         //Switch to visualization view
         SophiaView.switchView(SophiaView.PLAYBACKPANEL);

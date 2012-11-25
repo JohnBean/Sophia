@@ -91,6 +91,19 @@ public class Recording {
     }
 
     /**
+     * Checks if the recording has values for a certain variable
+     *
+     * @param variable the name of the variable to check for
+     * @return true if the variable exists in the recording
+     */
+    public boolean hasVariable(String variable) {
+        if(frames != null && frames.size() > 0)
+            return frames.get(0).hasVariable(variable);
+
+        return false;
+    }
+
+    /**
      * Saves the recording to files
      */
     public void writeRecord(){

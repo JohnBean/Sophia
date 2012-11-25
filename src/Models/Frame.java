@@ -62,4 +62,59 @@ public class Frame {
     public ArrayList<Point3D> getLocations() {
         return locations;
     }
+
+    /**
+     * Checks if the recording has values for a certain variable
+     *
+     * @param variable the name of the variable to check for
+     * @return true if the variable exists in this frame
+     */
+    public boolean hasVariable(String variable) {
+        //Check for basic variables
+        if(variable.equals("Kinetic Energy"))
+            return true;
+
+        if(variable.equals("Potential Energy"))
+            return true;
+
+        if(variable.equals("Total Energy"))
+            return true;
+
+        if(variable.equals("Temperature"))
+            return true;
+
+        //Check for specific energies with this name
+        if(energies != null && energies.get(variable) != null)
+            return true;
+
+        return false;
+    }
+
+    /**
+     * Gets the value of a variable in this frame
+     *
+     * @param variable name of the variable to get
+     * @return value for the variable
+     */
+    public double getVariableValue(String variable) {
+        //Return default variables
+        if(variable.equals("Kinetic Energy"))
+            return kineticEnergy;
+
+        if(variable.equals("Potential Energy"))
+            return potentialEnergy;
+
+        if(variable.equals("Total Energy"))
+            return totalEnergy;
+
+        if(variable.equals("Temperature"))
+            return temperature;
+
+        //Return a specific energy
+        Double value;
+        if(energies != null && (value = energies.get(variable)) != null)
+            return value.doubleValue();
+
+        return 0.0;
+    }
 }
