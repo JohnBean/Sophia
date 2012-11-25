@@ -121,8 +121,8 @@ public class Recording {
         }
         Frame curFrame;
          try{
-            PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("samples\\" + name +".txt")));
-            PrintWriter energyOut = new PrintWriter(new BufferedWriter(new FileWriter("samples\\" + name+"_at_0_K_energy.txt")));
+            PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(name +".txt")));
+            PrintWriter energyOut = new PrintWriter(new BufferedWriter(new FileWriter(name+"_at_0_K_energy.txt")));
             energyOut.println("Step\tVDW\tBond\tAngle\tPotential      Kinetic\tTotal\tTemperature\tPressure");
             for(frameNumber=0; frameNumber<this.getNumFrames();frameNumber++){
                 curFrame=this.getFrame(frameNumber);
