@@ -28,6 +28,16 @@ abstract class Simulator {
     protected int outputInterval;
 
     /**
+     * Initial temperature to use
+     */
+    protected double initialTemp;
+
+    /**
+     * Number of dimensions to use
+     */
+    protected int numDimensions;
+
+    /**
      * Returns the type of simulator
      *
      * @return The unique id of this simulator type
@@ -73,5 +83,25 @@ abstract class Simulator {
      */
     public void setOutputInterval(int outputInterval) {
         this.outputInterval = outputInterval;
+    }
+
+    /**
+     * Sets the initial temperature to use for the simulation
+     *
+     * Used to generate random velocities for the atoms set correct initial kinetic energy
+     *
+     * @param initialTemp the initial temperature in kelvins to use
+     */
+    public void setInitialTemp(double initialTemp) {
+        this.initialTemp = initialTemp;
+    }
+
+    /**
+     * Sets the number of dimensions to simulate in
+     *
+     * @param numDimensions the  number of dimensions to use 1, 2, or 3
+     */
+    public void setNumDimensions(int numDimensions) {
+        this.numDimensions = numDimensions;
     }
 }

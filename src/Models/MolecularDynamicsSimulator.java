@@ -10,11 +10,6 @@ import javax.swing.JProgressBar;
  */
 public class MolecularDynamicsSimulator extends Simulator {
     /**
-     * Number of dimensions the simulation is running in
-     */
-    private int numDimensions = 3;
-
-    /**
      * Gas constant used in temperature computations
      */
     public static double GAS_CONSTANT = 0.830936;
@@ -42,7 +37,7 @@ public class MolecularDynamicsSimulator extends Simulator {
         ArrayList<Atom> atoms = cluster.getAtoms();
         int step = 0;
         int progress = 0;
-        double kineticEnergy;
+        double kineticEnergy = 0.0;
         double potentialEnergy;
         double totalEnergy;
         double halfStep = 0.5 * timestep;
@@ -62,7 +57,13 @@ public class MolecularDynamicsSimulator extends Simulator {
 
         for(Atom a : atoms) {
             ilocations.add(new Point3D(a.location.x, a.location.y, a.location.z));
+
+            //Calculate kinetic energy
+            kineticEnergy += (0.5 * a.mass * a.velocity.magnitudeSquared());
         }
+
+        //Calculate the temperature
+        temperature = (2.0 * kineticEnergy / atoms.size()) / (numDimensions * GAS_CONSTANT);
 
         HashMap<String, Double> ienergies = cluster.getEnergies();
         potentialEnergy = 0.0;
@@ -77,10 +78,10 @@ public class MolecularDynamicsSimulator extends Simulator {
 
         initial.setLocations(ilocations);
         initial.setEnergies(ienergies);
-        initial.kineticEnergy = 0.0;
+        initial.kineticEnergy = kineticEnergy;
         initial.potentialEnergy = potentialEnergy;
-        initial.temperature = 0.0;
-        initial.totalEnergy = potentialEnergy;
+        initial.temperature = temperature;
+        initial.totalEnergy = potentialEnergy + kineticEnergy;
         output.addFrame(initial);
 
         //Advance the simulation by each timestep

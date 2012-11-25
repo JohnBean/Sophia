@@ -52,4 +52,15 @@ public class Vector3D {
     public double magnitude() {
         return Math.sqrt(magnitudeSquared());
     }
+
+    /**
+     * Scales this vector
+     *
+     * @param scaleFactor the amount to scale by
+     */
+    public void scale(double scaleFactor) {
+        x *= scaleFactor;
+        y *= scaleFactor;
+        z *= scaleFactor;
+    }
 }

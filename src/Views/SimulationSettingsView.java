@@ -255,6 +255,10 @@ public class SimulationSettingsView extends JPanel {
         return Integer.parseInt((String)jComboBox2.getSelectedItem());
     }
 
+    public double getInitialTemp() {
+        return Double.parseDouble(jTextField4.getText());
+    }
+
     public boolean useBox() {
         return !(jTextField5.getText().equals(""));
     }

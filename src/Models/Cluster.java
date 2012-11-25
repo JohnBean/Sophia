@@ -17,6 +17,9 @@ public class Cluster {
     static final double VDW_Radius = 3.5; // angstroms
     static final double wellDepth = 41.8; // CEU
     public String pdbFile;
+    private Random randomGenerator = null;
+
+    public static double GAS_CONSTANT = 0.830936;
     
     /**
      * Default constructor for cluster
@@ -232,5 +235,88 @@ public class Cluster {
         }
 
         return output;
+    }
+
+    /**
+     * Relates a random number (normalDistributionValue) from the normal
+     * distribution to its counterpart from the Maxwell-Boltzmann distribution.
+     *
+     * MB Value = (MB average) + (MB std. dev) * (normal distribution value)
+     * = 0 + sqrt(RT/m) * (normal distribution value)
+     * Author: Geoff Rollins
+     */
+    public double sampleMaxwellBoltzmann(double normalDistributionValue, double mass, double targetTemperature) {
+        return normalDistributionValue * Math.sqrt(GAS_CONSTANT * targetTemperature / mass);
+    }
+
+    /**
+     * Zeros the velocities of all atoms in the system
+     */
+    public void zeroVelocities() {
+        for(Atom a : atoms) {
+            a.velocity.zero();
+        }
+    }
+
+    /**
+     * Sets atom velocities based on a target temperature. Adapted frome Oscar code by Geoff Rollins.
+     *
+     * @param thermMethod Method for re-assigning velocities. Rescaling or Reassignment
+     * @param targetTemp the temperature in kelvins to use
+     * @param currentTemp the current temperature of the system
+     * @param numDimensions number of dimensions the simulation is run in
+     */
+    public void setVelocities(String thermMethod, double targetTemp, double currentTemp, int numDimensions) {
+        double[] totalMomentum = {0.0, 0.0, 0.0};
+        double totalMass = 0.0;
+
+        //Set up random generator if none exists
+        if(randomGenerator == null)
+            randomGenerator = new Random();
+
+        if(thermMethod.equals("Rescaling")) {
+            //Rescaling used to change the temperature of the system by scaling
+            double scaleFactor = 0.0;
+
+            //Determine scaling factor to multiply each velocity by
+            if(currentTemp != 0.0)
+                scaleFactor = Math.sqrt(targetTemp / currentTemp);
+
+            for(Atom a : atoms) {
+                //Multiplies the current velocity by the scaling factor
+                a.velocity.scale(scaleFactor);
+            }
+        } else if(thermMethod.equals("Reassignment")) {
+            //Re-assign velocities based on the Maxwell Boltzmann distribution
+            for(Atom a : atoms) {
+                a.velocity.x = sampleMaxwellBoltzmann(randomGenerator.nextGaussian(), a.mass, targetTemp);
+                a.velocity.y = 0.0;
+                a.velocity.z = 0.0;
+
+                //Calculate velocity in other dimensions if necessary
+                if(numDimensions > 1)
+                    a.velocity.y = sampleMaxwellBoltzmann(randomGenerator.nextGaussian(), a.mass, targetTemp);
+
+                if(numDimensions > 2)
+                    a.velocity.z = sampleMaxwellBoltzmann(randomGenerator.nextGaussian(), a.mass, targetTemp);
+
+                //Keep track of total momentum and mass
+                totalMomentum[0] += a.velocity.x * a.mass;
+                totalMomentum[1] += a.velocity.y * a.mass;
+                totalMomentum[2] += a.velocity.z * a.mass;
+
+                totalMass += a.mass;
+            }
+
+            //Adjust velocities so that total system momentum is 0
+            double xAdjustment = totalMomentum[0] / totalMass;
+            double yAdjustment = totalMomentum[1] / totalMass;
+            double zAdjustment = totalMomentum[2] / totalMass;
+            for(Atom a : atoms) {
+                a.velocity.x -= xAdjustment;
+                a.velocity.y -= yAdjustment;
+                a.velocity.z -= zAdjustment;
+            }
+        }
     }
 }
