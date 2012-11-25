@@ -184,8 +184,8 @@ public class SimulationController {
         cluster.setVelocities("Reassignment", initialTemp, 0.0, numDimensions);
 
         //Set up bounding box if specified
-        //if(ssView.useBox())
-        //    cluster.addAssociation(new BoundingBox(cluster.getAtoms(), ssView.getBoxSideLength()));
+        if(ssView.useBox())
+            cluster.addAssociation(new BoundingBox(cluster.getAtoms(), ssView.getBoxSideLength()));
 
         //Start the simulation thread
         new Thread((new SimulationRunner(simulator, cluster, smView.getProgressBar(), this))).start();
