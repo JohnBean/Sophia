@@ -129,7 +129,7 @@ public class SimulationSettingsView extends JPanel {
         jComboBox1.setSelectedIndex(-1);
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "2", "3" }));
-        jComboBox2.setSelectedIndex(-1);
+        jComboBox2.setSelectedIndex(1);
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
@@ -245,5 +245,17 @@ public class SimulationSettingsView extends JPanel {
 
     public int getOutputInterval() {
         return Integer.parseInt(jTextField7.getText());
+    }
+
+    public double getBoxSideLength() {
+        return Double.parseDouble(jTextField5.getText());
+    }
+
+    public int getNumDimensions() {
+        return Integer.parseInt((String)jComboBox2.getSelectedItem());
+    }
+
+    public boolean useBox() {
+        return !(jTextField5.getText().equals(""));
     }
 }

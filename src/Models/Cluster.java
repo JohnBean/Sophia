@@ -181,6 +181,15 @@ public class Cluster {
 	   return associations;
    }
 
+   /**
+    * Adds an association to the list stored in the cluster
+    *
+    * @param aa Atom association to add
+    */
+   public void addAssociation(AtomAssociation aa) {
+        associations.add(aa);
+   }
+
     /**
      * Calculates and applies force on each atom using associations
      */

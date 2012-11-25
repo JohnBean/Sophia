@@ -25,6 +25,8 @@ public class PlaybackView extends SimpleApplication {
     private Cluster currentCluster = null;
     private boolean updateFlag = false;
     private boolean setupFlag = false;
+    private boolean dmChangeFlag = false;
+    private boolean vdwEnabled = false;
     private ChaseCamera chaseCam = null;
 
     /**
@@ -193,6 +195,35 @@ public class PlaybackView extends SimpleApplication {
 
             updateFlag = false;
         }
+
+        //Run when drawing method is changed
+        if(dmChangeFlag) {
+            ArrayList<Atom> atoms = currentCluster.getAtoms();
+            int numAtoms = atoms.size();
+            //Switch to VDW
+            if(vdwEnabled) {
+                Spatial currentAtom;
+                float scale;
+                for(int currentId = 0; currentId < numAtoms; currentId++) {
+                    currentAtom = rootNode.getChild("Atom" + currentId);
+
+                    scale = (float)atoms.get(currentId).radius;
+                    currentAtom.setLocalScale(new Vector3f(scale, scale, scale));
+                }
+            }
+
+            //Switch to CPK
+            if(!vdwEnabled) {
+                Spatial currentAtom;
+                for(int currentId = 0; currentId < numAtoms; currentId++) {
+                    currentAtom = rootNode.getChild("Atom" + currentId);
+
+                    currentAtom.setLocalScale(new Vector3f(1.0f, 1.0f, 1.0f));
+                }
+            }
+
+            dmChangeFlag = false;
+        }
     }
 
     @Override
@@ -224,5 +255,17 @@ public class PlaybackView extends SimpleApplication {
     public void showFrame(Frame frame) {
         currentFrame = frame;
         updateFlag = true;
+    }
+
+    /**
+     * Switches between VDW and CPK drawing methods
+     *
+     * @param value set to true to enable VDW and false to enable CPK
+     */
+    public void toggleVDW(boolean value) {
+        if(vdwEnabled != value) {
+            vdwEnabled = value;
+            dmChangeFlag = true;
+        }
     }
 }

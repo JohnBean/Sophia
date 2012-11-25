@@ -57,6 +57,11 @@ public class PlaybackSettingsView extends JPanel {
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Opaque", "Transparent", "BrushedMetal", "Diffuse", "Ghost", "Glass1", "Glass2", "Glass3", "Glossy", "HardPlastic", "MetallicPastel", "Steel", "Translucent", "Edgy", "EdgyShiny", "EdgyGlass", "Goodsell", "AOShiny", "AOChalky", "AOEdgy", "BlownGlass", "GlassBubble"}));
 
         jComboBox3.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Lines", "Bonds", "DynamicBonds", "HBonds", "Points", "VDW", "CPK", "Licorice", "Polyhedra", "Trace", "Tube", "Ribbons", "NewRibbons", "Cartoon", "NewCartoon", "PaperChain", "Twister", "QuickSurf", "MSMS" }));
+        jComboBox3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox3ActionPerformed(evt);
+            }
+        });
 
         jButton1.setText("Default");
 
@@ -263,6 +268,10 @@ public class PlaybackSettingsView extends JPanel {
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
+    }
+
+    private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {
+        controller.changeDrawingMethod((String)jComboBox3.getSelectedItem());
     }
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {

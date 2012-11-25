@@ -159,6 +159,10 @@ public class SimulationController {
         simulator.setNumSteps(ssView.getNumSteps());
         simulator.setOutputInterval(ssView.getOutputInterval());
 
+        //Set up bounding box if specified
+        if(ssView.useBox())
+            cluster.addAssociation(new BoundingBox(cluster.getAtoms(), ssView.getBoxSideLength()));
+
         //Start the simulation thread
         new Thread((new SimulationRunner(simulator, cluster, smView.getProgressBar(), this))).start();
     }

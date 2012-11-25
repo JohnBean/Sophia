@@ -179,4 +179,17 @@ public class VisualizationController {
         //TODO: Apply settings from view
 
     }
+
+    /**
+     * Change the display mode for molecules. Method controls the representation type
+     * 
+     * @param method string name of drawing method
+     */
+    public void changeDrawingMethod(String method) {
+        if(method.equals("VDW")) {
+            pbView.toggleVDW(true);
+        } else if(method.equals("CPK")) {
+            pbView.toggleVDW(false);
+        }
+    }
 }

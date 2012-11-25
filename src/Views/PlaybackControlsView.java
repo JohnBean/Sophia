@@ -137,7 +137,7 @@ public class PlaybackControlsView extends javax.swing.JPanel {
     /**
      * Set how many frames are in the recording
      *
-     * @numFrames number of frames in the recording
+     * @param numFrames number of frames in the recording
      */
     public void setNumFrames(int numFrames) {
         jSlider1.setMinimum(0);
@@ -147,7 +147,7 @@ public class PlaybackControlsView extends javax.swing.JPanel {
     /**
      * Set the value of the slider
      *
-     * @frameId the index of the current frame
+     * @param frameId the index of the current frame
      */
     public void setCurrentFrame(int frameId) {
         jSlider1.setValue(frameId);
