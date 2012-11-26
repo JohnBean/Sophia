@@ -38,6 +38,11 @@ abstract class Simulator {
     protected int numDimensions;
 
     /**
+     * The temperature protocol to use for the simulation
+     */
+    protected TemperatureProtocol tempProtocol;
+
+    /**
      * Returns the type of simulator
      *
      * @return The unique id of this simulator type
@@ -103,5 +108,38 @@ abstract class Simulator {
      */
     public void setNumDimensions(int numDimensions) {
         this.numDimensions = numDimensions;
+    }
+
+    /**
+     * Sets the temperature protocol to use
+     *
+     * @param tempProtocol the temperature protocol to use
+     */
+    public void setTemperatureProtocol(TemperatureProtocol tempProtocol) {
+        this.tempProtocol = tempProtocol;
+    }
+
+    /**
+     * Initializes the temperature protocol. Should be called at the beginning of run if
+     * temperature scaling is to be used.
+     */
+    public void intializeTemperatureProtocol() {
+        if(tempProtocol != null)
+            tempProtocol.finalize(numSteps);
+    }
+
+    /**
+     * Scales the temperatures for a given step
+     *
+     * @param cluster the cluster to scale velocities on
+     * @param step the step number
+     * @param currentTemp the current temperature of the system
+     */
+    public void scaleTemperatures(Cluster cluster, int step, double currentTemp) {
+        if(tempProtocol == null || tempProtocol.temperatureScalingRequired(step) == false)
+            return;
+
+        double targetTemp = tempProtocol.getTemperature(step);
+        cluster.setVelocities(tempProtocol.getMethod(step), targetTemp, currentTemp, numDimensions);
     }
 }

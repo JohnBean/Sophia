@@ -51,6 +51,9 @@ public class MolecularDynamicsSimulator extends Simulator {
         prog.setMaximum(numSteps);
         prog.setValue(0);
 
+        //Set up the temperature protocol
+        intializeTemperatureProtocol();
+
         //Add the initial frame
         Frame initial = new Frame();
         ArrayList<Point3D> ilocations = new ArrayList<Point3D>();
@@ -84,8 +87,11 @@ public class MolecularDynamicsSimulator extends Simulator {
         initial.totalEnergy = potentialEnergy + kineticEnergy;
         output.addFrame(initial);
 
+        //Adjust temperatures
+        scaleTemperatures(cluster, 0, temperature);
+
         //Advance the simulation by each timestep
-        for(step = 0; step < numSteps; step++) {
+        for(step = 1; step < numSteps; step++) {
             //Calculate current forces on each atom
             cluster.calculateForces();
 
@@ -154,6 +160,9 @@ public class MolecularDynamicsSimulator extends Simulator {
 
                 output.addFrame(f);
             }
+
+            //Adjust temperatures
+            scaleTemperatures(cluster, step, temperature);
 
             prog.setValue(++progress);
         }
