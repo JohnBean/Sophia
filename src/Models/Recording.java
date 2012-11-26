@@ -119,17 +119,31 @@ public class Recording {
         if(name==null||name.length()<2){
             name="test";
         }
+
+        //Get all headers for other energy terms
+        ArrayList<String> energyHeaders = new ArrayList<String>();
+        Iterator it = frames.get(0).energies.keySet().iterator();
+        while(it.hasNext()) {
+            String key = (String)it.next();
+            energyHeaders.add(key);
+        }
+
         Frame curFrame;
          try{
             PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(name +".txt")));
             PrintWriter energyOut = new PrintWriter(new BufferedWriter(new FileWriter(name+"_at_0_K_energy.txt")));
-            energyOut.println("Step\tVDW\tBond\tAngle\tPotential      Kinetic\tTotal\tTemperature\tPressure");
+            energyOut.print("Step\t");
+            for(String energyType : energyHeaders)
+                energyOut.print(energyType + "\t");
+            energyOut.println("Potential      Kinetic\tTotal\tTemperature\tPressure");
             for(frameNumber=0; frameNumber<this.getNumFrames();frameNumber++){
                 curFrame=this.getFrame(frameNumber);
                 
-                energyOut.print(frameNumber+"\t"+String.valueOf(curFrame.energies.get("VDW")).trim().substring(0,Math.min(6,String.valueOf(curFrame.energies.get("VDW")).trim().length())));
-                energyOut.print("\t"+String.valueOf(curFrame.energies.get("Bond")).trim().substring(0,Math.min(6,String.valueOf(curFrame.energies.get("Bond")).trim().length())));
-                energyOut.print("\t"+String.valueOf(curFrame.energies.get("Angle")).trim().substring(0,Math.min(6,String.valueOf(curFrame.energies.get("Angle")).trim().length()))+"\t");
+                energyOut.print(frameNumber);
+                for(String energyType : energyHeaders)
+                    energyOut.print("\t"+String.valueOf(curFrame.energies.get(energyType)).trim().substring(0,Math.min(6,String.valueOf(curFrame.energies.get(energyType)).trim().length())));
+                energyOut.print("\t");
+                
                 energyOut.print(String.valueOf(curFrame.potentialEnergy).trim().substring(0,Math.min(6,String.valueOf(curFrame.potentialEnergy).trim().length()))+"\t\t");
                 energyOut.print(String.valueOf(curFrame.kineticEnergy).trim().substring(0,Math.min(6,String.valueOf(curFrame.kineticEnergy).trim().length()))+"\t");
                 energyOut.print(String.valueOf(curFrame.totalEnergy).trim().substring(0,Math.min(6,String.valueOf(curFrame.totalEnergy).trim().length()))+"\t");
@@ -156,6 +170,8 @@ public class Recording {
                     }
                     
                 }
+
+                out.println("END");
             }
             out.close();
             energyOut.close();

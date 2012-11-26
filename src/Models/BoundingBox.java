@@ -23,6 +23,7 @@ public class BoundingBox extends AtomAssociation {
      * Constructor for bounding box. Holds all atoms since the box affects all atoms
      */
     public BoundingBox(ArrayList<Atom> atoms, double boxLength) {
+        type="Box";
         this.atoms = atoms;
         this.r = 0.5 * boxLength;
     }
