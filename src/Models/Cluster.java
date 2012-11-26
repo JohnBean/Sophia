@@ -14,9 +14,12 @@ import java.awt.Color;
 public class Cluster {
     private ArrayList<Atom> atoms;
     private ArrayList<AtomAssociation> associations;
+    private ArrayList<String> chains;
+    private ArrayList<Integer> sequences;
     static final double VDW_Radius = 3.5; // angstroms
     static final double wellDepth = 41.8; // CEU
     public String pdbFile;
+    private String coloring = null;
     private Random randomGenerator = null;
 
     public static double GAS_CONSTANT = 0.830936;
@@ -38,7 +41,140 @@ public class Cluster {
         System.out.println("************Cluster Initiated***************");
         readFromFiles(coordinateFilename, structureFilename);
     }
-
+    /**
+     * 
+     * @param colorAlgorithim "Element","ResID", "Chain", "Atom"
+     */
+    public void setColors(String colorAlgorithim){
+        Integer atomNumber;
+        Integer chain;
+        Object[] atomArray = atoms.toArray();
+        Atom atom=(Atom)atomArray[0];
+         Color atomicColor=Color.gray;
+         
+         if(colorAlgorithim.contains("Atom") || colorAlgorithim.contains("Element") || colorAlgorithim.contains("Chain") || colorAlgorithim.contains("Sequence")){
+             coloring=colorAlgorithim;
+         }
+         if(coloring==null){coloring="Atom";}
+         System.out.println(coloring);
+         if(coloring=="Element"){
+                for(atomNumber=0; atomNumber<atoms.size();atomNumber++){
+                   atom= (Atom)atomArray[atomNumber];
+                    atomicColor=Color.pink;//Default for unspecified elements
+                    if(atom.atomType.equals("C")){ 
+                            atomicColor = Color.black;//Carbon
+                    } 
+                    else if (atom.atomType.equals("H")) {
+                            atomicColor = Color.white;//Hydrogen
+                    } 
+                    else if (atom.atomType.equals("Br") || atom.atomType.equals("O")) { 
+                            atomicColor = Color.red;
+                    } 
+                    else if (atom.atomType.equals("N")){
+                            atomicColor = Color.blue;
+                    } 
+                    else if (atom.atomType.equals("F") || atom.atomType.equals("Cl")){
+                            atomicColor = Color.green;
+                    } 
+                    else if (atom.atomType.equals("Fe") || atom.atomType.equals("P")){
+                            atomicColor=Color.orange;
+                    }
+                    else if (atom.atomType.equals("Ti")){
+                            atomicColor=Color.gray;
+                    } 
+                    else if (atom.atomType.equals("S")){
+                            atomicColor= Color.yellow;
+                    } 
+                    else if (atom.atomType.equals("I")){
+                            atomicColor=Color.magenta;
+                    } 
+                    else if (atom.atomType.equals("He") || atom.atomType.equals("Ne") || atom.atomType.equals("Ar") || atom.atomType.equals("Kr") || atom.atomType.equals("Xe")){
+                            atomicColor= Color.cyan;
+                    }
+                    atom.setColor(atomicColor);
+                    System.out.println(atom.color);
+               }
+        }
+        
+       
+        Integer redValue=254;
+        Integer blueValue=0;
+        //fades from red to blue
+        if(coloring=="Atom"){    
+            Integer step=Math.round(506/atoms.size());
+            
+            for(atomNumber=0; atomNumber<atoms.size();atomNumber++){
+                atom= (Atom)atomArray[atomNumber];
+                
+                if(redValue<=0){
+                    blueValue+=step;
+                }
+                if(redValue>0){
+                    redValue-=step;
+                }
+                
+                if(blueValue<0)blueValue=0;
+                if(blueValue>254)blueValue=254;
+        
+                if(redValue<0)redValue=0;
+                if(redValue>254)redValue=254;
+              
+                if(redValue>blueValue){
+                    atom.setColor(new Color(255,255-redValue,255-redValue));  
+                }   
+                else{
+                    atom.setColor(new Color(255-blueValue,255-blueValue,255));  
+                }
+                System.out.println(atom.color);
+                
+            }
+        }
+        Color[] colors = {Color.black, Color.orange, Color.green, Color.blue, Color.red, Color.magenta, Color.cyan, Color.yellow, Color.pink ,Color.DARK_GRAY};
+        if(coloring=="Chain"){
+             for(atomNumber=0; atomNumber<atomArray.length;atomNumber++){
+                 System.out.println(atomNumber);
+                 atom= (Atom)atomArray[atomNumber];
+                 atomicColor=Color.pink;//Default for unspecified elements
+                 for(chain=0;chain<chains.size();chain++){
+                    System.out.println(chain);
+                    if(atom.chainId==chains.get(chain)){ 
+                        atomicColor = colors[chain%colors.length];//Carbon
+                        if(chain>colors.length){
+                            for(int lightLevel=0; lightLevel<Math.floor(chain%colors.length);lightLevel++){
+                                atomicColor.brighter();
+                            }
+                        }
+                    }
+                    
+                    
+                 }
+                 System.out.println(atomicColor);
+                 atom.setColor(atomicColor);
+             }
+        }
+        
+        if(coloring=="Sequence"){
+             for(atomNumber=0; atomNumber<atoms.size();atomNumber++){
+                 atom= (Atom)atomArray[atomNumber];
+                 atomicColor=Color.pink;//Default for unspecified elements
+                 for(int sequence=0;sequence<sequences.size();sequence++){
+                    if(atom.sequenceId==sequences.get(sequence)){ 
+                        atomicColor = colors[sequence%colors.length];//Carbon
+                        if(sequence>colors.length){
+                            for(int lightLevel=0; lightLevel<Math.floor(sequence%colors.length);lightLevel++){
+                                atomicColor.brighter();
+                            }
+                        }
+                    }
+                    System.out.println(atomicColor);
+                    atom.setColor(atomicColor);
+                 }
+             }
+        }
+        colors=null;
+        atomArray=null;
+        
+    }
     /**
      * Should read cluster information from a coordinate file and structure file into the current object
      *
@@ -49,6 +185,8 @@ public class Cluster {
         
         String curLine;//line being read in
         atoms= new ArrayList();// saved atoms
+        chains=  new ArrayList();// saved chains
+        sequences=  new ArrayList();// saved chains
         Atom atom;
         try{
             FileReader fr = new FileReader(coordinateFilename);
@@ -59,37 +197,16 @@ public class Cluster {
                 String[] atomInfo = curLine.split("[ ]+");
                
                  if(atomInfo[0].compareTo("ATOM")==0){
-                     
-                     //if(Color picking algorthing set to CPK (basic)){
-                        Color atomicColor=Color.pink;//Default for unspecified elements
-                        if(atomInfo[2].equals("C")){ 
-                        	atomicColor = Color.black;//Carbon
-                        } else if (atomInfo[2].equals("H")) {
-                        	atomicColor = Color.white;//Hydrogen
-                        } else if (atomInfo[2].equals("Br") || atomInfo[2].equals("O")) { 
-                        	atomicColor = Color.red;
-                        } else if (atomInfo[2].equals("N")){
-                        	atomicColor = Color.blue;
-                        } else if (atomInfo[2].equals("F") || atomInfo[2].equals("Cl")){
-                        	atomicColor = Color.green;
-                        } else if (atomInfo[2].equals("Fe") || atomInfo[2].equals("P")){
-                        	atomicColor=Color.orange;
-                        } else if (atomInfo[2].equals("Ti")){
-                        	atomicColor=Color.gray;
-                        } else if (atomInfo[2].equals("S")){
-                        	atomicColor= Color.yellow;
-                        } else if (atomInfo[2].equals("I")){
-                        	atomicColor=Color.magenta;
-                        } else if (atomInfo[2].equals("He") || atomInfo[2].equals("Ne") || atomInfo[2].equals("Ar") || atomInfo[2].equals("Kr") || atomInfo[2].equals("Xe")){
-                        	atomicColor= Color.cyan;
-                        }
-                        //System.out.println(atomicColor.toString());
-                    // }
                     //                             Atom ID              Atom     Molocule   ChainID     sequenceID                  location.x                      location.y              location.z                      Occupancy                   Temperature Factor              Mass                                Radius                      Charge
-                    atom= new Atom(Integer.parseInt(atomInfo[1]) - 1, atomInfo[2],atomInfo[3],atomInfo[4],Integer.parseInt(atomInfo[5]),Float.parseFloat(atomInfo[6]),Float.parseFloat(atomInfo[7]),Float.parseFloat(atomInfo[8]),Double.parseDouble(atomInfo[9]),Double.parseDouble(atomInfo[10]),Double.parseDouble(atomInfo[11]),Double.parseDouble(atomInfo[12]),Double.parseDouble(atomInfo[13]),atomicColor);
+                    atom= new Atom(Integer.parseInt(atomInfo[1]) - 1, atomInfo[2],atomInfo[3],atomInfo[4],Integer.parseInt(atomInfo[5]),Float.parseFloat(atomInfo[6]),Float.parseFloat(atomInfo[7]),Float.parseFloat(atomInfo[8]),Double.parseDouble(atomInfo[9]),Double.parseDouble(atomInfo[10]),Double.parseDouble(atomInfo[11]),Double.parseDouble(atomInfo[12]),Double.parseDouble(atomInfo[13]));
                     atoms.add(atom);
+
+                    if(this.chains.contains(atom.chainId)){this.chains.add(atom.chainId);}
+
+                    if(!sequences.contains(atom.sequenceId)){sequences.add(atom.sequenceId);}
                  }
             }
+            this.setColors("Type");
             System.out.println(atoms.size()+" total atoms created.");
             br.close();
         }

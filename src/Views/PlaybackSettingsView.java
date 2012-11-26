@@ -1,15 +1,9 @@
 package edu.gatech.sophia;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
-
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
 /**
   *Contains GUI controls for playback of the simulation
   *Includes the play/pause, stop, seek controls
@@ -47,7 +41,7 @@ public class PlaybackSettingsView extends JPanel {
 
         this.controller = controller;
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Name", "Type", "Element", "ResName", "ResType", "ResID", "Chain", "SegName", "Conformation", "Molecule", "Secondary Structure", "Color ID", "Beta", "Occupancy", "Mass", "Charge", "Position", "Trajectory", "Fragment", "Index", "Backbone", "Throb"}));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] {"Element", "Chain", "Sequence", "Atom","ResName", "ResType", "ResID","Name", "Type",  "SegName", "Conformation", "Molecule", "Secondary Structure", "Color ID", "Beta", "Occupancy", "Mass", "Charge", "Position", "Trajectory", "Fragment", "Index", "Backbone", "Throb"}));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
@@ -267,6 +261,10 @@ public class PlaybackSettingsView extends JPanel {
     }
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {
+        JComboBox cb = (JComboBox)evt.getSource();
+        String coloringAlgorithim = (String)cb.getSelectedItem();
+        controller.getRecording().getCluster().setColors(coloringAlgorithim);
+        controller.setFrame(controller.getFrameId());
         // TODO add your handling code here:
     }
 

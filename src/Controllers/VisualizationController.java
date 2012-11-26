@@ -56,7 +56,12 @@ public class VisualizationController {
         pbcView.setCurrentFrame(0);
         recording.writeRecord();
     }
-
+    public Recording getRecording(){
+        return this.recording;
+    }
+    public int getFrameId(){
+        return currentFrame;
+    }
     /**
      * Set the playback view that will be visible in the main window
      *

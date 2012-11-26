@@ -53,9 +53,8 @@ public class Atom {
      * @param mass molecular mass of the element used for acceleration calculations
      * @param radius radius of the atom in the visualization
      * @param charge the charge on the atom used for electrostatic force computation
-     * @param atomicColor color used in the visualization
      */
-    public Atom(int id, String atom, String molName, String chainID, int sequenceID,double x, double y, double z, double occupancy,double temperatureFactor,double mass,double radius, double charge, Color atomicColor){
+    public Atom(int id, String atom, String molName, String chainID, int sequenceID,double x, double y, double z, double occupancy,double temperatureFactor,double mass,double radius, double charge){
         this.id = id;
         this.atomType=atom;
         this.moloculeName=molName;
@@ -67,7 +66,6 @@ public class Atom {
         this.mass=mass;
         this.radius=radius;
         this.charge=charge;
-        this.color= atomicColor;
 
         this.inverseMass = 1.0 / this.mass;
 
@@ -75,7 +73,9 @@ public class Atom {
         this.acceleration = new Vector3D();
         this.force = new Vector3D();
     }
-
+    public void setColor(Color newColor){
+        this.color=newColor;
+    }
     /**
      * Used to keep track of bonded atoms for generating VDWs
      *
