@@ -26,6 +26,7 @@ public class PlaybackView extends SimpleApplication {
     private boolean updateFlag = false;
     private boolean setupFlag = false;
     private boolean dmChangeFlag = false;
+    private boolean colorChangeFlag = false;
     private boolean vdwEnabled = false;
     private ChaseCamera chaseCam = null;
 
@@ -224,6 +225,23 @@ public class PlaybackView extends SimpleApplication {
 
             dmChangeFlag = false;
         }
+
+        //Run when colors of the atoms need to be updated
+        if(colorChangeFlag) {
+            ArrayList<Atom> atoms = currentCluster.getAtoms();
+            int numAtoms = atoms.size();
+            Geometry currentAtom;
+            
+            for(int currentId = 0; currentId < numAtoms; currentId++) {
+                currentAtom = (Geometry)rootNode.getChild("Atom" + currentId);
+
+                float[] color = new float[3];
+                atoms.get(currentId).color.getRGBColorComponents(color);
+
+                Material mat = currentAtom.getMaterial();
+                mat.setColor("Diffuse",new ColorRGBA(color[0], color[1], color[2], 1.0f));
+            }
+        }
     }
 
     @Override
@@ -267,5 +285,12 @@ public class PlaybackView extends SimpleApplication {
             vdwEnabled = value;
             dmChangeFlag = true;
         }
+    }
+
+    /**
+     * Call to update colors of the atoms
+     */
+    public void updateColors() {
+        colorChangeFlag = true;
     }
 }

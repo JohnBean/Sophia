@@ -197,4 +197,11 @@ public class VisualizationController {
             pbView.toggleVDW(false);
         }
     }
+
+    /**
+     * Update the coloring in the visualization
+     */
+    public void updateColoring() {
+        pbView.updateColors();
+    }
 }

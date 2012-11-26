@@ -264,7 +264,7 @@ public class PlaybackSettingsView extends JPanel {
         JComboBox cb = (JComboBox)evt.getSource();
         String coloringAlgorithim = (String)cb.getSelectedItem();
         controller.getRecording().getCluster().setColors(coloringAlgorithim);
-        controller.setFrame(controller.getFrameId());
+        controller.updateColoring();
         // TODO add your handling code here:
     }
 
