@@ -16,6 +16,7 @@ public class SimulationController {
     private FilePickerView fpView;
     private SimulationSettingsView ssView;
     private SimulationView smView;
+    private TemperatureProtocolView tpView;
 
     /**
      * Reference to the visualization controller so that we can send the recording over one finished
@@ -70,6 +71,15 @@ public class SimulationController {
     }
 
     /**
+     * Setter for temperature protocol view
+     *
+     * @param tpView the temperature protocol view visible in the window
+     */
+    public void setTemperatureProtocolView(TemperatureProtocolView tpView) {
+        this.tpView = tpView;
+    }
+
+    /**
      * Setter for the simulation progress view
      *
      * @param smView the simulation progress view visible in the window
@@ -109,10 +119,7 @@ public class SimulationController {
      */
     public void simSettingsNext() {
         //Switch to next view
-        SophiaView.switchView(SophiaView.SIMPROGRESSPANEL);
-
-        //Kick off the simulation
-        simulate();
+        SophiaView.switchView(SophiaView.SIMTEMPPANEL);
     }
 
     /**
@@ -121,6 +128,25 @@ public class SimulationController {
     public void simSettingsPrev() {
         //Switch to previous view
         SophiaView.switchView(SophiaView.SFILEPICKERPANEL);
+    }
+
+    /**
+     * Action called when the next button is pressed on the temperature protocol view
+     */
+    public void tpSettingsNext() {
+        //Switch to previous view
+        SophiaView.switchView(SophiaView.SIMPROGRESSPANEL);
+
+        //Kick off the simulation
+        simulate();
+    }
+
+    /**
+     * Action called when the next button is pressed on the temperature protocol view
+     */
+    public void tpSettingsPrev() {
+        //Switch to previous view
+        SophiaView.switchView(SophiaView.SIMSETTINGPANEL);
     }
 
     /**

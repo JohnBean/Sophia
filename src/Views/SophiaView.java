@@ -43,6 +43,7 @@ public class SophiaView {
     public final static String SIMSETTINGPANEL = "SimSetting";
     public final static String SIMPROGRESSPANEL = "SimProgress";
     public final static String PLAYBACKPANEL = "Playback";
+    public final static String SIMTEMPPANEL = "SimTemp";
 
     /**
      * Controllers
@@ -161,6 +162,11 @@ public class SophiaView {
         SimulationSettingsView ssView = new SimulationSettingsView(simController);
         simController.setSimulationSettingsView(ssView);
         cards.add(ssView, SIMSETTINGPANEL);
+
+        //Create the temperature protocol setup view
+        TemperatureProtocolView tpView = new TemperatureProtocolView(simController);
+        simController.setTemperatureProtocolView(tpView);
+        cards.add(tpView, SIMTEMPPANEL);
 
         //Create the simulation progress view
         SimulationView smView = new SimulationView(simController);
