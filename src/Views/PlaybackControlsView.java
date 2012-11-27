@@ -59,6 +59,11 @@ public class PlaybackControlsView extends javax.swing.JPanel {
         });
 
         jButton3.setText("Step Forward >");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("< Step Back");
         jButton4.addActionListener(new java.awt.event.ActionListener() {

@@ -69,7 +69,7 @@ public class SimulationSettingsView extends JPanel {
         jComboBox1 = new javax.swing.JComboBox();
         jComboBox2 = new javax.swing.JComboBox();
 
-        controller = simController;
+        this.controller = simController;
 
         setPreferredSize(new java.awt.Dimension(688, 371));
         setSize(new java.awt.Dimension(1200, 1600));
@@ -84,6 +84,11 @@ public class SimulationSettingsView extends JPanel {
 
         jButton3.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         jButton3.setText("Back");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
         jLabel1.setText("MD Simulation Setup");

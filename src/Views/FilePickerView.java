@@ -47,6 +47,8 @@ public class FilePickerView extends JPanel {
     private String simulationType = "None";
 
     public FilePickerView(SimulationController simController) {
+        this.controller = simController;
+
         jPopupMenu1 = new javax.swing.JPopupMenu();
         jSeparator1 = new javax.swing.JSeparator();
         jFileChooser1 = new javax.swing.JFileChooser();

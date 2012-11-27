@@ -12,6 +12,8 @@ public class PlaybackSettingsView extends JPanel {
     private VisualizationController controller;
 
     public PlaybackSettingsView(VisualizationController controller) {
+        this.controller = controller;
+        
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jComboBox1 = new javax.swing.JComboBox();
         jComboBox2 = new javax.swing.JComboBox();
