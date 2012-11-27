@@ -17,6 +17,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.CardLayout;
+import java.awt.Dimension;
 import java.util.concurrent.Callable;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
@@ -163,26 +164,31 @@ public class SophiaView {
         
         //Create the file picker view
         FilePickerView fpView = new FilePickerView(simController);
+        fpView.setPreferredSize(new Dimension(400, 480));
         simController.setFilePickerView(fpView);
         cards.add(fpView, SFILEPICKERPANEL);
 
         //Create the simulation settings view
         SimulationSettingsView ssView = new SimulationSettingsView(simController);
+        ssView.setPreferredSize(new Dimension(400, 480));
         simController.setSimulationSettingsView(ssView);
         cards.add(ssView, SIMSETTINGPANEL);
 
         //Create the temperature protocol setup view
         TemperatureProtocolView tpView = new TemperatureProtocolView(simController);
+        tpView.setPreferredSize(new Dimension(400, 480));
         simController.setTemperatureProtocolView(tpView);
         cards.add(tpView, SIMTEMPPANEL);
 
         //Create the simulation progress view
         SimulationView smView = new SimulationView(simController);
+        smView.setPreferredSize(new Dimension(400, 480));
         simController.setSimulationProgressView(smView);
         cards.add(smView, SIMPROGRESSPANEL);
 
         //Create visualization settings panel
         PlaybackSettingsView psView = new PlaybackSettingsView(vController);
+        psView.setPreferredSize(new Dimension(400, 480));
         vController.setSettingsView(psView);
         cards.add(psView, PLAYBACKPANEL);
         
