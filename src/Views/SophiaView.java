@@ -113,6 +113,14 @@ public class SophiaView {
                 
             }
         });
+        final JMenuItem plotSettings = new JMenuItem("Plot Settings");
+        menuEdit.add(plotSettings);
+        plotSettings.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                    //TODO: open the Plot Settings window on the left
+                
+            }
+        });
     }
     
     /**
