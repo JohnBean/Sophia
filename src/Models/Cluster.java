@@ -16,6 +16,7 @@ public class Cluster {
     private ArrayList<AtomAssociation> associations;
     private ArrayList<String> chains;
     private ArrayList<Integer> sequences;
+    public String[] settings= new String[6];
     static final double VDW_Radius = 3.5; // angstroms
     static final double wellDepth = 41.8; // CEU
     public String pdbFile;
@@ -40,6 +41,9 @@ public class Cluster {
     public Cluster(String coordinateFilename, String structureFilename) {
         System.out.println("************Cluster Initiated***************");
         readFromFiles(coordinateFilename, structureFilename);
+    }
+     public void setSettings(String[] newSettings){
+        this.settings=newSettings;
     }
     /**
      * 

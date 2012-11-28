@@ -204,8 +204,8 @@ public class SimulationController {
         int numDimensions = ssView.getNumDimensions();
         simulator.setInitialTemp(initialTemp);
         simulator.setNumDimensions(numDimensions);
-
-        //Re-assign velocities based on initial temperature
+        String[] settings={"Simulation\t" + simulatorType ,"Time step\t" + ssView.getTimeStep(), "Number of steps\t" +ssView.getNumSteps(), "Output interval\t" +ssView.getOutputInterval() , "Initial temp\t" + initialTemp,"dimensions\t" + numDimensions };
+        cluster.setSettings(settings);
         cluster.zeroVelocities();
         cluster.setVelocities("Reassignment", initialTemp, 0.0, numDimensions);
 

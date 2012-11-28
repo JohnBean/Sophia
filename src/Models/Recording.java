@@ -130,7 +130,16 @@ public class Recording {
 
         Frame curFrame;
          try{
-            PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(name +".txt")));
+            PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(name +"_settings.txt")));
+            out.println("Sophia Simulation Settings");
+            out.println(cluster.settings[0]);
+            out.println(cluster.settings[1]);
+            out.println(cluster.settings[2]);
+            out.println(cluster.settings[3]);
+            out.println(cluster.settings[4]);
+            out.println(cluster.settings[5]);
+            out.close();
+            out = new PrintWriter(new BufferedWriter(new FileWriter(name +".txt")));
             PrintWriter energyOut = new PrintWriter(new BufferedWriter(new FileWriter(name+"_at_0_K_energy.txt")));
             energyOut.print("Step\t");
             for(String energyType : energyHeaders)
