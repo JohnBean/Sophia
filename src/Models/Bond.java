@@ -114,4 +114,8 @@ public class Bond extends AtomAssociation {
     public int getEnd2() {
         return atoms.get(1).id;
     }
+    
+    public String toString(){
+    	return "BOND - ATOM1: " + getEnd1() + " - ATOM2: " + getEnd2() + " - Bond Length: " + bondLength; 
+    }
 }

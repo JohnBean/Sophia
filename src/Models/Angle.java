@@ -148,4 +148,8 @@ public class Angle extends AtomAssociation {
 
         return (0.5 * forceConstant * diff * diff);
     }
+    
+    public String toString(){
+    	return "ANGLE - ATOM1: " + atoms.get(0).id + " - ATOM2: " + atoms.get(1).id + " - ATOM3: " + atoms.get(2).id + " - Angle: " + angle; 
+    }
 }
