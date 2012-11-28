@@ -129,14 +129,17 @@ public class Cluster {
                 
             }
         }
-        Color[] colors = {Color.black, Color.orange, Color.green, Color.blue, Color.red, Color.magenta, Color.cyan, Color.yellow, Color.pink ,Color.DARK_GRAY};
+       System.out.println("chains:"+chains.toString());
+        
+        Color[] colors = { Color.orange, Color.green, Color.blue, Color.black,Color.red, Color.magenta, Color.cyan, Color.yellow, Color.pink ,Color.DARK_GRAY};
         if(coloring=="Chain"){
+             atomicColor=Color.pink;//Default for unspecified elements
              for(atomNumber=0; atomNumber<atomArray.length;atomNumber++){
-                 System.out.println(atomNumber);
+                 
                  atom= (Atom)atomArray[atomNumber];
-                 atomicColor=Color.pink;//Default for unspecified elements
+                 
                  for(chain=0;chain<chains.size();chain++){
-                    System.out.println(chain);
+                    System.out.println("atom:" + atomNumber + " chain:"+ atom.chainId);
                     if(atom.chainId==chains.get(chain)){ 
                         atomicColor = colors[chain%colors.length];//Carbon
                         if(chain>colors.length){
@@ -148,7 +151,6 @@ public class Cluster {
                     
                     
                  }
-                 System.out.println(atomicColor);
                  atom.setColor(atomicColor);
              }
         }
@@ -166,7 +168,6 @@ public class Cluster {
                             }
                         }
                     }
-                    System.out.println(atomicColor);
                     atom.setColor(atomicColor);
                  }
              }
@@ -201,7 +202,7 @@ public class Cluster {
                     atom= new Atom(Integer.parseInt(atomInfo[1]) - 1, atomInfo[2],atomInfo[3],atomInfo[4],Integer.parseInt(atomInfo[5]),Float.parseFloat(atomInfo[6]),Float.parseFloat(atomInfo[7]),Float.parseFloat(atomInfo[8]),Double.parseDouble(atomInfo[9]),Double.parseDouble(atomInfo[10]),Double.parseDouble(atomInfo[11]),Double.parseDouble(atomInfo[12]),Double.parseDouble(atomInfo[13]));
                     atoms.add(atom);
 
-                    if(this.chains.contains(atom.chainId)){this.chains.add(atom.chainId);}
+                    if(!this.chains.contains(atom.chainId)){this.chains.add(atom.chainId);}
 
                     if(!sequences.contains(atom.sequenceId)){sequences.add(atom.sequenceId);}
                  }

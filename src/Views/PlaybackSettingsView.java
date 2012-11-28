@@ -27,7 +27,7 @@ public class PlaybackSettingsView extends JPanel {
         jLabel7 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Name", "Chain", "Color ID" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] {"Atom", "Element", "Chain", "Sequence" }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
