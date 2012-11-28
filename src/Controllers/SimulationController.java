@@ -14,7 +14,7 @@ public class SimulationController {
      * References to the views to allow sending and requesting data
      */
     private FilePickerView fpView;
-    private SimulationSettingsView ssView;
+    private MDSimulationSettingsView mssView;
     private SimulationView smView;
     private TemperatureProtocolView tpView;
 
@@ -66,8 +66,8 @@ public class SimulationController {
      *
      * @param ssView the simulation settings view visible in the window
      */
-    public void setSimulationSettingsView(SimulationSettingsView ssView) {
-        this.ssView = ssView;
+    public void setSimulationSettingsView(MDSimulationSettingsView mssView) {
+        this.mssView = mssView;
     }
 
     /**
@@ -196,15 +196,15 @@ public class SimulationController {
         }
 
         //Set common simulation properties
-        simulator.setTimeStep(ssView.getTimeStep());
-        simulator.setNumSteps(ssView.getNumSteps());
-        simulator.setOutputInterval(ssView.getOutputInterval());
+        simulator.setTimeStep(mssView.getTimeStep());
+        simulator.setNumSteps(mssView.getNumSteps());
+        simulator.setOutputInterval(mssView.getOutputInterval());
 
-        double initialTemp = ssView.getInitialTemp();
-        int numDimensions = ssView.getNumDimensions();
+        double initialTemp = mssView.getInitialTemp();
+        int numDimensions = mssView.getNumDimensions();
         simulator.setInitialTemp(initialTemp);
         simulator.setNumDimensions(numDimensions);
-        String[] settings={"Simulation\t" + simulatorType ,"Time step\t" + ssView.getTimeStep(), "Number of steps\t" +ssView.getNumSteps(), "Output interval\t" +ssView.getOutputInterval() , "Initial temp\t" + initialTemp,"dimensions\t" + numDimensions };
+        String[] settings={"Simulation\t" + simulatorType ,"Time step\t" + mssView.getTimeStep(), "Number of steps\t" +mssView.getNumSteps(), "Output interval\t" +mssView.getOutputInterval() , "Initial temp\t" + initialTemp,"dimensions\t" + numDimensions };
         cluster.setSettings(settings);
         
         //Re-assign velocities based on initial temperature
@@ -212,8 +212,8 @@ public class SimulationController {
         cluster.setVelocities("Reassignment", initialTemp, 0.0, numDimensions);
 
         //Set up bounding box if specified
-        if(ssView.useBox())
-            cluster.addAssociation(new BoundingBox(cluster.getAtoms(), ssView.getBoxSideLength()));
+        if(mssView.useBox())
+            cluster.addAssociation(new BoundingBox(cluster.getAtoms(), mssView.getBoxSideLength()));
 
         //Start the simulation thread
         new Thread((new SimulationRunner(simulator, cluster, smView.getProgressBar(), this))).start();

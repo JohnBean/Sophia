@@ -169,10 +169,10 @@ public class SophiaView {
         cards.add(fpView, SFILEPICKERPANEL);
 
         //Create the simulation settings view
-        SimulationSettingsView ssView = new SimulationSettingsView(simController);
-        ssView.setPreferredSize(new Dimension(400, 480));
-        simController.setSimulationSettingsView(ssView);
-        cards.add(ssView, SIMSETTINGPANEL);
+        MDSimulationSettingsView mssView = new MDSimulationSettingsView(simController);
+        mssView.setPreferredSize(new Dimension(400, 480));
+        simController.setSimulationSettingsView(mssView);
+        cards.add(mssView, SIMSETTINGPANEL);
 
         //Create the temperature protocol setup view
         TemperatureProtocolView tpView = new TemperatureProtocolView(simController);

@@ -13,7 +13,7 @@ import javax.swing.JTextField;
 /**
  *Contains GUI elements to set up simulation
  */
-public class SimulationSettingsView extends JPanel {
+public class MDSimulationSettingsView extends JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -43,7 +43,7 @@ public class SimulationSettingsView extends JPanel {
 
     private SimulationController controller;
 
-    public SimulationSettingsView(SimulationController simController) {
+    public MDSimulationSettingsView(SimulationController simController) {
         jTextField6 = new javax.swing.JTextField();
         jTextField1 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();

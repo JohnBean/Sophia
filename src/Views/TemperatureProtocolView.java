@@ -200,9 +200,19 @@ public class TemperatureProtocolView extends javax.swing.JPanel {
 
         jButton2.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         jButton2.setText("Back");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         jButton3.setText("Finish");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
@@ -368,6 +378,14 @@ public class TemperatureProtocolView extends javax.swing.JPanel {
     private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {                                            
         // TODO add your handling code here:
     }                                           
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {
+        controller.tpSettingsPrev();
+     }
+
+     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {
+        controller.tpSettingsNext();
+    }
 
     // Variables declaration - do not modify
     private javax.swing.JButton jButton2;
