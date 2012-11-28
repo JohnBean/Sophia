@@ -151,7 +151,7 @@ public class Atom {
      */
     public String toString(){
         String rVal="Atom of " +atomType + " Pos:"+location.x+","+location.y+","+location.z;
-        rVal= rVal+ " Part of an "+moloculeName + " molocule of chain " + chainId + " seqeunce "+ sequenceId + ". Occupancy:"+ occupancy;
+        rVal= rVal+ " Part of an "+moloculeName + " molecule of chain " + chainId + " sequence "+ sequenceId + ". Occupancy:"+ occupancy;
         return rVal+ " Temperature Factor:" + temperatureFactor + " Mass:"+mass + " Radius:"+radius + " Charge:"+charge;
     }
 
