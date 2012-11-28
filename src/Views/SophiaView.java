@@ -75,7 +75,7 @@ public class SophiaView {
         JMenu menuFile = new JMenu("File");
         menuBar.add(menuFile);
         
-        final JMenuItem itemOpen = new JMenuItem("Open");
+        final JMenuItem itemOpen = new JMenuItem("Load New Simulation");
         menuFile.add(itemOpen);
         itemOpen.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -83,7 +83,7 @@ public class SophiaView {
             }
         });
         
-        final JMenuItem itemClose = new JMenuItem("Close");
+        final JMenuItem itemClose = new JMenuItem("Load Archived Simulation");
         menuFile.add(itemClose);
         itemClose.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -103,7 +103,7 @@ public class SophiaView {
         /*
          * Edit menu
          */
-        JMenu menuEdit = new JMenu("Edit");
+        JMenu menuEdit = new JMenu("Settings");
         menuBar.add(menuEdit);
         
         final JMenuItem simParams = new JMenuItem("Simulation Parameters");
