@@ -48,7 +48,7 @@ public class MolecularDynamicsSimulator extends Simulator {
 
         //Set up the progress bar
         prog.setMinimum(0);
-        prog.setMaximum(numSteps);
+        prog.setMaximum(numSteps - 1);
         prog.setValue(0);
 
         //Set up the temperature protocol
@@ -67,6 +67,9 @@ public class MolecularDynamicsSimulator extends Simulator {
 
         //Calculate the temperature
         temperature = (2.0 * kineticEnergy / atoms.size()) / (numDimensions * GAS_CONSTANT);
+
+        //Convert kinetic energy
+        kineticEnergy *= CEU_TO_KCAL;
 
         HashMap<String, Double> ienergies = cluster.getEnergies();
         potentialEnergy = 0.0;

@@ -63,4 +63,13 @@ public class Vector3D {
         y *= scaleFactor;
         z *= scaleFactor;
     }
+
+    /**
+     * Converts the vector to a string
+     * 
+     * @return vector in string form
+     */
+    public String toString() {
+        return ("(" + x + ", " + y + ", " + z + ")");
+    }
 }
