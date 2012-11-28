@@ -56,7 +56,6 @@ public class Cluster {
              coloring=colorAlgorithim;
          }
          if(coloring==null){coloring="Atom";}
-         System.out.println(coloring);
          if(coloring=="Element"){
                 for(atomNumber=0; atomNumber<atoms.size();atomNumber++){
                    atom= (Atom)atomArray[atomNumber];
@@ -92,7 +91,6 @@ public class Cluster {
                             atomicColor= Color.cyan;
                     }
                     atom.setColor(atomicColor);
-                    System.out.println(atom.color);
                }
         }
         
@@ -125,21 +123,16 @@ public class Cluster {
                 else{
                     atom.setColor(new Color(255-blueValue,255-blueValue,255));  
                 }
-                System.out.println(atom.color);
                 
             }
         }
-       System.out.println("chains:"+chains.toString());
-        
-        Color[] colors = { Color.orange, Color.green, Color.blue, Color.black,Color.red, Color.magenta, Color.cyan, Color.yellow, Color.pink ,Color.DARK_GRAY};
+
+        Color[] colors = {  Color.green, Color.blue, Color.red, Color.orange,Color.magenta, Color.cyan, Color.yellow, Color.pink ,Color.black,Color.DARK_GRAY};
         if(coloring=="Chain"){
              atomicColor=Color.pink;//Default for unspecified elements
-             for(atomNumber=0; atomNumber<atomArray.length;atomNumber++){
-                 
-                 atom= (Atom)atomArray[atomNumber];
-                 
+             for(atomNumber=0; atomNumber<atomArray.length;atomNumber++){            
+                 atom= (Atom)atomArray[atomNumber];       
                  for(chain=0;chain<chains.size();chain++){
-                    System.out.println("atom:" + atomNumber + " chain:"+ atom.chainId);
                     if(atom.chainId==chains.get(chain)){ 
                         atomicColor = colors[chain%colors.length];//Carbon
                         if(chain>colors.length){
@@ -147,18 +140,16 @@ public class Cluster {
                                 atomicColor.brighter();
                             }
                         }
-                    }
-                    
-                    
+                    }    
                  }
                  atom.setColor(atomicColor);
              }
         }
         
-        if(coloring=="Sequence"){
+        if(coloring=="Sequence"){        
+             atomicColor=Color.pink;//Default for unspecified elements
              for(atomNumber=0; atomNumber<atoms.size();atomNumber++){
-                 atom= (Atom)atomArray[atomNumber];
-                 atomicColor=Color.pink;//Default for unspecified elements
+                 atom= (Atom)atomArray[atomNumber];                
                  for(int sequence=0;sequence<sequences.size();sequence++){
                     if(atom.sequenceId==sequences.get(sequence)){ 
                         atomicColor = colors[sequence%colors.length];//Carbon
