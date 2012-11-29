@@ -45,6 +45,7 @@ public class SophiaView {
     public final static String SIMPROGRESSPANEL = "SimProgress";
     public final static String PLAYBACKPANEL = "Playback";
     public final static String SIMTEMPPANEL = "SimTemp";
+    public final static String PLOTPANEL = "PlotPanel";
 
     /**
      * Controllers
@@ -79,7 +80,7 @@ public class SophiaView {
         menuFile.add(itemOpen);
         itemOpen.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                
+                switchView(SFILEPICKERPANEL);
             }
         });
         
@@ -106,20 +107,18 @@ public class SophiaView {
         JMenu menuEdit = new JMenu("Settings");
         menuBar.add(menuEdit);
         
-        final JMenuItem simParams = new JMenuItem("Simulation Parameters");
+        final JMenuItem simParams = new JMenuItem("Visualization Parameters");
         menuEdit.add(simParams);
         simParams.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                    //TODO: open the simparams window on the left
-                
+                switchView(PLAYBACKPANEL);
             }
         });
         final JMenuItem plotSettings = new JMenuItem("Plot Settings");
         menuEdit.add(plotSettings);
         plotSettings.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                    //TODO: open the Plot Settings window on the left
-                
+                switchView(PLOTPANEL);
             }
         });
     }
@@ -164,33 +163,39 @@ public class SophiaView {
         
         //Create the file picker view
         FilePickerView fpView = new FilePickerView(simController);
-        fpView.setPreferredSize(new Dimension(400, 480));
+        fpView.setPreferredSize(new Dimension(420, 480));
         simController.setFilePickerView(fpView);
         cards.add(fpView, SFILEPICKERPANEL);
 
         //Create the simulation settings view
         MDSimulationSettingsView mssView = new MDSimulationSettingsView(simController);
-        mssView.setPreferredSize(new Dimension(400, 480));
+        mssView.setPreferredSize(new Dimension(420, 480));
         simController.setSimulationSettingsView(mssView);
         cards.add(mssView, SIMSETTINGPANEL);
 
         //Create the temperature protocol setup view
         TemperatureProtocolView tpView = new TemperatureProtocolView(simController);
-        tpView.setPreferredSize(new Dimension(400, 480));
+        tpView.setPreferredSize(new Dimension(420, 480));
         simController.setTemperatureProtocolView(tpView);
         cards.add(tpView, SIMTEMPPANEL);
 
         //Create the simulation progress view
         SimulationView smView = new SimulationView(simController);
-        smView.setPreferredSize(new Dimension(400, 480));
+        smView.setPreferredSize(new Dimension(420, 480));
         simController.setSimulationProgressView(smView);
         cards.add(smView, SIMPROGRESSPANEL);
 
         //Create visualization settings panel
         PlaybackSettingsView psView = new PlaybackSettingsView(vController);
-        psView.setPreferredSize(new Dimension(400, 480));
+        psView.setPreferredSize(new Dimension(420, 480));
         vController.setSettingsView(psView);
         cards.add(psView, PLAYBACKPANEL);
+
+        //Create plot settings panel
+        PlotSettingsView plsView = new PlotSettingsView(pController);
+        plsView.setPreferredSize(new Dimension(420, 480));
+        pController.setSettingsView(plsView);
+        cards.add(plsView, PLOTPANEL);
         
         //Set card stack to left side of window
         frame.add("West", cards);

@@ -10,6 +10,11 @@ public class PlotController {
     private PlotView pView = null;
 
     /**
+     * Reference to the panel that sets up plots
+     */
+    private PlotSettingsView plsView = null;
+
+    /**
      * Recording object with data to use for plotting
      */
     private Recording recording = null;
@@ -36,6 +41,15 @@ public class PlotController {
     }
 
     /**
+     * Set the plot settings view where controller can get plot settings
+     *
+     * @param plsView the plot settings view
+     */
+    public void setSettingsView(PlotSettingsView plsView) {
+        this.plsView = plsView;
+    }
+
+    /**
      * Sets the recording after simulation so that plots can be created
      *
      * @param recording the recording to use for plotting
@@ -45,8 +59,16 @@ public class PlotController {
 
         //TODO: remove temporary
         ArrayList<String> lines = new ArrayList<String>();
-        lines.add("Potential Energy");
-        lines.add("Kinetic Energy");
+        lines.add("Temperature");
+        setupTimePlot(lines);
+    }
+
+    /**
+     * Sets up a new time plot from the GUI settings
+     */
+    public void newTimePlot() {
+        ArrayList<String> lines = plsView.getTimeVariables();
+
         setupTimePlot(lines);
     }
 

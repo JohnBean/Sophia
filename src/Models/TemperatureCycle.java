@@ -26,6 +26,11 @@ public class TemperatureCycle {
     private int percentSim;
 
     /**
+     * The interval in steps at which temperature re-scaling is performed
+     */
+    private int interval;
+
+    /**
      * The method for altering the temperature
      */
     private String method;
@@ -38,11 +43,12 @@ public class TemperatureCycle {
      * @param percentSim the percentage of the simulation the cycle lasts
      * @param method the method to use for temperature setting (Reassignment, Rescaling)
      */
-    public TemperatureCycle(double initialTemp, double targetTemp, int percentSim, String method) {
+    public TemperatureCycle(double initialTemp, double targetTemp, int percentSim, String method, int interval) {
         this.initialTemp = initialTemp;
         this.targetTemp = targetTemp;
         this.percentSim = percentSim;
         this.method = method;
+        this.interval = interval;
     }
 
     /**
@@ -74,11 +80,33 @@ public class TemperatureCycle {
     }
 
     /**
+     * Checks if this is a therm step that requires temperature scaling
+     *
+     * @param currentStep the current step in the simulation
+     * @return true if this is a therm step
+     */
+    public boolean temperatureScalingRequired(int currentStep) {
+        if((currentStep % interval) == 0)
+            return true;
+
+        return false;
+    }
+
+    /**
      * Gets the scaling method for this cycle
      *
      * @return the scaling method
      */
     public String getMethod() {
         return method;
+    }
+
+    /**
+     * Formats cycle as String
+     *
+     * @return string representation
+     */
+    public String toString() {
+        return (method + " every " + interval + " steps from " + initialTemp + "K to " + targetTemp + "K for " + percentSim + "% of simulation\n");
     }
 }

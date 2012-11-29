@@ -208,7 +208,7 @@ public class PlaybackView extends SimpleApplication {
                 for(int currentId = 0; currentId < numAtoms; currentId++) {
                     currentAtom = rootNode.getChild("Atom" + currentId);
 
-                    scale = (float)atoms.get(currentId).radius;
+                    scale = (float)atoms.get(currentId).radius * 2.0f;
                     currentAtom.setLocalScale(new Vector3f(scale, scale, scale));
                 }
             }

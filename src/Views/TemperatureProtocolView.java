@@ -133,19 +133,19 @@ public class TemperatureProtocolView extends javax.swing.JPanel {
         jLabel12.setText("5");
         jLabel12.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
 
-        jComboBox7.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0", "1", "5", "10", "50", "100", "500", "1000", "10000" }));
+        jComboBox7.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "5", "10", "50", "100", "500", "1000", "10000" }));
         jComboBox7.setPreferredSize(new java.awt.Dimension(60, 25));
 
-        jComboBox8.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0", "1", "5", "10", "50", "100", "500", "1000", "10000" }));
+        jComboBox8.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "5", "10", "50", "100", "500", "1000", "10000" }));
         jComboBox8.setPreferredSize(new java.awt.Dimension(60, 25));
 
-        jComboBox9.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0", "1", "5", "10", "50", "100", "500", "1000", "10000" }));
+        jComboBox9.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "5", "10", "50", "100", "500", "1000", "10000" }));
         jComboBox9.setPreferredSize(new java.awt.Dimension(60, 25));
 
-        jComboBox10.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0", "1", "5", "10", "50", "100", "500", "1000", "10000" }));
+        jComboBox10.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "5", "10", "50", "100", "500", "1000", "10000" }));
         jComboBox10.setPreferredSize(new java.awt.Dimension(60, 25));
 
-        jComboBox11.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0", "1", "5", "10", "50", "100", "500", "1000", "10000" }));
+        jComboBox11.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "5", "10", "50", "100", "500", "1000", "10000" }));
         jComboBox11.setPreferredSize(new java.awt.Dimension(60, 25));
 
         jComboBox12.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100" }));
@@ -383,8 +383,83 @@ public class TemperatureProtocolView extends javax.swing.JPanel {
         controller.tpSettingsPrev();
      }
 
-     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {
         controller.tpSettingsNext();
+    }
+
+    public TemperatureCycle getCycle1() {
+        String method = (String)jComboBox1.getSelectedItem();
+
+        //Check if cycle can be set up
+        if(method.equals("Off"))
+            return null;
+
+        int interval = Integer.parseInt((String)jComboBox7.getSelectedItem());
+        int percent = Integer.parseInt((String)jComboBox12.getSelectedItem());
+        double initial = Double.parseDouble(jTextField2.getText());
+        double target = Double.parseDouble(jTextField7.getText());
+
+        return (new TemperatureCycle(initial, target, percent, method, interval));
+    }
+
+    public TemperatureCycle getCycle2() {
+        String method = (String)jComboBox3.getSelectedItem();
+
+        //Check if cycle can be set up
+        if(method.equals("Off"))
+            return null;
+
+        int interval = Integer.parseInt((String)jComboBox8.getSelectedItem());
+        int percent = Integer.parseInt((String)jComboBox13.getSelectedItem());
+        double initial = Double.parseDouble(jTextField4.getText());
+        double target = Double.parseDouble(jTextField3.getText());
+
+        return (new TemperatureCycle(initial, target, percent, method, interval));
+    }
+
+    public TemperatureCycle getCycle3() {
+        String method = (String)jComboBox4.getSelectedItem();
+
+        //Check if cycle can be set up
+        if(method.equals("Off"))
+            return null;
+
+        int interval = Integer.parseInt((String)jComboBox9.getSelectedItem());
+        int percent = Integer.parseInt((String)jComboBox14.getSelectedItem());
+        double initial = Double.parseDouble(jTextField8.getText());
+        double target = Double.parseDouble(jTextField9.getText());
+
+        return (new TemperatureCycle(initial, target, percent, method, interval));
+    }
+
+    public TemperatureCycle getCycle4() {
+        String method = (String)jComboBox5.getSelectedItem();
+
+        //Check if cycle can be set up
+        if(method.equals("Off"))
+            return null;
+
+        int interval = Integer.parseInt((String)jComboBox10.getSelectedItem());
+        int percent = Integer.parseInt((String)jComboBox15.getSelectedItem());
+        double initial = Double.parseDouble(jTextField5.getText());
+        double target = Double.parseDouble(jTextField10.getText());
+
+        return (new TemperatureCycle(initial, target, percent, method, interval));
+    }
+
+    public TemperatureCycle getCycle5() {
+        String method = (String)jComboBox6.getSelectedItem();
+
+        //Check if cycle can be set up
+        if(method.equals("Off"))
+            return null;
+
+        int interval = Integer.parseInt((String)jComboBox11.getSelectedItem());
+        int percent = Integer.parseInt((String)jComboBox16.getSelectedItem());
+        double initial = Double.parseDouble(jTextField6.getText());
+        double target = Double.parseDouble(jTextField11.getText());
+
+        return (new TemperatureCycle(initial, target, percent, method, interval));
     }
 
     // Variables declaration - do not modify

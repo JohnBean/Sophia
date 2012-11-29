@@ -90,7 +90,7 @@ public class MolecularDynamicsSimulator extends Simulator {
         initial.totalEnergy = potentialEnergy + kineticEnergy;
         output.addFrame(initial);
 
-        //Adjust temperatures
+        //Adjust temperatures to beginning of protocol
         scaleTemperatures(cluster, 0, temperature);
 
         //Advance the simulation by each timestep

@@ -204,8 +204,6 @@ public class SimulationController {
         int numDimensions = mssView.getNumDimensions();
         simulator.setInitialTemp(initialTemp);
         simulator.setNumDimensions(numDimensions);
-        String[] settings={"Simulation\t" + simulatorType ,"Time step\t" + mssView.getTimeStep(), "Number of steps\t" +mssView.getNumSteps(), "Output interval\t" +mssView.getOutputInterval() , "Initial temp\t" + initialTemp,"dimensions\t" + numDimensions };
-        cluster.setSettings(settings);
         
         //Re-assign velocities based on initial temperature
         cluster.zeroVelocities();
@@ -214,6 +212,40 @@ public class SimulationController {
         //Set up bounding box if specified
         if(mssView.useBox())
             cluster.addAssociation(new BoundingBox(cluster.getAtoms(), mssView.getBoxSideLength()));
+
+        //Set up the temperature protocol
+        TemperatureProtocol tp = new TemperatureProtocol();
+        TemperatureCycle tc;
+
+        //Step 1
+        tc = tpView.getCycle1();
+        if(tc != null)
+            tp.addCycle(tc);
+
+        //Step 2
+        tc = tpView.getCycle2();
+        if(tc != null)
+            tp.addCycle(tc);
+
+        //Step 3
+        tc = tpView.getCycle3();
+        if(tc != null)
+            tp.addCycle(tc);
+
+        //Step 4
+        tc = tpView.getCycle4();
+        if(tc != null)
+            tp.addCycle(tc);
+
+        //Step 5
+        tc = tpView.getCycle5();
+        if(tc != null)
+            tp.addCycle(tc);
+
+        simulator.setTemperatureProtocol(tp);
+
+        String[] settings={"Simulation\t" + simulatorType ,"Time step\t" + mssView.getTimeStep(), "Number of steps\t" +mssView.getNumSteps(), "Output interval\t" +mssView.getOutputInterval() , "Initial temp\t" + initialTemp,"dimensions\t" + numDimensions };
+        cluster.setSettings(settings);
 
         //Start the simulation thread
         new Thread((new SimulationRunner(simulator, cluster, smView.getProgressBar(), this))).start();

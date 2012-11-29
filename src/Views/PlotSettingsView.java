@@ -2,6 +2,7 @@ package edu.gatech.sophia;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -11,9 +12,11 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class PlotSettingsView extends JPanel {
-
+    private PlotController controller;
   
-    public PlotSettingsView() {
+    public PlotSettingsView(PlotController controller) {
+        this.controller = controller;
+
         initComponents();
     }
 
@@ -46,15 +49,15 @@ public class PlotSettingsView extends JPanel {
         jLabel2.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
         jLabel2.setText("Time Plot");
 
-        jCheckBox1.setText("Variable 1");
+        jCheckBox1.setText("Kinetic Energy");
 
-        jCheckBox2.setText("Variable 2");
+        jCheckBox2.setText("Potential Energy");
 
-        jCheckBox3.setText("Variable 3");
+        jCheckBox3.setText("Total Energy");
 
-        jCheckBox4.setText("Variable 4");
+        jCheckBox4.setText("Temperature");
 
-        jCheckBox5.setText("Variable 5");
+        jCheckBox5.setText("Bonds");
 
         jButton1.setText("Apply");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -152,8 +155,28 @@ public class PlotSettingsView extends JPanel {
     }//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        controller.newTimePlot();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    public ArrayList<String> getTimeVariables() {
+        ArrayList<String> out = new ArrayList<String>();
+        if(jCheckBox1.isSelected())
+            out.add("Kinetic Energy");
+
+        if(jCheckBox2.isSelected())
+            out.add("Potential Energy");
+
+        if(jCheckBox3.isSelected())
+            out.add("Total Energy");
+
+        if(jCheckBox4.isSelected())
+            out.add("Temperature");
+
+        if(jCheckBox5.isSelected())
+            out.add("Bond");
+
+        return out;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

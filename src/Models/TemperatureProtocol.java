@@ -87,10 +87,15 @@ public class TemperatureProtocol {
      * @return true if temperature scaling is required
      */
     public boolean temperatureScalingRequired(int stepIndex) {
-        if(stepIndex < protocolLength)
-            return true;
+        if(stepIndex >= protocolLength)
+            return false;
 
-        return false;
+        //Check if this is a therm step
+        int cycleId = 0;
+        while(cycleId < (cycles.size() - 1) && startSteps[cycleId + 1] <= stepIndex)
+            cycleId++;
+
+        return cycles.get(cycleId).temperatureScalingRequired(stepIndex);
     }
 
     /**
@@ -101,7 +106,7 @@ public class TemperatureProtocol {
      * @return the temperature to set to
      */
     public double getTemperature(int stepIndex) {
-        if(stepIndex < protocolLength)
+        if(stepIndex >= protocolLength)
             return 0.0;
 
         int cycleId = 0;
@@ -119,7 +124,7 @@ public class TemperatureProtocol {
      * @return the temperature scaling method
      */
     public String getMethod(int stepIndex) {
-        if(stepIndex < protocolLength)
+        if(stepIndex >= protocolLength)
             return "";
 
         int cycleId = 0;
@@ -127,5 +132,18 @@ public class TemperatureProtocol {
             cycleId++;
 
         return cycles.get(cycleId).getMethod();
+    }
+
+    /**
+     * Converts the protocol to a string
+     *
+     * @return string representation
+     */
+    public String toString() {
+        String output = "";
+        for(TemperatureCycle c : cycles)
+            output += c.toString();
+
+        return output;
     }
 }
