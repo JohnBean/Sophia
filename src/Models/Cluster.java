@@ -42,9 +42,7 @@ public class Cluster {
         System.out.println("************Cluster Initiated***************");
         readFromFiles(coordinateFilename, structureFilename);
     }
-     public void setSettings(String[] newSettings){
-        this.settings=newSettings;
-    }
+
     /**
      * 
      * @param colorAlgorithim "Element","ResID", "Chain", "Atom"

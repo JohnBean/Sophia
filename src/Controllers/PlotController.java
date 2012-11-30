@@ -57,7 +57,13 @@ public class PlotController {
     public void setRecording(Recording recording) {
         this.recording = recording;
 
-        //TODO: remove temporary
+        //Set available variables for plotting
+        ArrayList<String> variables = recording.getAvailableVariables();
+        variables.add(0, "None");
+        String[] a_variables = variables.toArray(new String[variables.size()]);
+        plsView.setAvailableVariables(a_variables);
+
+        //Setup initial plot
         ArrayList<String> lines = new ArrayList<String>();
         lines.add("Temperature");
         setupTimePlot(lines);

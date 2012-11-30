@@ -104,6 +104,29 @@ public class Recording {
     }
 
     /**
+     * Gets all variables that are available for plotting
+     *
+     * @return array of all variable names
+     */
+    public ArrayList<String> getAvailableVariables() {
+        ArrayList<String> variables = new ArrayList<String>();
+        
+        //Defaults
+        variables.add("Kinetic Energy");
+        variables.add("Potential Energy");
+        variables.add("Total Energy");
+        variables.add("Temperature");
+
+        Iterator it = frames.get(0).energies.keySet().iterator();
+        while(it.hasNext()) {
+            String key = (String)it.next();
+            variables.add(key);
+        }
+
+        return variables;
+    }
+
+    /**
      * Saves the recording to files
      */
     public void writeRecord(){

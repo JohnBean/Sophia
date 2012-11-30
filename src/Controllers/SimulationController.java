@@ -244,9 +244,6 @@ public class SimulationController {
 
         simulator.setTemperatureProtocol(tp);
 
-        String[] settings={"Simulation\t" + simulatorType ,"Time step\t" + mssView.getTimeStep(), "Number of steps\t" +mssView.getNumSteps(), "Output interval\t" +mssView.getOutputInterval() , "Initial temp\t" + initialTemp,"dimensions\t" + numDimensions };
-        cluster.setSettings(settings);
-
         //Start the simulation thread
         new Thread((new SimulationRunner(simulator, cluster, smView.getProgressBar(), this))).start();
     }

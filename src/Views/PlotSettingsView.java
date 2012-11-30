@@ -160,22 +160,39 @@ public class PlotSettingsView extends JPanel {
 
     public ArrayList<String> getTimeVariables() {
         ArrayList<String> out = new ArrayList<String>();
-        /*if(jCheckBox1.isSelected())
-            out.add("Kinetic Energy");
+        String variable;
 
-        if(jCheckBox2.isSelected())
-            out.add("Potential Energy");
+        variable = (String)(jComboBox3.getSelectedItem());
+        if(!variable.equals("None"))
+            out.add(variable);
 
-        if(jCheckBox3.isSelected())
-            out.add("Total Energy");
+        variable = (String)(jComboBox4.getSelectedItem());
+        if(!variable.equals("None"))
+            out.add(variable);
 
-        if(jCheckBox4.isSelected())
-            out.add("Temperature");
+        variable = (String)(jComboBox5.getSelectedItem());
+        if(!variable.equals("None"))
+            out.add(variable);
 
-        if(jCheckBox5.isSelected())
-            out.add("Bond");*/
+        variable = (String)(jComboBox6.getSelectedItem());
+        if(!variable.equals("None"))
+            out.add(variable);
+
+        variable = (String)(jComboBox7.getSelectedItem());
+        if(!variable.equals("None"))
+            out.add(variable);
 
         return out;
+    }
+
+    public void setAvailableVariables(String[] variables) {
+        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel(variables));
+        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel(variables));
+        jComboBox5.setModel(new javax.swing.DefaultComboBoxModel(variables));
+        jComboBox6.setModel(new javax.swing.DefaultComboBoxModel(variables));
+        jComboBox7.setModel(new javax.swing.DefaultComboBoxModel(variables));
+        jComboBox8.setModel(new javax.swing.DefaultComboBoxModel(variables));
+        jComboBox9.setModel(new javax.swing.DefaultComboBoxModel(variables));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
