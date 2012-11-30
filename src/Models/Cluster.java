@@ -16,6 +16,7 @@ public class Cluster {
     private ArrayList<AtomAssociation> associations;
     private ArrayList<String> chains;
     private ArrayList<Integer> sequences;
+    public ArrayList<Torsion> torsions;
     public String[] settings= new String[6];
     static final double VDW_Radius = 3.5; // angstroms
     static final double wellDepth = 41.8; // CEU
@@ -240,7 +241,10 @@ public class Cluster {
                 	Angle newAngle = new Angle(atom1, atom2, atom3, Double.valueOf(structInfo[4]), Double.valueOf(structInfo[5]));
                     associations.add(newAngle);
                 }
-		
+		else if(structInfo[0].compareTo("TORSION")==0){
+                    String[] torsionInfo = curLine.split("[ ]+");
+                    torsions.add(new Torsion(atoms.get(Integer.parseInt(torsionInfo[1])-1),atoms.get(Integer.parseInt(torsionInfo[2])-1),atoms.get(Integer.parseInt(torsionInfo[3])-1),atoms.get(Integer.parseInt(torsionInfo[4])-1),Double.parseDouble(torsionInfo[5]),Integer.parseInt(torsionInfo[6]),Double.parseDouble(torsionInfo[7])));
+                }
                 //TODO build atoms connections from data red in
             }   
             br.close();
