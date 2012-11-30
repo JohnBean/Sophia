@@ -153,11 +153,11 @@ public class Recording {
                 out.println("HEADER	Coordinates at Step "+frameNumber);
                 for(atomNumber=0; atomNumber<atoms.size();atomNumber++){
                    curAtom= atoms.get(atomNumber);
-                   out.print("ATOM\t"+atomNumber + "\t" + curAtom.atomType + "\t" +curAtom.moloculeName + " " + curAtom.chainId + "\t" + curAtom.sequenceId);
-                   out.print("\t"+String.valueOf(curFrame.locations.get(atomNumber).x).trim().substring(0,Math.min(6,String.valueOf(curFrame.locations.get(atomNumber).x).trim().length()))+ "\t");
-                   out.print(String.valueOf(curFrame.locations.get(atomNumber).y).trim().substring(0,Math.min(6,String.valueOf(curFrame.locations.get(atomNumber).y).trim().length()))+ "\t");
-                   out.print(String.valueOf(curFrame.locations.get(atomNumber).z).trim().substring(0,Math.min(6,String.valueOf(curFrame.locations.get(atomNumber).z).trim().length()))+ "\t" );
-                   out.println(curAtom.occupancy +"\t"+ curAtom.temperatureFactor+ "\t" + curAtom.mass + "\t"+ curAtom.radius + "\t" +curAtom.charge);
+                   out.print("ATOM     "+atomNumber + "    " + curAtom.atomType + "   " +curAtom.moloculeName + " " + curAtom.chainId + "   " + curAtom.sequenceId);
+                   out.print("      "+String.valueOf(curFrame.locations.get(atomNumber).x).trim().substring(0,Math.min(6,String.valueOf(curFrame.locations.get(atomNumber).x).trim().length()))+ "  ");
+                   out.print(String.valueOf(curFrame.locations.get(atomNumber).y).trim().substring(0,Math.min(6,String.valueOf(curFrame.locations.get(atomNumber).y).trim().length()))+ "  ");
+                   out.print(String.valueOf(curFrame.locations.get(atomNumber).z).trim().substring(0,Math.min(6,String.valueOf(curFrame.locations.get(atomNumber).z).trim().length()))+ "  " );
+                   out.println(curAtom.occupancy +"  "+ curAtom.temperatureFactor+ "  " + curAtom.mass + "  "+ curAtom.radius + "  " +curAtom.charge);
                 }
                 if(frameNumber==0){//after the first set of atoms display the connections
                     FileReader fr = new FileReader(pdbFile);
