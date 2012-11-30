@@ -61,7 +61,7 @@ public class Cluster {
              coloring=colorAlgorithim;
          }
          if(coloring==null){coloring="Atom";}
-         if(coloring=="Element"){
+         if(coloring=="Element"){//colors elements by typical atomic representation
                 for(atomNumber=0; atomNumber<atoms.size();atomNumber++){
                    atom= (Atom)atomArray[atomNumber];
                     atomicColor=Color.pink;//Default for unspecified elements
@@ -104,15 +104,15 @@ public class Cluster {
         Integer blueValue=0;
         //fades from red to blue
         if(coloring=="Atom"){    
-            Integer step=Math.round(506/atoms.size());
+            Integer step=Math.round(506/atoms.size());//step from 0-256 twice with some slack
             
-            for(atomNumber=0; atomNumber<atoms.size();atomNumber++){
+            for(atomNumber=0; atomNumber<atoms.size();atomNumber++){//color each atom
                 atom= (Atom)atomArray[atomNumber];
                 
-                if(redValue<=0){
+                if(redValue<=0){//if there is no red left then increase the blue amount to create various shades
                     blueValue+=step;
                 }
-                if(redValue>0){
+                if(redValue>0){//until there is red left decrease it
                     redValue-=step;
                 }
                 
@@ -121,7 +121,7 @@ public class Cluster {
         
                 if(redValue<0)redValue=0;
                 if(redValue>254)redValue=254;
-              
+                //fades by going from red to white to blue. 
                 if(redValue>blueValue){
                     atom.setColor(new Color(255,255-redValue,255-redValue));  
                 }   
@@ -135,12 +135,12 @@ public class Cluster {
         Color[] colors = {  Color.green, Color.blue, Color.red, Color.orange,Color.magenta, Color.cyan, Color.yellow, Color.pink ,Color.black,Color.DARK_GRAY};
         if(coloring=="Chain"){
              atomicColor=Color.pink;//Default for unspecified elements
-             for(atomNumber=0; atomNumber<atomArray.length;atomNumber++){            
+             for(atomNumber=0; atomNumber<atomArray.length;atomNumber++){//color each atom       
                  atom= (Atom)atomArray[atomNumber];       
-                 for(chain=0;chain<chains.size();chain++){
-                    if(atom.chainId==chains.get(chain)){ 
-                        atomicColor = colors[chain%colors.length];//Carbon
-                        if(chain>colors.length){
+                 for(chain=0;chain<chains.size();chain++){//find what chain that atom is in
+                    if(atom.chainId==chains.get(chain)){ //if the proper one is found
+                        atomicColor = colors[chain%colors.length];//select the color from the list
+                        if(chain>colors.length){//if there are more chains than colors brighten the color to make a new one
                             for(int lightLevel=0; lightLevel<Math.floor(chain%colors.length);lightLevel++){
                                 atomicColor.brighter();
                             }
@@ -153,12 +153,12 @@ public class Cluster {
         
         if(coloring=="Sequence"){        
              atomicColor=Color.pink;//Default for unspecified elements
-             for(atomNumber=0; atomNumber<atoms.size();atomNumber++){
+             for(atomNumber=0; atomNumber<atoms.size();atomNumber++){//color each atom
                  atom= (Atom)atomArray[atomNumber];                
-                 for(int sequence=0;sequence<sequences.size();sequence++){
-                    if(atom.sequenceId==sequences.get(sequence)){ 
-                        atomicColor = colors[sequence%colors.length];//Carbon
-                        if(sequence>colors.length){
+                 for(int sequence=0;sequence<sequences.size();sequence++){//Find what sequence that atom is in
+                    if(atom.sequenceId==sequences.get(sequence)){ //if the proper one is found
+                        atomicColor = colors[sequence%colors.length];//select the proper color from the list
+                        if(sequence>colors.length){//if there are more sequences than colors britghten it to make a new one
                             for(int lightLevel=0; lightLevel<Math.floor(sequence%colors.length);lightLevel++){
                                 atomicColor.brighter();
                             }
@@ -186,24 +186,24 @@ public class Cluster {
         sequences=  new ArrayList();// saved chains
         Atom atom;
         try{
-            FileReader fr = new FileReader(coordinateFilename);
+            FileReader fr = new FileReader(coordinateFilename);//reads in the pdb
             BufferedReader br = new BufferedReader(fr);
             pdbFile=coordinateFilename;
             System.out.println("reading");
             while ((curLine = br.readLine()) != null) {
-                String[] atomInfo = curLine.split("[ ]+");
+                String[] atomInfo = curLine.split("[ ]+");//split by whitespace into an array to read
                
                  if(atomInfo[0].compareTo("ATOM")==0){
                     //                             Atom ID              Atom     Molocule   ChainID     sequenceID                  location.x                      location.y              location.z                      Occupancy                   Temperature Factor              Mass                                Radius                      Charge
                     atom= new Atom(Integer.parseInt(atomInfo[1]) - 1, atomInfo[2],atomInfo[3],atomInfo[4],Integer.parseInt(atomInfo[5]),Float.parseFloat(atomInfo[6]),Float.parseFloat(atomInfo[7]),Float.parseFloat(atomInfo[8]),Double.parseDouble(atomInfo[9]),Double.parseDouble(atomInfo[10]),Double.parseDouble(atomInfo[11]),Double.parseDouble(atomInfo[12]),Double.parseDouble(atomInfo[13]));
-                    atoms.add(atom);
+                    atoms.add(atom);//add each atom as its made
 
-                    if(!this.chains.contains(atom.chainId)){this.chains.add(atom.chainId);}
+                    if(!this.chains.contains(atom.chainId)){this.chains.add(atom.chainId);}//add new chains
 
-                    if(!sequences.contains(atom.sequenceId)){sequences.add(atom.sequenceId);}
+                    if(!sequences.contains(atom.sequenceId)){sequences.add(atom.sequenceId);}//add new sequences
                  }
             }
-            this.setColors("Type");
+            this.setColors("Type");//sets all the colors using the desired algorithim
             System.out.println(atoms.size()+" total atoms created.");
             br.close();
         }
@@ -217,19 +217,19 @@ public class Cluster {
             while ((curLine = br.readLine()) != null) {
                 String[] structInfo = curLine.split("[ \t\n\f\r]");
                 if(structInfo[0].compareTo("BOND")==0){
-                	Atom atom1 = atoms.get(Integer.parseInt(structInfo[1]) - 1);
-                	Atom atom2 = atoms.get(Integer.parseInt(structInfo[2]) - 1);
-                        atom1.addBond(atom2);
-                        atom2.addBond(atom1);
-                	Bond newBond = new Bond(atom1, atom2, Double.valueOf(structInfo[3]), Double.valueOf(structInfo[4]));
-                    associations.add(newBond);
+                    Atom atom1 = atoms.get(Integer.parseInt(structInfo[1]) - 1);//add each atom as a bond in the other
+                    Atom atom2 = atoms.get(Integer.parseInt(structInfo[2]) - 1);
+                    atom1.addBond(atom2);
+                    atom2.addBond(atom1);
+                    Bond newBond = new Bond(atom1, atom2, Double.valueOf(structInfo[3]), Double.valueOf(structInfo[4]));//create the bond for associations
+                    associations.add(newBond);//add it
                 }
                 else if(structInfo[0].compareTo("ANGLE")==0){
-                	Atom atom1 = atoms.get(Integer.parseInt(structInfo[1]) - 1);
-                	Atom atom2 = atoms.get(Integer.parseInt(structInfo[2]) - 1);
-                	Atom atom3 = atoms.get(Integer.parseInt(structInfo[3]) - 1);
+                    Atom atom1 = atoms.get(Integer.parseInt(structInfo[1]) - 1);
+                    Atom atom2 = atoms.get(Integer.parseInt(structInfo[2]) - 1);
+                    Atom atom3 = atoms.get(Integer.parseInt(structInfo[3]) - 1);
 
-                    atom1.addBond(atom2);
+                    atom1.addBond(atom2);//add each atom to each other, they all have a reference to each other in the atom
                     atom1.addBond(atom3);
 
                     atom2.addBond(atom1);
@@ -238,12 +238,12 @@ public class Cluster {
                     atom3.addBond(atom1);
                     atom3.addBond(atom2);
 
-                	Angle newAngle = new Angle(atom1, atom2, atom3, Double.valueOf(structInfo[4]), Double.valueOf(structInfo[5]));
+                    Angle newAngle = new Angle(atom1, atom2, atom3, Double.valueOf(structInfo[4]), Double.valueOf(structInfo[5]));//make the angle and add
                     associations.add(newAngle);
                 }
 		else if(structInfo[0].compareTo("TORSION")==0){
                     String[] torsionInfo = curLine.split("[ ]+");
-                    torsions.add(new Torsion(atoms.get(Integer.parseInt(torsionInfo[1])-1),atoms.get(Integer.parseInt(torsionInfo[2])-1),atoms.get(Integer.parseInt(torsionInfo[3])-1),atoms.get(Integer.parseInt(torsionInfo[4])-1),Double.parseDouble(torsionInfo[5]),Integer.parseInt(torsionInfo[6]),Double.parseDouble(torsionInfo[7])));
+                    associations.add(new Torsion(atoms.get(Integer.parseInt(torsionInfo[1])-1),atoms.get(Integer.parseInt(torsionInfo[2])-1),atoms.get(Integer.parseInt(torsionInfo[3])-1),atoms.get(Integer.parseInt(torsionInfo[4])-1),Double.parseDouble(torsionInfo[5]),Integer.parseInt(torsionInfo[6]),Double.parseDouble(torsionInfo[7])));
                 }
                 //TODO build atoms connections from data red in
             }   
