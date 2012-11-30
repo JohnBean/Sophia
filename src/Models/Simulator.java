@@ -1,5 +1,8 @@
 package edu.gatech.sophia;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import javax.swing.JProgressBar;
 
 /**
@@ -127,7 +130,23 @@ abstract class Simulator {
         if(tempProtocol != null)
             tempProtocol.finalize(numSteps);
     }
-
+    public void writeSettings(){
+        try{
+            PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("_settings.txt")));
+            out.println("Sophia Simulation Settings");
+            out.println("Timestep\t"+timestep);
+            out.println("Num steps\t"+numSteps);
+            out.println("Output interval\t"+outputInterval);
+            out.println("Initial Temp\t"+initialTemp);
+            out.println("Dimensions"+numDimensions);
+            out.println("Temp Protocol"+tempProtocol);
+            out.close();
+        }
+        catch(Exception e){
+            System.out.println("Exception caught writting settings");
+            e.printStackTrace();
+        }
+    }
     /**
      * Scales the temperatures for a given step
      *

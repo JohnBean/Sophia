@@ -17,7 +17,6 @@ public class Cluster {
     private ArrayList<String> chains;
     private ArrayList<Integer> sequences;
     public ArrayList<Torsion> torsions;
-    public String[] settings= new String[6];
     static final double VDW_Radius = 3.5; // angstroms
     static final double wellDepth = 41.8; // CEU
     public String pdbFile;
