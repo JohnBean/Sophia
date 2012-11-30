@@ -160,7 +160,7 @@ public class PlotSettingsView extends JPanel {
 
     public ArrayList<String> getTimeVariables() {
         ArrayList<String> out = new ArrayList<String>();
-        if(jCheckBox1.isSelected())
+        /*if(jCheckBox1.isSelected())
             out.add("Kinetic Energy");
 
         if(jCheckBox2.isSelected())
@@ -173,7 +173,7 @@ public class PlotSettingsView extends JPanel {
             out.add("Temperature");
 
         if(jCheckBox5.isSelected())
-            out.add("Bond");
+            out.add("Bond");*/
 
         return out;
     }
