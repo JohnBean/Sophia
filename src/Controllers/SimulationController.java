@@ -15,6 +15,7 @@ public class SimulationController {
      */
     private FilePickerView fpView;
     private MDSimulationSettingsView mssView;
+    private EMSimulationSettingsView essView;
     private SimulationView smView;
     private TemperatureProtocolView tpView;
 
@@ -64,10 +65,12 @@ public class SimulationController {
     /**
      * Setter for simulation settings view
      *
-     * @param ssView the simulation settings view visible in the window
+     * @param mssView the molecular dynamics simulation settings view visible in the window
+     * @param essView the energy minimization simulation settings view visible in the window
      */
-    public void setSimulationSettingsView(MDSimulationSettingsView mssView) {
+    public void setSimulationSettingsView(MDSimulationSettingsView mssView, EMSimulationSettingsView essView) {
         this.mssView = mssView;
+        this.essView = essView;
     }
 
     /**
@@ -111,7 +114,10 @@ public class SimulationController {
      */
     public void filePickerNext() {
         //Switch to next view
-        SophiaView.switchView(SophiaView.SIMSETTINGPANEL);
+        if(fpView.getSimulatorType().equals("EnergyMinimization"))
+            SophiaView.switchView(SophiaView.EMSIMSETTINGPANEL);
+        else
+            SophiaView.switchView(SophiaView.SIMSETTINGPANEL);
     }
 
     /**
@@ -133,7 +139,7 @@ public class SimulationController {
     /**
      * Action called when the next button is pressed on the temperature protocol view
      */
-    public void tpSettingsNext() {
+    public void finish() {
         //Switch to previous view
         SophiaView.switchView(SophiaView.SIMPROGRESSPANEL);
 
@@ -191,58 +197,72 @@ public class SimulationController {
         if(simulatorType == "MolecularDynamics") {
             MolecularDynamicsSimulator mdSim = new MolecularDynamicsSimulator();
             simulator = (Simulator)mdSim;
+
+            //Set up properties not applicable to all simulators
+            simulator.setTimeStep(mssView.getTimeStep());
+            simulator.setNumSteps(mssView.getNumSteps());
+            simulator.setOutputInterval(mssView.getOutputInterval());
+
+            double initialTemp = mssView.getInitialTemp();
+            int numDimensions = mssView.getNumDimensions();
+            simulator.setInitialTemp(initialTemp);
+            simulator.setNumDimensions(numDimensions);
+            
+            //Re-assign velocities based on initial temperature
+            cluster.zeroVelocities();
+            cluster.setVelocities("Reassignment", initialTemp, 0.0, numDimensions);
+
+            //Set up bounding box if specified
+            if(mssView.useBox())
+                cluster.addAssociation(new BoundingBox(cluster.getAtoms(), mssView.getBoxSideLength()));
+
+            //Set up the temperature protocol
+            TemperatureProtocol tp = new TemperatureProtocol();
+            TemperatureCycle tc;
+
+            //Step 1
+            tc = tpView.getCycle1();
+            if(tc != null)
+                tp.addCycle(tc);
+
+            //Step 2
+            tc = tpView.getCycle2();
+            if(tc != null)
+                tp.addCycle(tc);
+
+            //Step 3
+            tc = tpView.getCycle3();
+            if(tc != null)
+                tp.addCycle(tc);
+
+            //Step 4
+            tc = tpView.getCycle4();
+            if(tc != null)
+                tp.addCycle(tc);
+
+            //Step 5
+            tc = tpView.getCycle5();
+            if(tc != null)
+                tp.addCycle(tc);
+
+            simulator.setTemperatureProtocol(tp);
+        } else if(simulatorType == "EnergyMinimization") {
+            //Get simulator specific properties
+            double stepSize = essView.getStepSize();
+            double convergenceCriteria = essView.getConvergenceCriterion();
+            String method = essView.getMethod();
+
+            //Set up new energy minimization simulator
+            EnergyMinimizationSimulator emSim = new EnergyMinimizationSimulator(convergenceCriteria, stepSize, method);
+            simulator = (Simulator)emSim;
+
+            //Get any common properties
+            simulator.setNumSteps(essView.getNumSteps());
+            //TODO: add this to EM settings view
+            simulator.setOutputInterval(10);
         } else {
             simulator = new NullSimulator();
         }
-
-        //Set common simulation properties
-        simulator.setTimeStep(mssView.getTimeStep());
-        simulator.setNumSteps(mssView.getNumSteps());
-        simulator.setOutputInterval(mssView.getOutputInterval());
-
-        double initialTemp = mssView.getInitialTemp();
-        int numDimensions = mssView.getNumDimensions();
-        simulator.setInitialTemp(initialTemp);
-        simulator.setNumDimensions(numDimensions);
-        
-        //Re-assign velocities based on initial temperature
-        cluster.zeroVelocities();
-        cluster.setVelocities("Reassignment", initialTemp, 0.0, numDimensions);
-
-        //Set up bounding box if specified
-        if(mssView.useBox())
-            cluster.addAssociation(new BoundingBox(cluster.getAtoms(), mssView.getBoxSideLength()));
-
-        //Set up the temperature protocol
-        TemperatureProtocol tp = new TemperatureProtocol();
-        TemperatureCycle tc;
-
-        //Step 1
-        tc = tpView.getCycle1();
-        if(tc != null)
-            tp.addCycle(tc);
-
-        //Step 2
-        tc = tpView.getCycle2();
-        if(tc != null)
-            tp.addCycle(tc);
-
-        //Step 3
-        tc = tpView.getCycle3();
-        if(tc != null)
-            tp.addCycle(tc);
-
-        //Step 4
-        tc = tpView.getCycle4();
-        if(tc != null)
-            tp.addCycle(tc);
-
-        //Step 5
-        tc = tpView.getCycle5();
-        if(tc != null)
-            tp.addCycle(tc);
-
-        simulator.setTemperatureProtocol(tp);
 
         //Start the simulation thread
         new Thread((new SimulationRunner(simulator, cluster, smView.getProgressBar(), this))).start();

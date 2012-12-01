@@ -1,3 +1,5 @@
+package edu.gatech.sophia;
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -8,11 +10,14 @@
  * @author sarah
  */
 public class EMSimulationSettingsView extends javax.swing.JPanel {
+    private SimulationController controller;
 
     /**
      * Creates new form EMSimulationSettingsView
      */
-    public EMSimulationSettingsView() {
+    public EMSimulationSettingsView(SimulationController controller) {
+        this.controller = controller;
+
         initComponents();
     }
 
@@ -52,13 +57,23 @@ public class EMSimulationSettingsView extends javax.swing.JPanel {
         jLabel5.setFont(new java.awt.Font("Lucida Grande", 1, 10)); // NOI18N
         jLabel5.setText("Convergence Criterion");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Steepest Decent", "Conjugate Gradient" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Steepest Descent", "Conjugate Gradient" }));
 
         jButton1.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         jButton1.setText("Next");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         jButton2.setText("Back");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jLabel6.setFont(new java.awt.Font("Lucida Grande", 0, 10)); // NOI18N
         jLabel6.setText("steps");
@@ -142,4 +157,28 @@ public class EMSimulationSettingsView extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     // End of variables declaration//GEN-END:variables
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
+        controller.finish();
+    }
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {
+        controller.simSettingsPrev();
+    }
+
+    public String getMethod() {
+        return (String)(jComboBox1.getSelectedItem());
+    }
+
+    public double getStepSize() {
+        return Double.parseDouble(jTextField1.getText());
+    }
+
+    public int getNumSteps() {
+        return Integer.parseInt(jTextField2.getText());
+    }
+
+    public double getConvergenceCriterion() {
+        return Double.parseDouble(jTextField3.getText());
+    }
 }

@@ -46,6 +46,7 @@ public class SophiaView {
     public final static String PLAYBACKPANEL = "Playback";
     public final static String SIMTEMPPANEL = "SimTemp";
     public final static String PLOTPANEL = "PlotPanel";
+    public final static String EMSIMSETTINGPANEL = "EMSimSetting";
 
     /**
      * Controllers
@@ -167,12 +168,17 @@ public class SophiaView {
         simController.setFilePickerView(fpView);
         cards.add(fpView, SFILEPICKERPANEL);
 
-        //Create the simulation settings view
+        //Create the simulation settings views
         MDSimulationSettingsView mssView = new MDSimulationSettingsView(simController);
         mssView.setPreferredSize(new Dimension(420, 480));
-        simController.setSimulationSettingsView(mssView);
         cards.add(mssView, SIMSETTINGPANEL);
 
+        EMSimulationSettingsView essView = new EMSimulationSettingsView(simController);
+        essView.setPreferredSize(new Dimension(420, 480));
+        cards.add(essView, EMSIMSETTINGPANEL);
+
+        simController.setSimulationSettingsView(mssView, essView);
+        
         //Create the temperature protocol setup view
         TemperatureProtocolView tpView = new TemperatureProtocolView(simController);
         tpView.setPreferredSize(new Dimension(420, 480));

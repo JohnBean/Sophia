@@ -384,7 +384,7 @@ public class TemperatureProtocolView extends javax.swing.JPanel {
      }
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {
-        controller.tpSettingsNext();
+        controller.finish();
     }
 
     public TemperatureCycle getCycle1() {

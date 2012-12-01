@@ -236,9 +236,7 @@ public class MDSimulationSettingsView extends JPanel {
     }
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
-        if(controller.getRecording()==null){
-            controller.simSettingsNext();
-        }
+        controller.simSettingsNext();
     }
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {

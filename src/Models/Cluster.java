@@ -209,46 +209,48 @@ public class Cluster {
         }
         curLine=null;
         associations = new ArrayList<AtomAssociation>();
-        try{
-            BufferedReader br = new BufferedReader(new FileReader(structureFilename));
-            while ((curLine = br.readLine()) != null) {
-                String[] structInfo = curLine.split("[ \t\n\f\r]");
-                if(structInfo[0].compareTo("BOND")==0){
-                    Atom atom1 = atoms.get(Integer.parseInt(structInfo[1]) - 1);//add each atom as a bond in the other
-                    Atom atom2 = atoms.get(Integer.parseInt(structInfo[2]) - 1);
-                    atom1.addBond(atom2);
-                    atom2.addBond(atom1);
-                    Bond newBond = new Bond(atom1, atom2, Double.valueOf(structInfo[3]), Double.valueOf(structInfo[4]));//create the bond for associations
-                    associations.add(newBond);//add it
-                }
-                else if(structInfo[0].compareTo("ANGLE")==0){
-                    Atom atom1 = atoms.get(Integer.parseInt(structInfo[1]) - 1);
-                    Atom atom2 = atoms.get(Integer.parseInt(structInfo[2]) - 1);
-                    Atom atom3 = atoms.get(Integer.parseInt(structInfo[3]) - 1);
+        if(!structureFilename.equals("")) {
+            try{
+                BufferedReader br = new BufferedReader(new FileReader(structureFilename));
+                while ((curLine = br.readLine()) != null) {
+                    String[] structInfo = curLine.split("[ \t\n\f\r]");
+                    if(structInfo[0].compareTo("BOND")==0){
+                        Atom atom1 = atoms.get(Integer.parseInt(structInfo[1]) - 1);//add each atom as a bond in the other
+                        Atom atom2 = atoms.get(Integer.parseInt(structInfo[2]) - 1);
+                        atom1.addBond(atom2);
+                        atom2.addBond(atom1);
+                        Bond newBond = new Bond(atom1, atom2, Double.valueOf(structInfo[3]), Double.valueOf(structInfo[4]));//create the bond for associations
+                        associations.add(newBond);//add it
+                    }
+                    else if(structInfo[0].compareTo("ANGLE")==0){
+                        Atom atom1 = atoms.get(Integer.parseInt(structInfo[1]) - 1);
+                        Atom atom2 = atoms.get(Integer.parseInt(structInfo[2]) - 1);
+                        Atom atom3 = atoms.get(Integer.parseInt(structInfo[3]) - 1);
 
-                    atom1.addBond(atom2);//add each atom to each other, they all have a reference to each other in the atom
-                    atom1.addBond(atom3);
+                        atom1.addBond(atom2);//add each atom to each other, they all have a reference to each other in the atom
+                        atom1.addBond(atom3);
 
-                    atom2.addBond(atom1);
-                    atom2.addBond(atom3);
+                        atom2.addBond(atom1);
+                        atom2.addBond(atom3);
 
-                    atom3.addBond(atom1);
-                    atom3.addBond(atom2);
+                        atom3.addBond(atom1);
+                        atom3.addBond(atom2);
 
-                    Angle newAngle = new Angle(atom1, atom2, atom3, Double.valueOf(structInfo[4]), Double.valueOf(structInfo[5]));//make the angle and add
-                    associations.add(newAngle);
-                }
-		else if(structInfo[0].compareTo("TORSION")==0){
-                    String[] torsionInfo = curLine.split("[ ]+");
-                    associations.add(new Torsion(atoms.get(Integer.parseInt(torsionInfo[1])-1),atoms.get(Integer.parseInt(torsionInfo[2])-1),atoms.get(Integer.parseInt(torsionInfo[3])-1),atoms.get(Integer.parseInt(torsionInfo[4])-1),Double.parseDouble(torsionInfo[5]),Integer.parseInt(torsionInfo[6]),Double.parseDouble(torsionInfo[7])));
-                }
-                //TODO build atoms connections from data red in
-            }   
-            br.close();
-        }
-        catch(Exception e){
-            System.out.println("Exception caught when reading atom associations Cluster.java:106");
-            e.printStackTrace();
+                        Angle newAngle = new Angle(atom1, atom2, atom3, Double.valueOf(structInfo[4]), Double.valueOf(structInfo[5]));//make the angle and add
+                        associations.add(newAngle);
+                    }
+    		else if(structInfo[0].compareTo("TORSION")==0){
+                        String[] torsionInfo = curLine.split("[ ]+");
+                        associations.add(new Torsion(atoms.get(Integer.parseInt(torsionInfo[1])-1),atoms.get(Integer.parseInt(torsionInfo[2])-1),atoms.get(Integer.parseInt(torsionInfo[3])-1),atoms.get(Integer.parseInt(torsionInfo[4])-1),Double.parseDouble(torsionInfo[5]),Integer.parseInt(torsionInfo[6]),Double.parseDouble(torsionInfo[7])));
+                    }
+                    //TODO build atoms connections from data red in
+                }   
+                br.close();
+            }
+            catch(Exception e){
+                System.out.println("Exception caught when reading atom associations Cluster.java:106");
+                e.printStackTrace();
+            }
         }
         
         // van der Waals Associations

@@ -46,6 +46,11 @@ abstract class Simulator {
     protected TemperatureProtocol tempProtocol;
 
     /**
+     * Method of integrating used to advance the simulation
+     */
+    protected String integrationMethod = "Default";
+
+    /**
      * Returns the type of simulator
      *
      * @return The unique id of this simulator type

@@ -72,6 +72,8 @@ public class Atom {
         this.velocity = new Vector3D();
         this.acceleration = new Vector3D();
         this.force = new Vector3D();
+
+        bonds= new ArrayList(20);
     }
     public void setColor(Color newColor){
         this.color=newColor;
@@ -82,9 +84,6 @@ public class Atom {
      * @param curAtom the atom to add a bond to
      */
     public void addBond(Atom curAtom){
-        if(bonds==null){
-           bonds= new ArrayList(20);
-        }
         bonds.add(curAtom);
     }
 

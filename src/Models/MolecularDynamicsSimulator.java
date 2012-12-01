@@ -40,6 +40,7 @@ public class MolecularDynamicsSimulator extends Simulator {
         double kineticEnergy = 0.0;
         double potentialEnergy;
         double totalEnergy;
+        double dt = timestep;
         double halfStep = 0.5 * timestep;
         double temperature;
 
@@ -93,6 +94,8 @@ public class MolecularDynamicsSimulator extends Simulator {
         //Adjust temperatures to beginning of protocol
         scaleTemperatures(cluster, 0, temperature);
 
+        dt = timestep * 0.5;
+
         //Advance the simulation by each timestep
         for(step = 1; step < numSteps; step++) {
             //Calculate current forces on each atom
@@ -102,9 +105,9 @@ public class MolecularDynamicsSimulator extends Simulator {
             for(Atom a : atoms) {
                 a.calculateAcceleration();
 
-                a.velocity.x += a.acceleration.x * timestep;
-                a.velocity.y += a.acceleration.y * timestep;
-                a.velocity.z += a.acceleration.z * timestep;
+                a.velocity.x += a.acceleration.x * dt;
+                a.velocity.y += a.acceleration.y * dt;
+                a.velocity.z += a.acceleration.z * dt;
 
                 a.location.x += a.velocity.x * timestep;
                 a.location.y += a.velocity.y * timestep;
@@ -166,6 +169,8 @@ public class MolecularDynamicsSimulator extends Simulator {
 
             //Adjust temperatures
             scaleTemperatures(cluster, step, temperature);
+
+            dt = timestep;
 
             prog.setValue(++progress);
         }
