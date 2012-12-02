@@ -260,6 +260,7 @@ public class SimulationController {
             simulator.setNumSteps(essView.getNumSteps());
             //TODO: add this to EM settings view
             simulator.setOutputInterval(10);
+            simulator.setNumDimensions(3);
         } else {
             simulator = new NullSimulator();
         }

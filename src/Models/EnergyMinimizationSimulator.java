@@ -41,6 +41,16 @@ public class EnergyMinimizationSimulator extends Simulator {
     private Vector3D[] savedLocations;
 
     /**
+     * Saved forces for conjugate gradient
+     */
+    private Vector3D[] savedForces;
+
+    /**
+     * Saved search vectors for conjucate gradient
+     */
+    private Vector3D[] savedVectors;
+
+    /**
      * Starting step size
      */
     private double stepSize;
@@ -82,11 +92,23 @@ public class EnergyMinimizationSimulator extends Simulator {
         currentStep = stepSize;
         isConverged = false;
 
-        //Set the cluster and initialize saved positions
+        //Set the cluster and initialize space for temporary saved data
         this.cluster = cluster;
-        savedLocations = new Vector3D[atoms.size()];
-        for(int i = 0; i < atoms.size(); i++)
-            savedLocations[i] = new Vector3D();
+
+        if(algorithm.equals("Conjugate Gradient")) {
+            savedLocations = new Vector3D[atoms.size()];
+            savedForces = new Vector3D[atoms.size()];
+            savedVectors = new Vector3D[atoms.size()];
+            for(int i = 0; i < atoms.size(); i++) {
+                savedLocations[i] = new Vector3D();
+                savedForces[i] = new Vector3D();
+                savedVectors[i] = new Vector3D();
+            }
+        } else {
+            savedLocations = new Vector3D[atoms.size()];
+            for(int i = 0; i < atoms.size(); i++)
+                savedLocations[i] = new Vector3D();
+        }
 
         //Set up the output recording
         Recording output = new Recording(cluster);
@@ -127,6 +149,8 @@ public class EnergyMinimizationSimulator extends Simulator {
         for(step = 1; step < numSteps; step++) {
             if(algorithm.equals("Steepest Descent"))
                 steepestDescent();
+            else if(algorithm.equals("Conjugate Gradient"))
+                conjugateGradient(step);
 
             //If the step is on the output interval, add a frame
             if((step % outputInterval) == 0 || isConverged) {
@@ -244,5 +268,146 @@ public class EnergyMinimizationSimulator extends Simulator {
 
             currentStep *= 0.5;
         }
+    }
+
+    /**
+     * Runs the conjugate gradient algorithm for one step
+     *
+      * Conjugate Gradient:
+     * 0. The search vector in the first step is the negative gradient of potential
+     *    energy (i.e. force), the same as it is in steepest descent
+     * 1. Compute scalar constant, gamma
+     *    gamma = (-current force DOT -current force)
+     *            / (-previous Force DOT -previous Force)
+     * 2. Compute search vector, V
+     *    V = current force + gamma * previous V
+     * 3. Compute new position for atom
+     *    new position = current position + V_k
+     */
+    public void conjugateGradient(int stepNumber) {
+        ArrayList<Atom> atoms = cluster.getAtoms();
+        Atom a;
+        int numAtoms = atoms.size();
+        int i;
+        double potentialEnergy;
+        double trialPotential;
+        double gamma;
+        Vector3D searchVector = new Vector3D();
+        boolean isFirstStep;
+
+        //Calculate force on each atom
+        cluster.calculateForces();
+
+        //Calculate potential energy of the current configuration
+        HashMap<String, Double> energies = cluster.getEnergies();
+        potentialEnergy = 0.0;
+        for(String eName : energies.keySet())
+            potentialEnergy += energies.get(eName).doubleValue();
+
+        //Check if this is the first step since there will be no previous information
+        isFirstStep = (stepNumber == 1);
+
+        //Choose either steepest descent or conjugate gradient
+        if(stepNumber % (numDimensions * numAtoms) == 0) {
+            for(i = 0; i < numAtoms; i++) {
+                a = atoms.get(i);
+
+                //Save locations and forces and search vectors
+                savedLocations[i].x = a.location.x;
+                savedLocations[i].y = a.location.y;
+                savedLocations[i].z = a.location.z;
+
+                savedVectors[i].x = savedForces[i].x = a.force.x;
+                savedVectors[i].y = savedForces[i].y = a.force.y;
+                savedVectors[i].z = savedForces[i].z = a.force.z;
+
+                //Compute trial location using steepest descent
+                a.location.x += a.force.x * currentStep;
+                a.location.y += a.force.y * currentStep;
+                a.location.z += a.force.z * currentStep;
+            }
+        } else {
+            for(i = 0; i < numAtoms; i++) {
+                a = atoms.get(i);
+
+                //Save locations and forces
+                savedLocations[i].x = a.location.x;
+                savedLocations[i].y = a.location.y;
+                savedLocations[i].z = a.location.z;
+
+                //Compute trial location using conjugate gradient
+                searchVector = computeSearchVector(isFirstStep, a.force, savedForces[i], savedVectors[i], searchVector);
+                a.location.x += searchVector.x * currentStep;
+                a.location.y += searchVector.y * currentStep;
+                a.location.z += searchVector.z * currentStep;
+
+                //Save force and search vector from this step
+                savedForces[i].x = a.force.x;
+                savedForces[i].y = a.force.y;
+                savedForces[i].z = a.force.z;
+
+                savedVectors[i].x = searchVector.x;
+                savedVectors[i].y = searchVector.y;
+                savedVectors[i].z = searchVector.z;
+            }
+        }
+
+        //Calculate potential energy of the new configuration
+        energies = cluster.getEnergies();
+        trialPotential = 0.0;
+        for(String eName : energies.keySet())
+            trialPotential += energies.get(eName).doubleValue();
+
+        //Decide whether to keep trial configuration based on convergence
+        if(trialPotential < potentialEnergy) {
+            //Keep positions and check for convergence
+            if(Math.abs((potentialEnergy - trialPotential) / potentialEnergy) < convergenceCriterion)
+                isConverged = true;
+
+            currentStep *= 1.2;
+        } else {
+            //Restore old positions
+            for(i = 0; i < numAtoms; i++) {
+                a = atoms.get(i);
+
+                a.location.x = savedLocations[i].x;
+                a.location.y = savedLocations[i].y;
+                a.location.z = savedLocations[i].z;
+            }
+
+            currentStep *= 0.5;
+        }
+    }
+
+    /**
+     * Computes a search vector for conjugate gradient method
+     *
+     * @param output the vector to use for output
+     */
+    public Vector3D computeSearchVector(boolean isFirstStep, Vector3D currentForce, Vector3D oldForce, Vector3D previousVector, Vector3D output) {
+        double gamma;
+
+        //Compute gamma
+        if(isFirstStep) {
+            gamma = 0.0;
+        } else {
+            double magnitudeCurrentForce = currentForce.magnitudeSquared();
+            double magnitudeOldForce = oldForce.magnitudeSquared();
+
+            gamma = magnitudeCurrentForce / magnitudeOldForce;
+        }
+
+        //Compute the search vector
+        output.x = currentForce.x;
+        output.y = currentForce.y;
+        output.z = currentForce.z;
+
+        if(!isFirstStep) {
+            output.x += (gamma * previousVector.x);
+            output.y += (gamma * previousVector.y);
+            output.z += (gamma * previousVector.z);
+        }
+
+        return output;
     }
 }
