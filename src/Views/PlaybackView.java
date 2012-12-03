@@ -37,6 +37,12 @@ public class PlaybackView extends SimpleApplication {
     private ArrayList<Integer> end2 = null;
 
     /**
+     * Stores statitstics for currently displayed objects
+     */
+    private int numAtoms = 0;
+    private int numBonds = 0;
+
+    /**
      * Initializes the scene and camera
      */
     @Override
@@ -75,8 +81,25 @@ public class PlaybackView extends SimpleApplication {
     @Override
     public void simpleUpdate(float tpf) {
         if(setupFlag) {
+            //Delete previous geometry from scene if any
+            Spatial currentGeom;
+            for(int i = 0; i < numAtoms; i++) {
+                currentGeom = rootNode.getChild("Atom" + i);
+                currentGeom.removeFromParent();
+            }
+
+            numAtoms = 0;
+
+            for(int i = 0; i < numBonds; i++) {
+                currentGeom = rootNode.getChild("Bond" + i);
+                currentGeom.removeFromParent();
+            }
+
+            numBonds = 0;
+
             //Set up spheres for each atom
             ArrayList<Atom> atoms = currentCluster.getAtoms();
+            numAtoms = atoms.size();
             int currentId = 0;
             Point3D location;
             for(Atom a : atoms) {
@@ -112,9 +135,12 @@ public class PlaybackView extends SimpleApplication {
             end1 = new ArrayList<Integer>(atoms.size() / 2);
             end2 = new ArrayList<Integer>(atoms.size() / 2);
             ArrayList<AtomAssociation> associations = currentCluster.getAtomAssociation();
+            numBonds = 0;
             currentId = 0;
             for(AtomAssociation aa : associations) {
                 if(aa.isBond()) {
+                    numBonds++;
+
                     Bond b = (Bond)aa;
 
                     //Set up endpoints for frame transformations

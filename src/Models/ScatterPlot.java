@@ -28,7 +28,7 @@ public class ScatterPlot extends Plot {
     /**
      * Sets the variable on the x-axis
      *
-     * @param name of variable to use on the x-axis
+     * @param variable of variable to use on the x-axis
      */
     public void setXVariable(String variable) {
         variable1 = variable;
@@ -37,7 +37,7 @@ public class ScatterPlot extends Plot {
     /**
      * Sets the variable on the y-axis
      *
-     * @param name of variable to use on the y-axis
+     * @param variable of variable to use on the y-axis
      */
     public void setYVariable(String variable) {
         variable2 = variable;
