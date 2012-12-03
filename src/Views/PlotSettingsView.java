@@ -60,6 +60,11 @@ public class PlotSettingsView extends JPanel {
         jLabel3.setText("Scatter Plot");
 
         jButton2.setText("Apply");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jComboBox3.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -158,6 +163,10 @@ public class PlotSettingsView extends JPanel {
         controller.newTimePlot();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {
+        controller.newScatterPlot();
+    }
+
     public ArrayList<String> getTimeVariables() {
         ArrayList<String> out = new ArrayList<String>();
         String variable;
@@ -183,6 +192,14 @@ public class PlotSettingsView extends JPanel {
             out.add(variable);
 
         return out;
+    }
+
+    public String getXVariable() {
+        return (String)(jComboBox8.getSelectedItem());
+    }
+
+    public String getYVariable() {
+        return (String)(jComboBox9.getSelectedItem());
     }
 
     public void setAvailableVariables(String[] variables) {

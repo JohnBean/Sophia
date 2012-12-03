@@ -79,6 +79,16 @@ public class PlotController {
     }
 
     /**
+     * Sets up a new scatter plot from the GUI settings
+     */
+    public void newScatterPlot() {
+        String variable1 = plsView.getXVariable();
+        String variable2 = plsView.getYVariable();
+
+        setupScatterPlot(variable1, variable2);
+    }
+
+    /**
      * Sets up a time plot with the provided lines
      *
      * @param lines the lines to create on the time plot
@@ -93,5 +103,23 @@ public class PlotController {
 
         plot = (Plot)tp;
         pView.setPlot(tp.getChart());
+    }
+
+    /**
+     * Sets up a new scatter plot with the two provided variables
+     *
+     * @param variable1 the x-axis variable
+     * @param variable2 the y-axis variable
+     */
+    public void setupScatterPlot(String variable1, String variable2) {
+        ScatterPlot sp = new ScatterPlot();
+
+        sp.setXVariable(variable1);
+        sp.setYVariable(variable2);
+        
+        sp.generate(recording);
+
+        plot = (Plot)sp;
+        pView.setPlot(plot.getChart());
     }
 }

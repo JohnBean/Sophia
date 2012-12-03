@@ -14,12 +14,16 @@ import org.jfree.chart.plot.XYPlot;
  */
 public class TimePlot extends Plot {
     private ArrayList<String> lines;
+    private boolean temperature;
+    private boolean energy;
 
     /**
      * Constructs a new time plot
      */
     public TimePlot() {
         lines = new ArrayList<String>();
+        temperature = false;
+        energy = false;
     }
 
     /**
@@ -28,6 +32,11 @@ public class TimePlot extends Plot {
      * @param variable name of the variable to add a line for
      */
     public void addLine(String variable) {
+        if(variable.equals("Temperature"))
+            temperature = true;
+        else
+            energy = true;
+
         lines.add(variable);
     }
 
@@ -59,11 +68,22 @@ public class TimePlot extends Plot {
             dataset.addSeries(series);
         }
 
+        //Determine Y-axis label
+        String label;
+        if(temperature && energy)
+            label = "Kelvins / kcal/mol";
+        else if(temperature)
+            label = "Kelvins";
+        else if(energy)
+            label = "kcal/mol";
+        else
+            label = "";
+
         //Create the chart
         chart = ChartFactory.createXYLineChart(
             "Time Plot",
             "Frame Number",
-            "kcal/Kelvins",
+            label,
             dataset,
             PlotOrientation.VERTICAL,
             true,
