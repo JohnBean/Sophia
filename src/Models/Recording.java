@@ -174,13 +174,51 @@ public class Recording {
                 energyOut.println(String.valueOf(curFrame.temperature).trim().substring(0,Math.min(6,String.valueOf(curFrame.temperature).trim().length()))+"\t\t"+"0");
                 
                 out.println("HEADER	Coordinates at Step "+frameNumber);
+                String spaces = "             ";
                 for(atomNumber=0; atomNumber<atoms.size();atomNumber++){
                    curAtom= atoms.get(atomNumber);
-                   out.print("ATOM     "+atomNumber + "    " + curAtom.atomType + "   " +curAtom.moloculeName + " " + curAtom.chainId + "   " + curAtom.sequenceId);
-                   out.print("      "+String.valueOf(curFrame.locations.get(atomNumber).x).trim().substring(0,Math.min(6,String.valueOf(curFrame.locations.get(atomNumber).x).trim().length()))+ "  ");
-                   out.print(String.valueOf(curFrame.locations.get(atomNumber).y).trim().substring(0,Math.min(6,String.valueOf(curFrame.locations.get(atomNumber).y).trim().length()))+ "  ");
-                   out.print(String.valueOf(curFrame.locations.get(atomNumber).z).trim().substring(0,Math.min(6,String.valueOf(curFrame.locations.get(atomNumber).z).trim().length()))+ "  " );
-                   out.println(curAtom.occupancy +"  "+ curAtom.temperatureFactor+ "  " + curAtom.mass + "  "+ curAtom.radius + "  " +curAtom.charge);
+                   out.print("ATOM");
+                   out.print(spaces.substring(0, 7-String.valueOf(atomNumber+1).length())+(atomNumber+1)); //7
+                   out.print(spaces.substring(0, 5-curAtom.atomType.length())+ curAtom.atomType); //5
+                   out.print(spaces.substring(0, 4-curAtom.moloculeName.length()) +curAtom.moloculeName); //4
+                   out.print(" " + curAtom.chainId);//2
+                   out.print(spaces.substring(0, 4-String.valueOf(curAtom.sequenceId).trim().length())+curAtom.sequenceId);//4
+                   
+                   String xOut=String.valueOf(Math.abs(curFrame.locations.get(atomNumber).x)).trim().substring(0,Math.min(5,String.valueOf(Math.abs(curFrame.locations.get(atomNumber).x)).trim().length()));
+                   if(curFrame.locations.get(atomNumber).x<0){
+                       xOut="-"+xOut;
+                   }
+                   String yOut=String.valueOf(Math.abs(curFrame.locations.get(atomNumber).y)).trim().substring(0,Math.min(5,String.valueOf(Math.abs(curFrame.locations.get(atomNumber).y)).trim().length()));
+                   if(curFrame.locations.get(atomNumber).y<0){
+                       yOut="-"+yOut;
+                   }
+                   String zOut=String.valueOf(Math.abs(curFrame.locations.get(atomNumber).z)).trim().substring(0,Math.min(5,String.valueOf(Math.abs(curFrame.locations.get(atomNumber).z)).trim().length()));
+                   if(curFrame.locations.get(atomNumber).z<0){
+                       zOut="-"+zOut;
+                   }
+                   out.print(spaces.substring(0, 12-xOut.length())+xOut);   //12                 
+                   out.print(spaces.substring(0, 8-yOut.length())+yOut);  //8
+                   out.print(spaces.substring(0, 8-zOut.length())+zOut); //8
+                   
+                   String occupancyOut =String.valueOf(curAtom.occupancy);
+                   if(occupancyOut.length()<4){
+                       occupancyOut=occupancyOut+"0";
+                   }
+                   out.print("  "  + occupancyOut );// "  0.00"
+                   
+                   String tempOut =String.valueOf(curAtom.temperatureFactor);
+                   if(tempOut.length()<4){
+                       tempOut=tempOut+"0";
+                   }
+                   out.print("  "  + tempOut);//"  1.00"
+                   out.print("  "  + String.valueOf(curAtom.mass).substring(0,Math.min(4, String.valueOf(curAtom.mass).length())));
+                   out.print("  "  + String.valueOf(curAtom.radius).substring(0,Math.min(4, String.valueOf(curAtom.radius).length())));
+                   
+                   String chargeOut =String.valueOf(curAtom.charge);
+                   if(chargeOut.length()<4){
+                       chargeOut=chargeOut+"0";
+                   }
+                   out.println("  "  + chargeOut);
                 }
                 if(frameNumber==0){//after the first set of atoms display the connections
                     FileReader fr = new FileReader(pdbFile);
