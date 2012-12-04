@@ -159,7 +159,7 @@ public class Recording {
             energyOut.print("Step\t");
             for(String energyType : energyHeaders)
                 energyOut.print(energyType + "\t");
-            energyOut.println("Potential      Kinetic\tTotal\tTemperature\tPressure");
+            energyOut.println("Potential\tKinetic\tTotal\tTemperature\tPressure");
             for(frameNumber=0; frameNumber<this.getNumFrames();frameNumber++){
                 curFrame=this.getFrame(frameNumber);
                 
