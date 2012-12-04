@@ -131,7 +131,7 @@ public class FilePickerView extends JPanel {
             }
         });
 
-        jRadioButton3.setText("Monte Carlo");
+        //jRadioButton3.setText("Monte Carlo");
 
         jLabel5.setFont(new java.awt.Font("Lucida Grande", 0, 12)); // NOI18N
         jLabel5.setText("Simulation Name");

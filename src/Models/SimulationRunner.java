@@ -30,7 +30,7 @@ public class SimulationRunner implements Runnable {
      * This is where the thread enters and runs the simulation then signals the controller it is done
      */
     public void run() {
-        Recording output = simulator.run(cluster, progress);
+        Recording output = simulator.run(cluster,simulator.getOutputInterval(), progress);
 
         controller.signalFinished(output);
     }

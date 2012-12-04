@@ -58,6 +58,14 @@ abstract class Simulator {
     public int getType() {
         return type;
     }
+    /**
+     * Returns the output interval
+     *
+     * @return The output interval in int form
+     */
+    public int getOutputInterval() {
+        return outputInterval;
+    }
 
     /**
      * Runs through the simulation
@@ -69,7 +77,7 @@ abstract class Simulator {
      * @param cluster The cluster object containing all atoms and associations to simulate
      * @return A recording object with each simulated frame
      */
-    abstract Recording run(Cluster cluster, JProgressBar prog);
+    abstract Recording run(Cluster cluster,Integer outputInterval, JProgressBar prog);
 
     /**
      * Set the timestep
