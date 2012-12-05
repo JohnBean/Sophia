@@ -11,6 +11,10 @@ import java.io.*;
  */
 public class Recording {
     /**
+     * The unique id of the type of simulation
+     */
+    protected int type;
+    /**
      * The number of steps between each frame
      */
     protected int outputInterval;
@@ -38,6 +42,23 @@ public class Recording {
         cluster = c;
         this.outputInterval=outputInterval;
         frames = new ArrayList<Frame>();
+    }
+    /**
+     * Sets the name of the recording
+     *
+     * @param Int type
+     */
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
+    /**
+     * Gets the type of the recording
+     *
+     * @return type
+     */
+    public Integer getType() {
+        return type;
     }
 
     /**
@@ -162,22 +183,32 @@ public class Recording {
             PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(file.getAbsoluteFile().getParent()+"\\Output\\"+name +"_trajectory.pdb")));
             PrintWriter energyOut = new PrintWriter(new BufferedWriter(new FileWriter(file.getAbsoluteFile().getParent()+"\\Output\\"+name+"_energy.txt")));
             energyOut.print("Step\t");
-            for(String energyType : energyHeaders)
-                energyOut.print(energyType + "\t");
-            energyOut.println("Potential\tKinetic\tTotal\tTemperature\tPressure");
+            energyOut.print("Bond\tAngle\tTorsion\tVDW\tElectro\tPotn\tKinetic\tTotal\t");
+            if(type==1){
+                energyOut.println("Temperature");
+            }
+            else if(type==2){
+                energyOut.println("Step Size");
+            }
             for(frameNumber=0; frameNumber<this.getNumFrames();frameNumber++){
                 curFrame=this.getFrame(frameNumber);
                 
                 energyOut.print((frameNumber)*outputInterval);
-                for(String energyType : energyHeaders)
-                    energyOut.print("\t"+String.valueOf(curFrame.energies.get(energyType)).trim().substring(0,Math.min(6,String.valueOf(curFrame.energies.get(energyType)).trim().length())));
-                energyOut.print("\t");
-                
+
+                energyOut.print("\t"+String.valueOf(curFrame.energies.get("Bond")).trim().substring(0,Math.min(6,String.valueOf(curFrame.energies.get("Bond")).trim().length())));
+                energyOut.print("\t"+String.valueOf(curFrame.energies.get("Angle")).trim().substring(0,Math.min(6,String.valueOf(curFrame.energies.get("Angle")).trim().length())));
+                energyOut.print("\t"+String.valueOf(curFrame.energies.get("Torsion")).trim().substring(0,Math.min(6,String.valueOf(curFrame.energies.get("Torsion")).trim().length())));
+                energyOut.print("\t"+String.valueOf(curFrame.energies.get("VDW")).trim().substring(0,Math.min(6,String.valueOf(curFrame.energies.get("VDW")).trim().length()))+"\t");
+                energyOut.print("Temp\t");
                 energyOut.print(String.valueOf(curFrame.potentialEnergy).trim().substring(0,Math.min(6,String.valueOf(curFrame.potentialEnergy).trim().length()))+"\t");
                 energyOut.print(String.valueOf(curFrame.kineticEnergy).trim().substring(0,Math.min(6,String.valueOf(curFrame.kineticEnergy).trim().length()))+"\t");
                 energyOut.print(String.valueOf(curFrame.totalEnergy).trim().substring(0,Math.min(6,String.valueOf(curFrame.totalEnergy).trim().length()))+"\t");
-                energyOut.println(String.valueOf(curFrame.temperature).trim().substring(0,Math.min(6,String.valueOf(curFrame.temperature).trim().length()))+"\t\t"+"0");
-                
+                if(type==1){
+                   energyOut.println(String.valueOf(curFrame.temperature).trim().substring(0,Math.min(6,String.valueOf(curFrame.temperature).trim().length())));
+                }
+                else if(type==2){
+                    energyOut.println("Step Size placeholder");
+                }
                 out.println("HEADER	Coordinates at Step "+(frameNumber)*outputInterval);
                 String spaces = "             ";
                 for(atomNumber=0; atomNumber<atoms.size();atomNumber++){
