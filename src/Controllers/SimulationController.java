@@ -258,8 +258,9 @@ public class SimulationController {
 
             //Get any common properties
             simulator.setNumSteps(essView.getNumSteps());
+            simulator.setOutputInterval(essView.getOutputInterval());
+
             //TODO: add this to EM settings view
-            simulator.setOutputInterval(10);
             simulator.setNumDimensions(3);
         } else {
             simulator = new NullSimulator();

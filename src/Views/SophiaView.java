@@ -9,6 +9,10 @@ import com.jme3.util.JmeFormatter;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.XYPlot;
 
+import java.io.*;
+
+import java.net.URLDecoder;
+
 import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Container;
@@ -36,6 +40,7 @@ public class SophiaView {
     private static JPanel cards;
     private static Container canvasPanel;
     private static final String appClass = "edu.gatech.sophia.PlaybackView";
+    private static JFileChooser jFileChooser1;
 
     /**
      * Name of file picker view for card switching
@@ -93,6 +98,22 @@ public class SophiaView {
             }
         });
 
+        final JMenuItem itemSave = new JMenuItem("Save Current Output");
+        menuFile.add(itemSave);
+        itemSave.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                //Get output name
+                int choice = jFileChooser1.showOpenDialog(null);
+                if(choice == JFileChooser.APPROVE_OPTION) {
+                    File chosenFile = jFileChooser1.getSelectedFile();
+                    String fname = chosenFile.getName();
+                    if(fname.lastIndexOf('.') != -1)
+                        fname = fname.substring(0, fname.lastIndexOf('.'));
+                    vController.saveRecording(fname);
+                }
+            }
+        });
+
         JMenuItem itemExit = new JMenuItem("Exit");
         menuFile.add(itemExit);
         itemExit.addActionListener(new ActionListener() {
@@ -140,6 +161,19 @@ public class SophiaView {
         
         //Set up the panel for the 3D simulation playback canvas
         createPlaybackPanel();
+
+        //Create file chooser
+        jFileChooser1 = new JFileChooser();
+
+        //Get current directory
+        String decodedPath = "";
+        try {
+            String path = SophiaView.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+            decodedPath = URLDecoder.decode(path, "UTF-8");
+        } catch(IOException ioe) {
+            ioe.printStackTrace();
+        }
+        jFileChooser1.setCurrentDirectory(new File(decodedPath));
 
         //Create an empty chart to display initially
         JFreeChart initialChart = new JFreeChart("Empty Plot", new XYPlot());

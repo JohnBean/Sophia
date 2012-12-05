@@ -22,9 +22,9 @@ public class NullSimulator extends Simulator {
      * @param prog a progress bar on the GUI to update with the progress of the simulation
      * @return a Recording object containing a single frame
      */
-    public Recording run(Cluster cluster,Integer outputInterval, JProgressBar prog) {
+    public Recording run(Cluster cluster, JProgressBar prog) {
         //Set up the output recording
-        Recording output = new Recording(cluster,outputInterval);
+        Recording output = new Recording(cluster, outputInterval);
 
         //Add the initial frame
         Frame initial = new Frame();

@@ -34,7 +34,7 @@ public class Recording {
      *
      * @param c The cluster containing atoms and associations represented
      */
-    public Recording(Cluster c, Integer outputInterval) {
+    public Recording(Cluster c, int outputInterval) {
         cluster = c;
         this.outputInterval=outputInterval;
         frames = new ArrayList<Frame>();
@@ -134,7 +134,7 @@ public class Recording {
     /**
      * Saves the recording to files
      */
-    public void writeRecord(){
+    public void writeRecord(String name){
         //String curLine;//line being read in
         int frameNumber;
         int stepNumber;
@@ -143,7 +143,7 @@ public class Recording {
         String pdbFile=cluster.pdbFile;
         ArrayList<Atom> atoms= this.getCluster().getAtoms();
         Atom curAtom;
-        String name=this.getName();
+
         if(name==null||name.length()<2){
             name="test";
         }
@@ -159,8 +159,8 @@ public class Recording {
         Frame curFrame;
          try{
             final File file = new File(".");
-            PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(file.getAbsoluteFile().getParent()+"\\Output\\"+name +"_trajectory.pdb")));
-            PrintWriter energyOut = new PrintWriter(new BufferedWriter(new FileWriter(file.getAbsoluteFile().getParent()+"\\Output\\"+name+"_energy.txt")));
+            PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(name + "_trajectory.pdb")));
+            PrintWriter energyOut = new PrintWriter(new BufferedWriter(new FileWriter(name + "_energy.txt")));
             energyOut.print("Step\t");
             for(String energyType : energyHeaders)
                 energyOut.print(energyType + "\t");

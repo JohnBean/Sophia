@@ -218,4 +218,8 @@ public class EMSimulationSettingsView extends javax.swing.JPanel {
     public double getConvergenceCriterion() {
         return Double.parseDouble(jTextField3.getText());
     }
+
+    public int getOutputInterval() {
+        return Integer.parseInt(jTextField4.getText());
+    }
 }

@@ -77,7 +77,7 @@ abstract class Simulator {
      * @param cluster The cluster object containing all atoms and associations to simulate
      * @return A recording object with each simulated frame
      */
-    abstract Recording run(Cluster cluster,Integer outputInterval, JProgressBar prog);
+    abstract Recording run(Cluster cluster, JProgressBar prog);
 
     /**
      * Set the timestep

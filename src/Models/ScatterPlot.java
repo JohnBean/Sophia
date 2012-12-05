@@ -72,13 +72,13 @@ public class ScatterPlot extends Plot {
         //Add units to the variables for labels
         String xlabel;
         if(variable1.equals("Temperature"))
-            xlabel = "" + variable1 + " (Kelvins)";
+            xlabel = "" + variable1 + " (K)";
         else
             xlabel = "" + variable1 + " (kcal/mol)";
 
         String ylabel;
         if(variable2.equals("Temperature"))
-            ylabel = "" + variable2 + " (Kelvins)";
+            ylabel = "" + variable2 + " (K)";
         else
             ylabel = "" + variable2 + " (kcal/mol)";
 

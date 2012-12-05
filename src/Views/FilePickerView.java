@@ -130,6 +130,8 @@ public class FilePickerView extends JPanel {
                 jRadioButton2ActionPerformed(evt);
             }
         });
+        buttonGroup1.add(jRadioButton1);
+        buttonGroup1.add(jRadioButton2);
 
         //jRadioButton3.setText("Monte Carlo");
 

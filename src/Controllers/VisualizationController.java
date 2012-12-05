@@ -54,7 +54,6 @@ public class VisualizationController {
         pbView.showInitialFrame(recording.getFrame(0), recording.getCluster());
         pbcView.setNumFrames(recording.getNumFrames());
         pbcView.setCurrentFrame(0);
-        recording.writeRecord();
     }
     public Recording getRecording(){
         return this.recording;
@@ -161,7 +160,6 @@ public class VisualizationController {
             currentFrame++;
 
             if(currentFrame == recording.getNumFrames()) {
-                currentFrame = 0;
                 playing = false;
             }
 
@@ -175,6 +173,17 @@ public class VisualizationController {
                 }
             }, 1000 / playbackRate);
         }
+    }
+
+    /**
+     * Saves the recording given a filename
+     *
+     * @param filename the base filename to save as (no extension)
+     */
+    public void saveRecording(String filename)
+    {
+        if(recording != null)
+            recording.writeRecord(filename);
     }
 
     /**

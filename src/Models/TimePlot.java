@@ -73,7 +73,7 @@ public class TimePlot extends Plot {
         if(temperature && energy)
             label = "Kelvins / kcal/mol";
         else if(temperature)
-            label = "Kelvins";
+            label = "Temperature (K)";
         else if(energy)
             label = "kcal/mol";
         else
