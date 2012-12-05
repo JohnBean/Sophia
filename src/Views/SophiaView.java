@@ -106,7 +106,7 @@ public class SophiaView {
                 int choice = jFileChooser1.showOpenDialog(null);
                 if(choice == JFileChooser.APPROVE_OPTION) {
                     File chosenFile = jFileChooser1.getSelectedFile();
-                    String fname = chosenFile.getName();
+                    String fname = chosenFile.getPath();
                     if(fname.lastIndexOf('.') != -1)
                         fname = fname.substring(0, fname.lastIndexOf('.'));
                     vController.saveRecording(fname);

@@ -160,6 +160,7 @@ public class VisualizationController {
             currentFrame++;
 
             if(currentFrame == recording.getNumFrames()) {
+                currentFrame--;
                 playing = false;
             }
 
