@@ -26,6 +26,8 @@ public class NullSimulator extends Simulator {
         //Set up the output recording
         Recording output = new Recording(cluster, outputInterval);
 
+        output.setType(type);
+
         //Add the initial frame
         Frame initial = new Frame();
         ArrayList<Point3D> ilocations = new ArrayList<Point3D>();

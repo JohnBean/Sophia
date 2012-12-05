@@ -113,6 +113,8 @@ public class EnergyMinimizationSimulator extends Simulator {
         //Set up the output recording
         Recording output = new Recording(cluster, outputInterval);
 
+        output.setType(type);
+        
         //Set up the progress bar
         prog.setMinimum(0);
         prog.setMaximum(numSteps - 1);
