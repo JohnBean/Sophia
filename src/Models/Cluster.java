@@ -239,9 +239,31 @@ public class Cluster {
                         Angle newAngle = new Angle(atom1, atom2, atom3, Double.valueOf(structInfo[4]), Double.valueOf(structInfo[5]));//make the angle and add
                         associations.add(newAngle);
                     }
-    		else if(structInfo[0].compareTo("TORSION")==0){
+                    else if(structInfo[0].compareTo("TORSION")==0){
                         String[] torsionInfo = curLine.split("[ ]+");
-                        associations.add(new Torsion(atoms.get(Integer.parseInt(torsionInfo[1])-1),atoms.get(Integer.parseInt(torsionInfo[2])-1),atoms.get(Integer.parseInt(torsionInfo[3])-1),atoms.get(Integer.parseInt(torsionInfo[4])-1),Double.parseDouble(torsionInfo[5]),Integer.parseInt(torsionInfo[6]),Double.parseDouble(torsionInfo[7])));
+                        Atom atom1 = atoms.get(Integer.parseInt(torsionInfo[1]) - 1);
+                        Atom atom2 = atoms.get(Integer.parseInt(torsionInfo[2]) - 1);
+                        Atom atom3 = atoms.get(Integer.parseInt(torsionInfo[3]) - 1);
+                        Atom atom4 = atoms.get(Integer.parseInt(torsionInfo[4]) - 1);
+
+                        //add each atom to each other, they all have a reference to each other in the atom
+                        atom1.addBond(atom2);
+                        atom1.addBond(atom3);
+                        atom1.addBond(atom4);
+
+                        atom2.addBond(atom1);
+                        atom2.addBond(atom3);
+                        atom2.addBond(atom4);
+
+                        atom3.addBond(atom1);
+                        atom3.addBond(atom2);
+                        atom3.addBond(atom4);
+
+                        atom4.addBond(atom1);
+                        atom4.addBond(atom2);
+                        atom4.addBond(atom3);
+
+                        associations.add(new Torsion(atom1 ,atom2, atom3, atom4, Double.parseDouble(torsionInfo[5]), Integer.parseInt(torsionInfo[6]), Double.parseDouble(torsionInfo[7])));
                     }
                     //TODO build atoms connections from data red in
                 }   
