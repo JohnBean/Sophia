@@ -202,12 +202,21 @@ public class Recording {
             final File file = new File(".");
             PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(name + "_trajectory.pdb")));
             PrintWriter energyOut = new PrintWriter(new BufferedWriter(new FileWriter(name + "_energy.txt")));
-            energyOut.print("Step\t");
-            energyOut.print("Bond\tAngle");
+            energyOut.print("Step");
+            if(energyHeaders.contains("Bond")){
+                energyOut.print("\tBond");
+            }
+            if(energyHeaders.contains("Angle")){
+                energyOut.print("\tAngle");
+            }
+            
             if(energyHeaders.contains("Torsion")){
                 energyOut.print("\tTorsion");
             }
-            energyOut.print("\tVDW\tElectro\tPotn\tKinetic\tTotal\t");
+            if(energyHeaders.contains("VDW")){
+                energyOut.print("\tVDW");
+            }
+            energyOut.print("\tElectro\tPotn\tKinetic\tTotal\t");
             if(type==1){
                 energyOut.println("Temperature");
             }
@@ -219,12 +228,18 @@ public class Recording {
                 
                 energyOut.print((frameNumber)*outputInterval);
 
-                energyOut.print("\t"+String.valueOf(curFrame.energies.get("Bond")).trim().substring(0,Math.min(6,String.valueOf(curFrame.energies.get("Bond")).trim().length())));
-                energyOut.print("\t"+String.valueOf(curFrame.energies.get("Angle")).trim().substring(0,Math.min(6,String.valueOf(curFrame.energies.get("Angle")).trim().length())));
+                if(energyHeaders.contains("Bond")){
+                    energyOut.print("\t"+String.valueOf(curFrame.energies.get("Bond")).trim().substring(0,Math.min(6,String.valueOf(curFrame.energies.get("Bond")).trim().length())));
+                }
+                if(energyHeaders.contains("Angle")){
+                    energyOut.print("\t"+String.valueOf(curFrame.energies.get("Angle")).trim().substring(0,Math.min(6,String.valueOf(curFrame.energies.get("Angle")).trim().length())));
+                }
                 if(energyHeaders.contains("Torsion")){
                     energyOut.print("\t"+String.valueOf(curFrame.energies.get("Torsion")).trim().substring(0,Math.min(6,String.valueOf(curFrame.energies.get("Torsion")).trim().length())));
                 }
-                energyOut.print("\t"+String.valueOf(curFrame.energies.get("VDW")).trim().substring(0,Math.min(6,String.valueOf(curFrame.energies.get("VDW")).trim().length()))+"\t");
+                if(energyHeaders.contains("VDW")){
+                    energyOut.print("\t"+String.valueOf(curFrame.energies.get("VDW")).trim().substring(0,Math.min(6,String.valueOf(curFrame.energies.get("VDW")).trim().length()))+"\t");
+                }
                 energyOut.print("Temp\t");
                 energyOut.print(String.valueOf(curFrame.potentialEnergy).trim().substring(0,Math.min(6,String.valueOf(curFrame.potentialEnergy).trim().length()))+"\t");
                 energyOut.print(String.valueOf(curFrame.kineticEnergy).trim().substring(0,Math.min(6,String.valueOf(curFrame.kineticEnergy).trim().length()))+"\t");
