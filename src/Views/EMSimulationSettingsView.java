@@ -61,7 +61,7 @@ public class EMSimulationSettingsView extends javax.swing.JPanel {
         jLabel5.setFont(new java.awt.Font("Lucida Grande", 1, 10)); // NOI18N
         jLabel5.setText("Convergence Criterion");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Steepest Decent", "Conjugate Gradient" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Steepest Descent", "Conjugate Gradient" }));
 
         jTextField1.setText("0.0001");
 
@@ -71,9 +71,19 @@ public class EMSimulationSettingsView extends javax.swing.JPanel {
 
         jButton1.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         jButton1.setText("Next");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         jButton2.setText("Back");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jLabel6.setFont(new java.awt.Font("Lucida Grande", 0, 10)); // NOI18N
         jLabel6.setText("steps");

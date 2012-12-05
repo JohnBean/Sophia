@@ -61,6 +61,7 @@ public class PlaybackView extends SimpleApplication {
         chaseCam = new ChaseCamera(cam, rootNode, inputManager);
         chaseCam.setDefaultDistance(20.0f);
         chaseCam.setDefaultHorizontalRotation((float)Math.PI * 0.5f);
+        chaseCam.setDefaultVerticalRotation(0.0f);
         chaseCam.setMaxDistance(100.0f);
         chaseCam.setMinDistance(5.0f);
         chaseCam.setInvertHorizontalAxis(false);
