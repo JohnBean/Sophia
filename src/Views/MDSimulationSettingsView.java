@@ -1,18 +1,11 @@
 package edu.gatech.sophia;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 /**
  *Contains GUI elements to set up simulation
@@ -268,7 +261,9 @@ public class MDSimulationSettingsView extends JPanel {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {
         controller.simSettingsPrev();
     }
-
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {
+       loadSettings();
+    }
     public double getTimeStep() {
         return Double.parseDouble(jTextField2.getText());
     }
@@ -291,6 +286,20 @@ public class MDSimulationSettingsView extends JPanel {
 
     public double getInitialTemp() {
         return Double.parseDouble(jTextField4.getText());
+    }
+    public void loadSettings(){
+        try{
+            System.out.println("Settings load waiting for implimentation");
+        }
+        catch (Exception e){
+            System.err.println("Error: " + e.getMessage());
+        }
+        jTextField2.setText("");
+        jTextField3.setText("");
+        jTextField7.setText("");
+        jTextField5.setText("");
+        jComboBox2.setSelectedItem(2);
+        jTextField4.setText("");
     }
     public void writeSettings(){
         String filename="default";
