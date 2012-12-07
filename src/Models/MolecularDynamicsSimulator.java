@@ -48,7 +48,7 @@ public class MolecularDynamicsSimulator extends Simulator {
         Recording output = new Recording(cluster, outputInterval);
 
         output.setType(type);
-        
+        output.setStep(timestep);
         //Set up the progress bar
         prog.setMinimum(0);
         prog.setMaximum(numSteps - 1);

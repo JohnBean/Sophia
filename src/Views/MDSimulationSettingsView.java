@@ -1,14 +1,11 @@
 package edu.gatech.sophia;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 /**
  *Contains GUI elements to set up simulation
@@ -50,6 +47,7 @@ public class MDSimulationSettingsView extends JPanel {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -69,8 +67,6 @@ public class MDSimulationSettingsView extends JPanel {
         jLabel12 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox();
         jComboBox2 = new javax.swing.JComboBox();
-        jButton4 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
         
 
 
@@ -138,7 +134,11 @@ public class MDSimulationSettingsView extends JPanel {
         jComboBox2.setSelectedIndex(2);
         
         jButton2.setText("Save as Default");
-
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         jButton4.setText("Load");
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
@@ -255,11 +255,15 @@ public class MDSimulationSettingsView extends JPanel {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
         controller.simSettingsNext();
     }
-
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {
+        writeSettings();
+    }
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {
         controller.simSettingsPrev();
     }
-
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {
+       loadSettings();
+    }
     public double getTimeStep() {
         return Double.parseDouble(jTextField2.getText());
     }
@@ -283,7 +287,37 @@ public class MDSimulationSettingsView extends JPanel {
     public double getInitialTemp() {
         return Double.parseDouble(jTextField4.getText());
     }
+    public void loadSettings(){
+        try{
+            System.out.println("Settings load waiting for implimentation");
+        }
+        catch (Exception e){
+            System.err.println("Error: " + e.getMessage());
+        }
+        jTextField2.setText("");
+        jTextField3.setText("");
+        jTextField7.setText("");
+        jTextField5.setText("");
+        jComboBox2.setSelectedItem(2);
+        jTextField4.setText("");
+    }
+    public void writeSettings(){
+        String filename="default";
 
+        try{
+            PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(filename + "_MDSettings.txt")));
+            out.println("Timestep\t"+getTimeStep());
+            out.println("Numsteps\t"+getNumSteps());
+            out.println("Interval\t"+getOutputInterval());
+            out.println("Box Size\t"+getBoxSideLength());
+            out.println("Dimensions\t"+getNumDimensions());
+            out.println("Temperature\t"+getInitialTemp());
+            out.close();
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+    }
     public boolean useBox() {
         if(jTextField5.getText().equals(""))
             return false;

@@ -11,6 +11,10 @@ import java.io.*;
  */
 public class Recording {
     /**
+     * The size of each step for the output
+     */
+    protected double stepSize;
+    /**
      * The unique id of the type of simulation
      */
     protected int type;
@@ -60,7 +64,23 @@ public class Recording {
     public Integer getType() {
         return type;
     }
+    /**
+     * Sets the size of the timestep
+     *
+     * @param Double step size
+     */
+    public void setStep(Double timeStep) {
+        this.stepSize = timeStep;
+    }
 
+    /**
+     * Gets the time between frames
+     *
+     * @return timestep
+     */
+    public Double getStep() {
+        return stepSize;
+    }
     /**
      * Sets the name of the recording
      *
@@ -182,8 +202,21 @@ public class Recording {
             final File file = new File(".");
             PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(name + "_trajectory.pdb")));
             PrintWriter energyOut = new PrintWriter(new BufferedWriter(new FileWriter(name + "_energy.txt")));
-            energyOut.print("Step\t");
-            energyOut.print("Bond\tAngle\tTorsion\tVDW\tElectro\tPotn\tKinetic\tTotal\t");
+            energyOut.print("Step");
+            if(energyHeaders.contains("Bond")){
+                energyOut.print("\tBond");
+            }
+            if(energyHeaders.contains("Angle")){
+                energyOut.print("\tAngle");
+            }
+            
+            if(energyHeaders.contains("Torsion")){
+                energyOut.print("\tTorsion");
+            }
+            if(energyHeaders.contains("VDW")){
+                energyOut.print("\tVDW");
+            }
+            energyOut.print("\tElectro\tPotn\tKinetic\tTotal\t");
             if(type==1){
                 energyOut.println("Temperature");
             }
@@ -195,10 +228,18 @@ public class Recording {
                 
                 energyOut.print((frameNumber)*outputInterval);
 
-                energyOut.print("\t"+String.valueOf(curFrame.energies.get("Bond")).trim().substring(0,Math.min(6,String.valueOf(curFrame.energies.get("Bond")).trim().length())));
-                energyOut.print("\t"+String.valueOf(curFrame.energies.get("Angle")).trim().substring(0,Math.min(6,String.valueOf(curFrame.energies.get("Angle")).trim().length())));
-                energyOut.print("\t"+String.valueOf(curFrame.energies.get("Torsion")).trim().substring(0,Math.min(6,String.valueOf(curFrame.energies.get("Torsion")).trim().length())));
-                energyOut.print("\t"+String.valueOf(curFrame.energies.get("VDW")).trim().substring(0,Math.min(6,String.valueOf(curFrame.energies.get("VDW")).trim().length()))+"\t");
+                if(energyHeaders.contains("Bond")){
+                    energyOut.print("\t"+String.valueOf(curFrame.energies.get("Bond")).trim().substring(0,Math.min(6,String.valueOf(curFrame.energies.get("Bond")).trim().length())));
+                }
+                if(energyHeaders.contains("Angle")){
+                    energyOut.print("\t"+String.valueOf(curFrame.energies.get("Angle")).trim().substring(0,Math.min(6,String.valueOf(curFrame.energies.get("Angle")).trim().length())));
+                }
+                if(energyHeaders.contains("Torsion")){
+                    energyOut.print("\t"+String.valueOf(curFrame.energies.get("Torsion")).trim().substring(0,Math.min(6,String.valueOf(curFrame.energies.get("Torsion")).trim().length())));
+                }
+                if(energyHeaders.contains("VDW")){
+                    energyOut.print("\t"+String.valueOf(curFrame.energies.get("VDW")).trim().substring(0,Math.min(6,String.valueOf(curFrame.energies.get("VDW")).trim().length()))+"\t");
+                }
                 energyOut.print("Temp\t");
                 energyOut.print(String.valueOf(curFrame.potentialEnergy).trim().substring(0,Math.min(6,String.valueOf(curFrame.potentialEnergy).trim().length()))+"\t");
                 energyOut.print(String.valueOf(curFrame.kineticEnergy).trim().substring(0,Math.min(6,String.valueOf(curFrame.kineticEnergy).trim().length()))+"\t");
@@ -207,7 +248,7 @@ public class Recording {
                    energyOut.println(String.valueOf(curFrame.temperature).trim().substring(0,Math.min(6,String.valueOf(curFrame.temperature).trim().length())));
                 }
                 else if(type==2){
-                    energyOut.println("Step Size placeholder");
+                    energyOut.println(stepSize);
                 }
                 out.println("HEADER	Coordinates at Step "+(frameNumber)*outputInterval);
                 String spaces = "             ";
