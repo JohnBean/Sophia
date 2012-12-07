@@ -16,14 +16,15 @@ public class Cluster {
     private ArrayList<AtomAssociation> associations;
     private ArrayList<String> chains;
     private ArrayList<Integer> sequences;
-    public ArrayList<Torsion> torsions;
-    static final double VDW_Radius = 3.5; // angstroms
-    static final double wellDepth = 41.8; // CEU
+    private double vdwRadius = 3.5; // angstroms
+    private double wellDepth = 41.8; // CEU
+    private double dielectricConstant = 1.0;
     public String pdbFile;
     private String coloring = null;
     private Random randomGenerator = null;
 
     public static double GAS_CONSTANT = 0.830936;
+    static final double CEU_CONVERSION_FACTOR = 418.68;
     
     /**
      * Default constructor for cluster
@@ -265,6 +266,10 @@ public class Cluster {
 
                         associations.add(new Torsion(atom1 ,atom2, atom3, atom4, Double.parseDouble(torsionInfo[5]), Integer.parseInt(torsionInfo[6]), Double.parseDouble(torsionInfo[7])));
                     }
+                    else if(structInfo[0].compareTo("VDW") == 0) {
+                        vdwRadius = Double.parseDouble(structInfo[1]);
+                        wellDepth = Double.parseDouble(structInfo[2]) * CEU_CONVERSION_FACTOR;
+                    }
                     //TODO build atoms connections from data red in
                 }   
                 br.close();
@@ -289,7 +294,12 @@ public class Cluster {
         int counter = 0;
         for(Atom a : atoms) {
             for(Atom b : a.vdwAssoc) {
-                associations.add(new VanDerWaal(a, b, VDW_Radius, wellDepth));
+                associations.add(new VanDerWaal(a, b, vdwRadius, wellDepth));
+                
+                //Also add electrostatic forces if the atoms have a charge
+                if(a.charge != 0.0 && b.charge != 0.0)
+                    associations.add(new Electrostatic(a, b, dielectricConstant));
+
                 counter++;
 
                 //Remove a from b's associations to prevent duplicate vdw

@@ -268,6 +268,8 @@ public class PlaybackView extends SimpleApplication {
                 Material mat = currentAtom.getMaterial();
                 mat.setColor("Diffuse",new ColorRGBA(color[0], color[1], color[2], 1.0f));
             }
+
+            colorChangeFlag = false;
         }
     }
 
