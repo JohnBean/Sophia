@@ -216,7 +216,10 @@ public class Recording {
             if(energyHeaders.contains("VDW")){
                 energyOut.print("\tVDW");
             }
-            energyOut.print("\tElectro\tPotn\tKinetic\tTotal\t");
+            if(energyHeaders.contains("Coulomb")){
+                energyOut.print("\tElectro");
+            }
+            energyOut.print("\tPotn\tKinetic\tTotal\t");
             if(type==1){
                 energyOut.println("Temperature");
             }
@@ -238,17 +241,19 @@ public class Recording {
                     energyOut.print("\t"+String.valueOf(curFrame.energies.get("Torsion")).trim().substring(0,Math.min(6,String.valueOf(curFrame.energies.get("Torsion")).trim().length())));
                 }
                 if(energyHeaders.contains("VDW")){
-                    energyOut.print("\t"+String.valueOf(curFrame.energies.get("VDW")).trim().substring(0,Math.min(6,String.valueOf(curFrame.energies.get("VDW")).trim().length()))+"\t");
+                    energyOut.print("\t"+String.valueOf(curFrame.energies.get("VDW")).trim().substring(0,Math.min(6,String.valueOf(curFrame.energies.get("VDW")).trim().length())));
                 }
-                energyOut.print("Temp\t");
-                energyOut.print(String.valueOf(curFrame.potentialEnergy).trim().substring(0,Math.min(6,String.valueOf(curFrame.potentialEnergy).trim().length()))+"\t");
+                if(energyHeaders.contains("Coulomb")){
+                    energyOut.print("\t"+String.valueOf(curFrame.energies.get("Coulomb")).trim().substring(0,Math.min(6,String.valueOf(curFrame.energies.get("Coulomb")).trim().length())));
+                }
+                energyOut.print("\t"+String.valueOf(curFrame.potentialEnergy).trim().substring(0,Math.min(6,String.valueOf(curFrame.potentialEnergy).trim().length()))+"\t");
                 energyOut.print(String.valueOf(curFrame.kineticEnergy).trim().substring(0,Math.min(6,String.valueOf(curFrame.kineticEnergy).trim().length()))+"\t");
                 energyOut.print(String.valueOf(curFrame.totalEnergy).trim().substring(0,Math.min(6,String.valueOf(curFrame.totalEnergy).trim().length()))+"\t");
                 if(type==1){
                    energyOut.println(String.valueOf(curFrame.temperature).trim().substring(0,Math.min(6,String.valueOf(curFrame.temperature).trim().length())));
                 }
                 else if(type==2){
-                    energyOut.println(stepSize);
+                    energyOut.println(getStep());
                 }
                 out.println("HEADER	Coordinates at Step "+(frameNumber)*outputInterval);
                 String spaces = "             ";
