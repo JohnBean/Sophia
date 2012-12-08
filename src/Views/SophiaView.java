@@ -114,6 +114,24 @@ public class SophiaView {
             }
         });
 
+        final JMenuItem itemSaveParam = new JMenuItem("Save Simulation Parameters");
+        menuFile.add(itemSaveParam);
+        itemSaveParam.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                //To call the method in the controller just use simController.[methodname]
+                //Use of file chooser dialog is above
+            }
+        });
+
+        final JMenuItem itemLoadParam = new JMenuItem("Load Simulation Parameters");
+        menuFile.add(itemLoadParam);
+        itemLoadParam.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                //To call the method in the controller just use simController.[methodname]
+                //Use of file chooser dialog is above
+            }
+        });
+
         JMenuItem itemExit = new JMenuItem("Exit");
         menuFile.add(itemExit);
         itemExit.addActionListener(new ActionListener() {
