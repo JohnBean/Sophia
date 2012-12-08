@@ -1,5 +1,6 @@
 package edu.gatech.sophia;
-
+import java.io.*;
+import java.security.CodeSource;
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -17,8 +18,20 @@ public class EMSimulationSettingsView extends javax.swing.JPanel {
      */
     public EMSimulationSettingsView(SimulationController controller) {
         this.controller = controller;
-
+        
         initComponents();
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        loadDefaultSettings();
+
     }
 
     /**
@@ -202,7 +215,12 @@ public class EMSimulationSettingsView extends javax.swing.JPanel {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {
         controller.simSettingsPrev();
     }
-
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {
+        writeSettings();
+    }
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {
+        loadDefaultSettings();
+    }
     public String getMethod() {
         return (String)(jComboBox1.getSelectedItem());
     }
@@ -221,5 +239,104 @@ public class EMSimulationSettingsView extends javax.swing.JPanel {
 
     public int getOutputInterval() {
         return Integer.parseInt(jTextField4.getText());
+    }
+    public void loadDefaultSettings(){
+        try{
+           File propFile;
+           String curLine;
+           CodeSource codeSource = EMSimulationSettingsView.class.getProtectionDomain().getCodeSource();
+           File jarFile = new File(codeSource.getLocation().toURI().getPath());
+           File jarDir = jarFile.getParentFile();
+ 
+           propFile = new File(jarDir, "default_EMSettings.txt");
+           FileReader fr = new FileReader(propFile);//reads in the pdb
+           BufferedReader br = new BufferedReader(fr);
+           while ((curLine = br.readLine()) != null) {
+               String[] setting = curLine.split("[\t]+");//split by whitespace into an array to read
+               if(setting[0].toString().compareTo("Minim Method")==0){
+                  jComboBox1.setSelectedIndex(Integer.parseInt(setting[1]));
+               }
+			   
+               if(setting[0].compareTo("Step Size")==0){
+                   if(setting[1].compareTo("0.0")!=0&&setting[1].compareTo("0")!=0)jTextField1.setText(setting[1]);
+               }
+               
+               if(setting[0].compareTo("Numsteps")==0){
+                   jTextField2.setText(setting[1]);
+               }
+               
+               if(setting[0].compareTo("Convergence")==0){
+                   jTextField3.setText(setting[1]);
+               }
+			   
+		if(setting[0].compareTo("Interval")==0){
+                  jTextField4.setText(setting[1]);
+               }
+           }
+           this.setVisible(true);
+           br.close();
+           fr.close();
+        }
+        catch (Exception e){
+            System.err.println("Error: " + e.getMessage());
+        }
+    }
+    public void writeSettings(){
+        try{
+            File propFile;
+            CodeSource codeSource = EMSimulationSettingsView.class.getProtectionDomain().getCodeSource();
+            File jarFile = new File(codeSource.getLocation().toURI().getPath());
+            File jarDir = jarFile.getParentFile();
+            propFile = new File(jarDir, "default_EMSettings.txt");
+
+            // Does the file already exist 
+            if(!propFile.exists()){ 
+                try{ 
+                    // Try creating the file 
+                    propFile.createNewFile(); 
+                }
+                catch(IOException ioe) { 
+                    ioe.printStackTrace(); 
+                } 
+            }
+            try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(propFile)))) {
+
+                out.println("Minim Method\t"+jComboBox1.getSelectedIndex()); 
+
+                if(jTextField1.getText().equals("")){
+                    out.println("Step Size\t0");
+                }
+                else{
+                    out.println("Step Size\t"+jTextField1.getText().trim());
+                }
+
+                if(jTextField2.getText().equals("")){
+                    out.println("Numsteps\t0");
+                }
+                else{
+                    out.println("Numsteps\t"+jTextField2.getText().trim());
+                }
+
+                if(jTextField3.getText().equals("")){
+                    out.println("Convergence\t0");
+                }
+                else{
+                    out.println("Convergence\t"+jTextField3.getText().trim());
+                }
+
+                if(jTextField4.getText().equals("")){
+                    out.println("Interval\t0");
+                }
+                else{
+                    out.println("Interval\t"+jTextField4.getText().trim());
+                } 
+                out.close();
+            }
+        }
+        catch(Exception e){
+            System.out.println("Exception caught writting settings");
+            e.printStackTrace();
+        }
+        
     }
 }
