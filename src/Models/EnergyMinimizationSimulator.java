@@ -66,6 +66,11 @@ public class EnergyMinimizationSimulator extends Simulator {
     private boolean isConverged;
 
     /**
+     * Total time offset from beginning of simulation
+     */
+    private double totalTime;
+
+    /**
      * Constructs a new molecular dynamics simulator
      */
     public EnergyMinimizationSimulator(double convergenceCriterion, double stepSize, String algorithm) {
@@ -87,6 +92,7 @@ public class EnergyMinimizationSimulator extends Simulator {
         int step = 0;
         int progress = 0;
         double potentialEnergy;
+        totalTime = 0.0;
 
         //Set current step to parameter passed by user
         currentStep = stepSize;
@@ -141,6 +147,7 @@ public class EnergyMinimizationSimulator extends Simulator {
 
         initial.setLocations(ilocations);
         initial.setEnergies(ienergies);
+        initial.setTime(totalTime);
         initial.potentialEnergy = potentialEnergy;
         initial.totalEnergy = potentialEnergy;
         initial.temperature = 0.0;
@@ -178,6 +185,7 @@ public class EnergyMinimizationSimulator extends Simulator {
 
                 f.setLocations(locations);
                 f.setEnergies(energies);
+                f.setTime(totalTime);
                 f.potentialEnergy = potentialEnergy;
                 f.totalEnergy = potentialEnergy;
                 f.temperature = 0.0;
@@ -217,6 +225,9 @@ public class EnergyMinimizationSimulator extends Simulator {
         double potentialEnergy;
         double trialPotential;
         int i;
+
+        //Increment time
+        totalTime += currentStep;
 
         //Calculate force on each atom
         cluster.calculateForces();
@@ -292,6 +303,9 @@ public class EnergyMinimizationSimulator extends Simulator {
         double gamma;
         Vector3D searchVector = new Vector3D();
         boolean isFirstStep;
+
+        //Increment time
+        totalTime += currentStep;
 
         //Calculate force on each atom
         cluster.calculateForces();

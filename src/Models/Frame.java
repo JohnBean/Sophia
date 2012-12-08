@@ -32,6 +32,11 @@ public class Frame {
      */
     public HashMap<String, Double> energies;
 
+    /**
+     * Total offset from the beginning of the simulation in picoseconds
+     */
+    private double time;
+
     public Frame() {
         
     }
@@ -116,5 +121,23 @@ public class Frame {
             return value.doubleValue();
 
         return 0.0;
+    }
+
+    /**
+     * Gets the time of this frame in ps
+     *
+     * @return the time
+     */
+    public double getTime() {
+        return time;
+    }
+
+    /**
+     * Sets the time offset of this frame
+     *
+     * @param time the offset from the beginning of the simulation
+     */
+    public void setTime(double time) {
+        this.time = time;
     }
 }

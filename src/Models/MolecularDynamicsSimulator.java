@@ -43,6 +43,7 @@ public class MolecularDynamicsSimulator extends Simulator {
         double dt = timestep;
         double halfStep = 0.5 * timestep;
         double temperature;
+        double totalTime = 0.0;
 
         //Set up the output recording
         Recording output = new Recording(cluster, outputInterval);
@@ -87,6 +88,7 @@ public class MolecularDynamicsSimulator extends Simulator {
 
         initial.setLocations(ilocations);
         initial.setEnergies(ienergies);
+        initial.setTime(totalTime);
         initial.kineticEnergy = kineticEnergy;
         initial.potentialEnergy = potentialEnergy;
         initial.temperature = temperature;
@@ -100,6 +102,9 @@ public class MolecularDynamicsSimulator extends Simulator {
 
         //Advance the simulation by each timestep
         for(step = 1; step < numSteps; step++) {
+            //Increment time
+            totalTime += timestep;
+
             //Calculate current forces on each atom
             cluster.calculateForces();
 
@@ -161,6 +166,7 @@ public class MolecularDynamicsSimulator extends Simulator {
 
                 f.setLocations(locations);
                 f.setEnergies(energies);
+                f.setTime(totalTime);
                 f.potentialEnergy = potentialEnergy;
                 f.kineticEnergy = kineticEnergy;
                 f.totalEnergy = totalEnergy;
