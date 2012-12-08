@@ -204,6 +204,7 @@ public class Cluster {
             this.setColors("Type");//sets all the colors using the desired algorithim
             System.out.println(atoms.size()+" total atoms created.");
             br.close();
+            fr.close();
         }
         catch(IOException e){
             e.printStackTrace();

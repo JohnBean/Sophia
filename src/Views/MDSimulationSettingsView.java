@@ -1,10 +1,7 @@
 package edu.gatech.sophia;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-
+import java.io.*;
+import java.security.CodeSource;
 import javax.swing.JPanel;
 
 /**
@@ -140,7 +137,11 @@ public class MDSimulationSettingsView extends JPanel {
             }
         });
         jButton4.setText("Load");
-
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -250,6 +251,7 @@ public class MDSimulationSettingsView extends JPanel {
                     .add(jButton1))
                 .add(41, 41, 41))
         );
+        loadDefaultSettings();
     }
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
@@ -262,7 +264,7 @@ public class MDSimulationSettingsView extends JPanel {
         controller.simSettingsPrev();
     }
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {
-       loadSettings();
+       loadDefaultSettings();
     }
     public double getTimeStep() {
         return Double.parseDouble(jTextField2.getText());
@@ -287,36 +289,98 @@ public class MDSimulationSettingsView extends JPanel {
     public double getInitialTemp() {
         return Double.parseDouble(jTextField4.getText());
     }
-    public void loadSettings(){
+    public void loadDefaultSettings(){
         try{
-            System.out.println("Settings load waiting for implimentation");
+           File propFile;
+           String curLine;
+           CodeSource codeSource = MDSimulationSettingsView.class.getProtectionDomain().getCodeSource();
+           File jarFile = new File(codeSource.getLocation().toURI().getPath());
+           File jarDir = jarFile.getParentFile();
+ 
+           propFile = new File(jarDir, "default_MDSettings.txt");
+           FileReader fr = new FileReader(propFile);//reads in the pdb
+           BufferedReader br = new BufferedReader(fr);
+           while ((curLine = br.readLine()) != null) {
+               String[] setting = curLine.split("[\t]+");//split by whitespace into an array to read
+               if(setting[0].toString().compareTo("Timestep")==0){
+                  jTextField2.setText(setting[1].toString());
+               }
+               if(setting[0].compareTo("Numsteps")==0){
+                   jTextField3.setText(setting[1]);
+               }
+               if(setting[0].compareTo("Interval")==0){
+                  jTextField7.setText(setting[1]);
+               }
+               if(setting[0].compareTo("Box Size")==0){
+                   if(setting[1].compareTo("0.0")!=0&&setting[1].compareTo("0")!=0)jTextField5.setText(setting[1]);
+               }
+               if(setting[0].compareTo("Dimensions")==0){
+                   jComboBox2.setSelectedIndex(Integer.parseInt(setting[1])-1);
+               }
+               if(setting[0].compareTo("Initial Temp")==0){
+                   if(setting[1].compareTo("0.0")!=0&&setting[1].compareTo("0")!=0){
+                       jTextField4.setText(setting[1]+"");
+                   }
+                   else{
+                       jTextField4.setText("");
+                   }
+               }
+           }
+           this.setVisible(true);
+           br.close();
+           fr.close();
         }
         catch (Exception e){
             System.err.println("Error: " + e.getMessage());
         }
-        jTextField2.setText("");
-        jTextField3.setText("");
-        jTextField7.setText("");
-        jTextField5.setText("");
-        jComboBox2.setSelectedItem(2);
-        jTextField4.setText("");
     }
     public void writeSettings(){
-        String filename="default";
-
         try{
-            PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(filename + "_MDSettings.txt")));
-            out.println("Timestep\t"+getTimeStep());
-            out.println("Numsteps\t"+getNumSteps());
-            out.println("Interval\t"+getOutputInterval());
-            out.println("Box Size\t"+getBoxSideLength());
-            out.println("Dimensions\t"+getNumDimensions());
-            out.println("Temperature\t"+getInitialTemp());
-            out.close();
+            File propFile;
+            CodeSource codeSource = MDSimulationSettingsView.class.getProtectionDomain().getCodeSource();
+            File jarFile = new File(codeSource.getLocation().toURI().getPath());
+            File jarDir = jarFile.getParentFile();
+                propFile = new File(jarDir, "default_MDSettings.txt");
+                try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(propFile)))) {
+                     if(jTextField2.getText().equals("")){
+                         out.println("Timestep\t0");
+                     }
+                     else{
+                         out.println("Timestep\t"+jTextField2.getText().trim()); 
+                     }
+                     if(jTextField3.getText().equals("")){
+                         out.println("Numsteps\t0");
+                     }
+                     else{
+                        out.println("Numsteps\t"+jTextField3.getText().trim());
+                     }
+                     if(jTextField3.getText().equals("")){
+                         out.println("Interval\t0");
+                     }
+                     else{
+                        out.println("Interval\t"+jTextField7.getText().trim());
+                     }
+                    if(jTextField4.getText().equals("")){
+                         out.println("Initial Temp\t0");
+                     }
+                     else{
+                        out.println("Initial Temp\t"+jTextField4.getText().trim());
+                     } 
+                    out.println("Dimensions\t"+getNumDimensions());
+                    if(jTextField5.getText().equals("")){
+                         out.println("Box Size\t0");
+                     }
+                     else{
+                        out.println("Box Size\t"+jTextField5.getText().trim());
+                     } 
+                    out.close();
+                }
         }
-        catch(IOException e){
+        catch(Exception e){
+            System.out.println("Exception caught writting settings");
             e.printStackTrace();
         }
+        
     }
     public boolean useBox() {
         if(jTextField5.getText().equals(""))
