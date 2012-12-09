@@ -253,7 +253,7 @@ public class Recording {
                    energyOut.println(String.valueOf(curFrame.temperature).trim().substring(0,Math.min(6,String.valueOf(curFrame.temperature).trim().length())));
                 }
                 else if(type==2){
-                    energyOut.println(getStep());
+                    energyOut.println(String.valueOf(curFrame.getTime()).trim().substring(0,Math.min(6,String.valueOf(curFrame.getTime()).trim().length())));
                 }
                 out.println("HEADER	Coordinates at Step "+(frameNumber)*outputInterval);
                 String spaces = "             ";
