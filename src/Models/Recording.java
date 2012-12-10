@@ -47,6 +47,10 @@ public class Recording {
         this.outputInterval=outputInterval;
         frames = new ArrayList<Frame>();
     }
+    public Recording(Cluster c) {
+        cluster = c;
+        frames = new ArrayList<Frame>();
+    }
     /**
      * Sets the name of the recording
      *

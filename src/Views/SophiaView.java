@@ -169,7 +169,10 @@ public class SophiaView {
             }
         });
     }
+    public static void loadRecording(){
+        
     
+    }
     /**
      * Sets up the main SOPHIA application window and initializes views
      */

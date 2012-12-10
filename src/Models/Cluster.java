@@ -43,6 +43,10 @@ public class Cluster {
         System.out.println("************Cluster Initiated***************");
         readFromFiles(coordinateFilename, structureFilename);
     }
+    public Cluster(String recordFilename) {
+        System.out.println("************Record Cluster Initiated***************");
+        loadRecording(recordFilename);
+    }
 
     /**
      * 
@@ -170,6 +174,42 @@ public class Cluster {
         atomArray=null;
         
     }
+    public void loadRecording(String recordFilename){
+        String curLine;//line being read in
+        atoms= new ArrayList();// saved atoms
+        chains=  new ArrayList();// saved chains
+        sequences=  new ArrayList();// saved chains
+        Atom atom;
+        try{
+            FileReader fr = new FileReader(recordFilename);//reads in the pdb
+            BufferedReader br = new BufferedReader(fr);
+            pdbFile=recordFilename;
+            System.out.println("reading");
+            while ((curLine = br.readLine()) != null) {
+                String[] atomInfo = curLine.split("[ ]+");//split by whitespace into an array to read
+               
+                 if(atomInfo[0].compareTo("ATOM")==0){
+                    //                             Atom ID              Atom     Molocule   ChainID     sequenceID                  location.x                      location.y              location.z                      Occupancy                   Temperature Factor              Mass                                Radius                      Charge
+                    atom= new Atom(Integer.parseInt(atomInfo[1]) - 1, atomInfo[2],atomInfo[3],atomInfo[4],Integer.parseInt(atomInfo[5]),Float.parseFloat(atomInfo[6]),Float.parseFloat(atomInfo[7]),Float.parseFloat(atomInfo[8]),Double.parseDouble(atomInfo[9]),Double.parseDouble(atomInfo[10]),Double.parseDouble(atomInfo[11]),Double.parseDouble(atomInfo[12]),Double.parseDouble(atomInfo[13]));
+                    atoms.add(atom);//add each atom as its made
+
+                    if(!this.chains.contains(atom.chainId)){this.chains.add(atom.chainId);}//add new chains
+
+                    if(!sequences.contains(atom.sequenceId)){sequences.add(atom.sequenceId);}//add new sequences
+                 }
+                 if(atomInfo[0].compareTo("END")==0){
+                     break;
+                 }
+            }
+            this.setColors("Type");//sets all the colors using the desired algorithim
+            System.out.println(atoms.size()+" total atoms created.");
+            br.close();
+            fr.close();
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+    }
     /**
      * Should read cluster information from a coordinate file and structure file into the current object
      *
@@ -199,6 +239,9 @@ public class Cluster {
                     if(!this.chains.contains(atom.chainId)){this.chains.add(atom.chainId);}//add new chains
 
                     if(!sequences.contains(atom.sequenceId)){sequences.add(atom.sequenceId);}//add new sequences
+                 }
+                 if(atomInfo[0].compareTo("END")==0){
+                     break;
                  }
             }
             this.setColors("Type");//sets all the colors using the desired algorithim
