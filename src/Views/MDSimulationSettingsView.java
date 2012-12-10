@@ -258,7 +258,7 @@ public class MDSimulationSettingsView extends JPanel {
         controller.simSettingsNext();
     }
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {
-        writeSettings();
+        writeDefaultSettings();
     }
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {
         controller.simSettingsPrev();
@@ -382,11 +382,57 @@ public class MDSimulationSettingsView extends JPanel {
             System.err.println("Error: " + e.getMessage());
         }
     }
+    /**
+     * Save the simulation settings into the fields from _EMSettings.txt
+     */
+    public void writeSettings(String name){
+        try{
+            PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(name + "_EMSettings.txt")));
+            if(jTextField2.getText().equals("")){
+                 out.println("Timestep\t0");
+            }
+            else{
+                 out.println("Timestep\t"+jTextField2.getText().trim()); 
+            }
+            if(jTextField3.getText().equals("")){
+                 out.println("Numsteps\t0");
+            }
+            else{
+                out.println("Numsteps\t"+jTextField3.getText().trim());
+            }
+            if(jTextField3.getText().equals("")){
+                 out.println("Interval\t0");
+            }
+            else{
+                out.println("Interval\t"+jTextField7.getText().trim());
+            }
+            if(jTextField4.getText().equals("")){
+                 out.println("Initial Temp\t0");
+            }
+            else{
+                out.println("Initial Temp\t"+jTextField4.getText().trim());
+            } 
+            out.println("Dimensions\t"+getNumDimensions());
+            if(jTextField5.getText().equals("")){
+                 out.println("Box Size\t0");
+             }
+             else{
+                out.println("Box Size\t"+jTextField5.getText().trim());
+             } 
+            out.close();
+            
+        }
+        catch(Exception e){
+            System.out.println("Exception caught writting settings");
+            e.printStackTrace();
+        }
+        
+    }
      /**
      * Write all of the settings to a file designated _MDSettings.txt
      * 
      */
-    public void writeSettings(){
+    public void writeDefaultSettings(){
         try{
             File propFile;
             CodeSource codeSource = MDSimulationSettingsView.class.getProtectionDomain().getCodeSource();

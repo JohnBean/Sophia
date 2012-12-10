@@ -216,7 +216,7 @@ public class EMSimulationSettingsView extends javax.swing.JPanel {
         controller.simSettingsPrev();
     }
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {
-        writeSettings();
+        writeDefaultSettings();
     }
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {
         loadDefaultSettings();
@@ -327,7 +327,51 @@ public class EMSimulationSettingsView extends javax.swing.JPanel {
     /**
      * Save the simulation settings into the fields from _EMSettings.txt
      */
-    public void writeSettings(){
+    public void writeSettings(String name){
+        try{
+            PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(name + "_EMSettings.txt")));
+            out.println("Minim Method\t"+jComboBox1.getSelectedIndex()); 
+
+            if(jTextField1.getText().equals("")){
+                out.println("Step Size\t0");
+            }
+            else{
+                out.println("Step Size\t"+jTextField1.getText().trim());
+            }
+
+            if(jTextField2.getText().equals("")){
+                out.println("Numsteps\t0");
+            }
+            else{
+                out.println("Numsteps\t"+jTextField2.getText().trim());
+            }
+
+            if(jTextField3.getText().equals("")){
+                out.println("Convergence\t0");
+            }
+            else{
+                out.println("Convergence\t"+jTextField3.getText().trim());
+            }
+
+            if(jTextField4.getText().equals("")){
+                out.println("Interval\t0");
+            }
+            else{
+                out.println("Interval\t"+jTextField4.getText().trim());
+            } 
+            out.close();
+            
+        }
+        catch(Exception e){
+            System.out.println("Exception caught writting settings");
+            e.printStackTrace();
+        }
+        
+    }
+    /**
+     * Save the simulation settings into the fields from _EMSettings.txt
+     */
+    public void writeDefaultSettings(){
         try{
             File propFile;
             CodeSource codeSource = EMSimulationSettingsView.class.getProtectionDomain().getCodeSource();
