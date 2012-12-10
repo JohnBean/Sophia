@@ -361,7 +361,8 @@ public class MDSimulationSettingsView extends JPanel {
                 } 
             }
             //write the contents of each field to the settings file
-            try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(propFile)))) {
+            try{
+                 PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(propFile)));
                  if(jTextField2.getText().equals("")){
                      out.println("Timestep\t0");
                  }
@@ -394,6 +395,10 @@ public class MDSimulationSettingsView extends JPanel {
                     out.println("Box Size\t"+jTextField5.getText().trim());
                  } 
                 out.close();
+            }
+            catch(Exception e){
+                System.out.println("Exception caught writting settings");
+                e.printStackTrace();
             }
         }
         catch(Exception e){

@@ -306,8 +306,8 @@ public class EMSimulationSettingsView extends javax.swing.JPanel {
                     ioe.printStackTrace(); 
                 } 
             }
-            try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(propFile)))) {
-
+            try{
+                PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(propFile)));
                 out.println("Minim Method\t"+jComboBox1.getSelectedIndex()); 
 
                 if(jTextField1.getText().equals("")){
@@ -338,6 +338,10 @@ public class EMSimulationSettingsView extends javax.swing.JPanel {
                     out.println("Interval\t"+jTextField4.getText().trim());
                 } 
                 out.close();
+            }
+            catch(Exception e){
+                System.out.println("Exception caught writting settings");
+                e.printStackTrace();
             }
         }
         catch(Exception e){

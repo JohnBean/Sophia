@@ -196,6 +196,7 @@ public class Cluster {
             BufferedReader br = new BufferedReader(fr);
             pdbFile=recordFilename;
             System.out.println("reading");
+            associations = new ArrayList<AtomAssociation>();
             while ((curLine = br.readLine()) != null) {
                 String[] atomInfo = curLine.split("[ ]+");//split by whitespace into an array to read
                
@@ -208,6 +209,13 @@ public class Cluster {
 
                     if(!sequences.contains(atom.sequenceId)){sequences.add(atom.sequenceId);}//add new sequences
                  }
+                 if(atomInfo[0].compareTo("CONECT")==0){
+                        Atom atom1 = atoms.get(Integer.parseInt(atomInfo[1]) - 1);//add each atom as a bond in the other
+                        Atom atom2 = atoms.get(Integer.parseInt(atomInfo[2]) - 1);
+                        atom1.addBond(atom2);
+                        atom2.addBond(atom1);
+                        associations.add(new Bond(atom1, atom2, 10.0, 10.0));//add it
+                    }
                  if(atomInfo[0].compareTo("END")==0){
                      break;
                  }
@@ -217,13 +225,13 @@ public class Cluster {
             br.close();
             fr.close();
             
-             associations = new ArrayList<AtomAssociation>();
+             
              
         }
         catch(IOException e){
             e.printStackTrace();
         }
-        associations.add(new Bond( new Atom(), new Atom(), 50.0,100.0));//add it
+       // associations.add(new Bond( new Atom(), new Atom(), 50.0,100.0));//add it
     }
     /**
      * Should read cluster information from a coordinate file and structure file into the current object
