@@ -204,6 +204,7 @@ public class Recording {
                      curFrame.setLocations(locations);
                      addFrame(curFrame);
                      curFrame= new Frame();
+                     locations= new ArrayList<Point3D>();
                  }
                 if(curFrame!=null){//only start 
                     if(atomInfo[0].compareTo("ATOM")==0){
