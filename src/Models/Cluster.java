@@ -43,6 +43,11 @@ public class Cluster {
         System.out.println("************Cluster Initiated***************");
         readFromFiles(coordinateFilename, structureFilename);
     }
+    /**
+     * Constructs a new cluster from files
+     *
+     * @param recordFilename the PDB (protein data bank) file to use for the trajectory
+     */
     public Cluster(String recordFilename) {
         System.out.println("************Record Cluster Initiated***************");
         loadRecording(recordFilename);
@@ -53,16 +58,16 @@ public class Cluster {
      * @param colorAlgorithim "Element","ResID", "Chain", "Atom"
      */
     public void setColors(String colorAlgorithim){
-        Integer atomNumber;
-        Integer chain;
+        Integer atomNumber;//which atom is being colored
+        Integer chain;//the cain you look at of each available
         Object[] atomArray = atoms.toArray();
         Atom atom=(Atom)atomArray[0];
-         Color atomicColor=Color.gray;
-         
+         Color atomicColor=Color.gray;//default color
+         //use one of the existing coloring algorithims from this list
          if(colorAlgorithim.contains("Atom") || colorAlgorithim.contains("Element") || colorAlgorithim.contains("Chain") || colorAlgorithim.contains("Sequence")){
              coloring=colorAlgorithim;
          }
-         if(coloring==null){coloring="Atom";}
+         if(coloring==null){coloring="Atom";}//default coloring is by atom type
          if(coloring=="Element"){//colors elements by typical atomic representation
                 for(atomNumber=0; atomNumber<atoms.size();atomNumber++){
                    atom= (Atom)atomArray[atomNumber];
@@ -74,7 +79,7 @@ public class Cluster {
                             atomicColor = Color.white;//Hydrogen
                     } 
                     else if (atom.atomType.equals("Br") || atom.atomType.equals("O")) { 
-                            atomicColor = Color.red;
+                            atomicColor = Color.red;//etc
                     } 
                     else if (atom.atomType.equals("N")){
                             atomicColor = Color.blue;
@@ -174,6 +179,11 @@ public class Cluster {
         atomArray=null;
         
     }
+    /**
+     * Should read cluster information from trajectory file into the current object
+     *
+     * @param recordFilename The name of the file to read atoms from (.pdb file)
+     */
     public void loadRecording(String recordFilename){
         String curLine;//line being read in
         atoms= new ArrayList();// saved atoms

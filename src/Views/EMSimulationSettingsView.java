@@ -207,7 +207,7 @@ public class EMSimulationSettingsView extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     // End of variables declaration//GEN-END:variables
-
+    //Button click actions
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
         controller.finish();
     }
@@ -221,6 +221,7 @@ public class EMSimulationSettingsView extends javax.swing.JPanel {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {
         loadDefaultSettings();
     }
+    //variable getters
     public String getMethod() {
         return (String)(jComboBox1.getSelectedItem());
     }
@@ -240,6 +241,9 @@ public class EMSimulationSettingsView extends javax.swing.JPanel {
     public int getOutputInterval() {
         return Integer.parseInt(jTextField4.getText());
     }
+     /**
+     * Load the default settings into the fields from _EMSettings.txt
+     */
     public void loadDefaultSettings(){
         try{
            File propFile;
@@ -281,6 +285,9 @@ public class EMSimulationSettingsView extends javax.swing.JPanel {
             System.err.println("Error: " + e.getMessage());
         }
     }
+    /**
+     * Save the simulation settings into the fields from _EMSettings.txt
+     */
     public void writeSettings(){
         try{
             File propFile;

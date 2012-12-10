@@ -47,6 +47,11 @@ public class Recording {
         this.outputInterval=outputInterval;
         frames = new ArrayList<Frame>();
     }
+    /**
+     * Constructs a new recording
+     *
+     * @param c The cluster containing atoms and associations represented
+     */
     public Recording(Cluster c) {
         cluster = c;
         frames = new ArrayList<Frame>();
@@ -203,10 +208,10 @@ public class Recording {
 
         Frame curFrame;
          try{
-            final File file = new File(".");
+            final File file = new File(".");//write the outputs
             PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(name + "_trajectory.pdb")));
             PrintWriter energyOut = new PrintWriter(new BufferedWriter(new FileWriter(name + "_energy.txt")));
-            energyOut.print("Step");
+            energyOut.print("Step");//write all fields that are populated
             if(energyHeaders.contains("Bond")){
                 energyOut.print("\tBond");
             }
@@ -230,6 +235,7 @@ public class Recording {
             else if(type==2){
                 energyOut.println("Step Size");
             }
+            //print the energies at each frame
             for(frameNumber=0; frameNumber<this.getNumFrames();frameNumber++){
                 curFrame=this.getFrame(frameNumber);
                 
@@ -260,10 +266,10 @@ public class Recording {
                     energyOut.println(String.valueOf(curFrame.getTime()).trim().substring(0,Math.min(6,String.valueOf(curFrame.getTime()).trim().length())));
                 }
                 out.println("HEADER	Coordinates at Step "+(frameNumber)*outputInterval);
-                String spaces = "             ";
+                String spaces = "             ";//lets you pull a variable number of spaces
                 for(atomNumber=0; atomNumber<atoms.size();atomNumber++){
                    curAtom= atoms.get(atomNumber);
-                   out.print("ATOM");
+                   out.print("ATOM");//each part uses a specific number of spaces. This requires being kept in Fortran standareds
                    out.print(spaces.substring(0, 7-String.valueOf(atomNumber+1).length())+(atomNumber+1)); //7
                    out.print(spaces.substring(0, 5-curAtom.atomType.length())+ curAtom.atomType); //5
                    out.print(spaces.substring(0, 4-curAtom.moloculeName.length()) +curAtom.moloculeName); //4
@@ -290,13 +296,13 @@ public class Recording {
                    if(occupancyOut.length()<4){
                        occupancyOut=occupancyOut+"0";
                    }
-                   out.print("  "  + occupancyOut );// "  0.00"
+                   out.print("  "  + occupancyOut );
                    
                    String tempOut =String.valueOf(curAtom.temperatureFactor);
                    if(tempOut.length()<4){
                        tempOut=tempOut+"0";
                    }
-                   out.print("  "  + tempOut);//"  1.00"
+                   out.print("  "  + tempOut);
                    out.print("  "  + String.valueOf(curAtom.mass).substring(0,Math.min(4, String.valueOf(curAtom.mass).length())));
                    out.print("  "  + String.valueOf(curAtom.radius).substring(0,Math.min(4, String.valueOf(curAtom.radius).length())));
                    

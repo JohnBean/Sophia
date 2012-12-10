@@ -253,7 +253,7 @@ public class MDSimulationSettingsView extends JPanel {
         );
         loadDefaultSettings();
     }
-
+    //Actions from button presses
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
         controller.simSettingsNext();
     }
@@ -266,6 +266,7 @@ public class MDSimulationSettingsView extends JPanel {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {
        loadDefaultSettings();
     }
+    //getters from the entry fields
     public double getTimeStep() {
         return Double.parseDouble(jTextField2.getText());
     }
@@ -289,6 +290,9 @@ public class MDSimulationSettingsView extends JPanel {
     public double getInitialTemp() {
         return Double.parseDouble(jTextField4.getText());
     }
+     /**
+     * Loads the default settings into othe fields of this class
+     */
     public void loadDefaultSettings(){
         try{
            File propFile;
@@ -296,10 +300,11 @@ public class MDSimulationSettingsView extends JPanel {
            CodeSource codeSource = MDSimulationSettingsView.class.getProtectionDomain().getCodeSource();
            File jarFile = new File(codeSource.getLocation().toURI().getPath());
            File jarDir = jarFile.getParentFile();
- 
+           
            propFile = new File(jarDir, "default_MDSettings.txt");
            FileReader fr = new FileReader(propFile);//reads in the pdb
            BufferedReader br = new BufferedReader(fr);
+           //populate the fields in the settings view from the default settings file
            while ((curLine = br.readLine()) != null) {
                String[] setting = curLine.split("[\t]+");//split by whitespace into an array to read
                if(setting[0].toString().compareTo("Timestep")==0){
@@ -334,6 +339,10 @@ public class MDSimulationSettingsView extends JPanel {
             System.err.println("Error: " + e.getMessage());
         }
     }
+     /**
+     * Write all of the settings to a file designated _MDSettings.txt
+     * 
+     */
     public void writeSettings(){
         try{
             File propFile;
@@ -351,6 +360,7 @@ public class MDSimulationSettingsView extends JPanel {
                     ioe.printStackTrace(); 
                 } 
             }
+            //write the contents of each field to the settings file
             try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(propFile)))) {
                  if(jTextField2.getText().equals("")){
                      out.println("Timestep\t0");
