@@ -48,13 +48,17 @@ public class Recording {
         frames = new ArrayList<Frame>();
     }
     /**
-     * Constructs a new recording
+     * Constructor used when loading an old recording
      *
      * @param c The cluster containing atoms and associations represented
      */
     public Recording(Cluster c) {
         cluster = c;
         frames = new ArrayList<Frame>();
+        if(cluster.recordName!=null){
+            this.loadRecord(cluster.recordName);
+        }
+        
     }
     /**
      * Sets the name of the recording
@@ -183,7 +187,37 @@ public class Recording {
 
         return variables;
     }
-
+    public void loadRecord(String recordName){
+        String curLine;//line being read in
+        Frame curFrame=null;
+        ArrayList<Point3D> locations= new ArrayList<Point3D>();
+        try{
+            FileReader fr = new FileReader(recordName+".pdb");//reads in the pdb
+            BufferedReader br = new BufferedReader(fr);
+            System.out.println("Reading in frames from recording");
+            if(br!=null){
+                curFrame= new Frame();
+            }
+            while ((curLine = br.readLine()) != null) {
+                String[] atomInfo = curLine.split("[ ]+");//split by whitespace into an array to read
+                if(atomInfo[0].compareTo("END")==0){
+                     curFrame.setLocations(locations);
+                     addFrame(curFrame);
+                     curFrame= new Frame();
+                 }
+                if(curFrame!=null){//only start 
+                    if(atomInfo[0].compareTo("ATOM")==0){
+                        locations.add(new Point3D(Double.parseDouble(atomInfo[6]),Double.parseDouble(atomInfo[7]),Double.parseDouble(atomInfo[8])));
+                    }
+                }  
+            }
+            br.close();
+            fr.close();
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+    }
     /**
      * Saves the recording to files
      */

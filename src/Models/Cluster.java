@@ -22,7 +22,7 @@ public class Cluster {
     public String pdbFile;
     private String coloring = null;
     private Random randomGenerator = null;
-
+    public String recordName=null;
     public static double GAS_CONSTANT = 0.830936;
     static final double CEU_CONVERSION_FACTOR = 418.68;
     
@@ -49,6 +49,7 @@ public class Cluster {
      * @param recordFilename the PDB (protein data bank) file to use for the trajectory
      */
     public Cluster(String recordFilename) {
+        this.recordName=recordFilename;
         System.out.println("************Record Cluster Initiated***************");
         loadRecording(recordFilename);
     }
@@ -190,12 +191,10 @@ public class Cluster {
         chains=  new ArrayList();// saved chains
         sequences=  new ArrayList();// saved chains
         Atom atom;
-        System.out.println(recordFilename);
         try{
             FileReader fr = new FileReader(recordFilename+".pdb");//reads in the pdb
             BufferedReader br = new BufferedReader(fr);
             pdbFile=recordFilename;
-            System.out.println("reading");
             associations = new ArrayList<AtomAssociation>();
             while ((curLine = br.readLine()) != null) {
                 String[] atomInfo = curLine.split("[ ]+");//split by whitespace into an array to read
@@ -210,12 +209,15 @@ public class Cluster {
                     if(!sequences.contains(atom.sequenceId)){sequences.add(atom.sequenceId);}//add new sequences
                  }
                  if(atomInfo[0].compareTo("CONECT")==0){
-                        Atom atom1 = atoms.get(Integer.parseInt(atomInfo[1]) - 1);//add each atom as a bond in the other
-                        Atom atom2 = atoms.get(Integer.parseInt(atomInfo[2]) - 1);
-                        atom1.addBond(atom2);
-                        atom2.addBond(atom1);
-                        associations.add(new Bond(atom1, atom2, 10.0, 10.0));//add it
+                    Atom atom1 = atoms.get(Integer.parseInt(atomInfo[1]) - 1);//add each atom as a bond in the other
+                    for(int attachedAtom=0;attachedAtom<atomInfo.length-2;attachedAtom++){
+                        atom1.addBond(atoms.get(Integer.parseInt(atomInfo[2+attachedAtom]) - 1));
+                        if(Integer.parseInt(atomInfo[2+attachedAtom])>Integer.parseInt(atomInfo[1+attachedAtom])){
+                            associations.add(new Bond(atom1, atoms.get(Integer.parseInt(atomInfo[2+attachedAtom]) - 1), 10.0, 10.0));//add it
+                        }
                     }
+                 }
+                 
                  if(atomInfo[0].compareTo("END")==0){
                      break;
                  }
