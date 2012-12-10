@@ -77,7 +77,7 @@ public class SimulationController {
             mssView.loadSettings(settingsFile);
         }
         else if(settingsFile.contains("EMSettings")){
-            
+            essView.loadSettings(settingsFile);
         }
     }
     /**

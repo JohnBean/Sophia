@@ -241,6 +241,45 @@ public class EMSimulationSettingsView extends javax.swing.JPanel {
     public int getOutputInterval() {
         return Integer.parseInt(jTextField4.getText());
     }
+    /**
+     * Loads  settings into othe fields of this class
+     */
+    public void loadSettings(String recordName){
+        try{
+           String curLine;
+           FileReader fr = new FileReader(recordName+".txt");//reads in the pdb
+            BufferedReader br = new BufferedReader(fr);
+           //populate the fields in the settings view from the default settings file
+          while ((curLine = br.readLine()) != null) {
+               String[] setting = curLine.split("[\t]+");//split by whitespace into an array to read
+               if(setting[0].toString().compareTo("Minim Method")==0){
+                  jComboBox1.setSelectedIndex(Integer.parseInt(setting[1]));
+               }
+			   
+               if(setting[0].compareTo("Step Size")==0){
+                   if(setting[1].compareTo("0.0")!=0&&setting[1].compareTo("0")!=0)jTextField1.setText(setting[1]);
+               }
+               
+               if(setting[0].compareTo("Numsteps")==0){
+                   jTextField2.setText(setting[1]);
+               }
+               
+               if(setting[0].compareTo("Convergence")==0){
+                   jTextField3.setText(setting[1]);
+               }
+			   
+		if(setting[0].compareTo("Interval")==0){
+                  jTextField4.setText(setting[1]);
+               }
+           }
+           this.setVisible(true);
+           br.close();
+           fr.close();
+        }
+        catch (Exception e){
+            System.err.println("Error: " + e.getMessage());
+        }
+    }
      /**
      * Load the default settings into the fields from _EMSettings.txt
      */
