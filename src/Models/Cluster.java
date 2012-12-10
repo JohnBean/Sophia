@@ -190,8 +190,9 @@ public class Cluster {
         chains=  new ArrayList();// saved chains
         sequences=  new ArrayList();// saved chains
         Atom atom;
+        System.out.println(recordFilename);
         try{
-            FileReader fr = new FileReader(recordFilename);//reads in the pdb
+            FileReader fr = new FileReader(recordFilename+".pdb");//reads in the pdb
             BufferedReader br = new BufferedReader(fr);
             pdbFile=recordFilename;
             System.out.println("reading");
@@ -215,10 +216,14 @@ public class Cluster {
             System.out.println(atoms.size()+" total atoms created.");
             br.close();
             fr.close();
+            
+             associations = new ArrayList<AtomAssociation>();
+             
         }
         catch(IOException e){
             e.printStackTrace();
         }
+        associations.add(new Bond( new Atom(), new Atom(), 50.0,100.0));//add it
     }
     /**
      * Should read cluster information from a coordinate file and structure file into the current object
@@ -383,7 +388,7 @@ public class Cluster {
     * @return List of Associations
     */
    public ArrayList<AtomAssociation> getAtomAssociation(){
-	   return associations;
+        return associations;
    }
 
    /**

@@ -38,7 +38,7 @@ public class Frame {
     private double time;
 
     public Frame() {
-        
+        locations=null;
     }
 
     /**

@@ -138,27 +138,28 @@ public class PlaybackView extends SimpleApplication {
             ArrayList<AtomAssociation> associations = currentCluster.getAtomAssociation();
             numBonds = 0;
             currentId = 0;
-            for(AtomAssociation aa : associations) {
-                if(aa.isBond()) {
-                    numBonds++;
+            if(!associations.isEmpty()){
+                for(AtomAssociation aa : associations) {
+                    if(aa.isBond()) {
+                        numBonds++;
 
-                    Bond b = (Bond)aa;
+                        Bond b = (Bond)aa;
 
-                    //Set up endpoints for frame transformations
-                    end1.add(new Integer(b.getEnd1()));
-                    end2.add(new Integer(b.getEnd2()));
+                        //Set up endpoints for frame transformations
+                        end1.add(new Integer(b.getEnd1()));
+                        end2.add(new Integer(b.getEnd2()));
 
-                    //Create a unit length cylinder that can be scaled, rotated, and transformed for this bond
-                    Cylinder c = new Cylinder(2, 20, 0.1f, 1.0f);
-                    Geometry geom = new Geometry("Bond" + currentId, c);
-                    //geom.rotate((float)Math.PI / 2.0f, 0.0f, 0.0f);
-                    geom.setMaterial(bondMat);
-                    rootNode.attachChild(geom);
+                        //Create a unit length cylinder that can be scaled, rotated, and transformed for this bond
+                        Cylinder c = new Cylinder(2, 20, 0.1f, 1.0f);
+                        Geometry geom = new Geometry("Bond" + currentId, c);
+                        //geom.rotate((float)Math.PI / 2.0f, 0.0f, 0.0f);
+                        geom.setMaterial(bondMat);
+                        rootNode.attachChild(geom);
 
-                    currentId++;
+                        currentId++;
+                    }
                 }
             }
-
             setupFlag = false;
         }
 
@@ -169,12 +170,15 @@ public class PlaybackView extends SimpleApplication {
             Spatial currentAtom;
             for(int currentId = 0; currentId < numAtoms; currentId++) {
                 //Get location from frame
-                location = currentFrame.locations.get(currentId);
+                if(currentFrame.locations!=null){
+                    location = currentFrame.locations.get(currentId);
+                
 
-                //Get the atom geometry
-                currentAtom = rootNode.getChild("Atom" + currentId);
+                     //Get the atom geometry
+                    currentAtom = rootNode.getChild("Atom" + currentId);
 
-                currentAtom.setLocalTranslation(new Vector3f((float)location.x, (float)location.y, (float)location.z));
+                    currentAtom.setLocalTranslation(new Vector3f((float)location.x, (float)location.y, (float)location.z));
+                }
             }
 
             //Update positions, rotations, and scalings of all bonds
@@ -190,17 +194,17 @@ public class PlaybackView extends SimpleApplication {
                 currentBond = rootNode.getChild("Bond" + currentId);
 
                 //Create a vector to represent the bond
-                location1 = currentFrame.locations.get(end1.get(currentId));
-                location2 = currentFrame.locations.get(end2.get(currentId));
-                bondVector.x = location1.x - location2.x;
-                bondVector.y = location1.y - location2.y;
-                bondVector.z = location1.z - location2.z;
+               if(currentFrame.locations!=null){ location1 = currentFrame.locations.get(end1.get(currentId));
+                    location2 = currentFrame.locations.get(end2.get(currentId));
+                    bondVector.x = location1.x - location2.x;
+                    bondVector.y = location1.y - location2.y;
+                    bondVector.z = location1.z - location2.z;
 
-                //Determine the midpoint of the bond
-                bondLocation.x = (location1.x + location2.x) * 0.5;
-                bondLocation.y = (location1.y + location2.y) * 0.5;
-                bondLocation.z = (location1.z + location2.z) * 0.5;
-
+                    //Determine the midpoint of the bond
+                    bondLocation.x = (location1.x + location2.x) * 0.5;
+                    bondLocation.y = (location1.y + location2.y) * 0.5;
+                    bondLocation.z = (location1.z + location2.z) * 0.5;
+               }
                 //Find length of this bond
                 bondLength = bondVector.magnitude();
 

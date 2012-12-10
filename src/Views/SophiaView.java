@@ -100,7 +100,7 @@ public class SophiaView {
                     String fname = chosenFile.getPath();
                     if(fname.lastIndexOf('.') != -1)
                         fname = fname.substring(0, fname.lastIndexOf('.'));
-                    vController.saveRecording(fname);
+                    loadRecording(fname);
                 }
             }
         });
@@ -169,8 +169,8 @@ public class SophiaView {
             }
         });
     }
-    public static void loadRecording(){
-        
+    public static void loadRecording(String recordName){
+        vController.loadRecording(recordName);
     
     }
     /**

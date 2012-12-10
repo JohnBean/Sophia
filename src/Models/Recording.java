@@ -133,7 +133,10 @@ public class Recording {
      * @return the frame object at this index
      */
     public Frame getFrame(int index) {
-        return frames.get(index);
+        if(frames.size()>0){
+            return frames.get(index);
+        }
+        return new Frame();
     }
 
     /**

@@ -42,7 +42,10 @@ public class VisualizationController {
     public VisualizationController() {
 
     }
-
+    public void loadRecording(String recordFilename){
+        Cluster cluster= new Cluster(recordFilename);
+        setRecording(new Recording(cluster));
+    }
     /**
      * Sets up a new recording in the visualization window by initializing the 3D scenegraph and setting up the GUI
      *

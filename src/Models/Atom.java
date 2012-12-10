@@ -36,7 +36,9 @@ public class Atom {
     public Color color;
     public ArrayList<Atom> bonds;
     public ArrayList<Atom> vdwAssoc;
-
+    public Atom(){
+        
+    }
     /**
      * Constructs a new atom object
      *
