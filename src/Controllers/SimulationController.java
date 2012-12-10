@@ -72,7 +72,14 @@ public class SimulationController {
         this.mssView = mssView;
         this.essView = essView;
     }
-
+    public void loadSimulationSettings(String settingsFile){
+        if(settingsFile.contains("MDSettings")){
+            mssView.loadSettings(settingsFile);
+        }
+        else if(settingsFile.contains("EMSettings")){
+            
+        }
+    }
     /**
      * Setter for temperature protocol view
      *

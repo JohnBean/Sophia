@@ -290,6 +290,49 @@ public class MDSimulationSettingsView extends JPanel {
     public double getInitialTemp() {
         return Double.parseDouble(jTextField4.getText());
     }
+    /**
+     * Loads  settings into othe fields of this class
+     */
+    public void loadSettings(String recordName){
+        try{
+           String curLine;
+           FileReader fr = new FileReader(recordName+".txt");//reads in the pdb
+            BufferedReader br = new BufferedReader(fr);
+           //populate the fields in the settings view from the default settings file
+           while ((curLine = br.readLine()) != null) {
+               String[] setting = curLine.split("[\t]+");//split by whitespace into an array to read
+               if(setting[0].toString().compareTo("Timestep")==0){
+                  jTextField2.setText(setting[1].toString());
+               }
+               if(setting[0].compareTo("Numsteps")==0){
+                   jTextField3.setText(setting[1]);
+               }
+               if(setting[0].compareTo("Interval")==0){
+                  jTextField7.setText(setting[1]);
+               }
+               if(setting[0].compareTo("Box Size")==0){
+                   if(setting[1].compareTo("0.0")!=0&&setting[1].compareTo("0")!=0)jTextField5.setText(setting[1]);
+               }
+               if(setting[0].compareTo("Dimensions")==0){
+                   jComboBox2.setSelectedIndex(Integer.parseInt(setting[1])-1);
+               }
+               if(setting[0].compareTo("Initial Temp")==0){
+                   if(setting[1].compareTo("0.0")!=0&&setting[1].compareTo("0")!=0){
+                       jTextField4.setText(setting[1]+"");
+                   }
+                   else{
+                       jTextField4.setText("");
+                   }
+               }
+           }
+           this.setVisible(true);
+           br.close();
+           fr.close();
+        }
+        catch (Exception e){
+            System.err.println("Error: " + e.getMessage());
+        }
+    }
      /**
      * Loads the default settings into othe fields of this class
      */

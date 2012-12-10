@@ -125,8 +125,14 @@ public class SophiaView {
         menuFile.add(itemSaveParam);
         itemSaveParam.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                //To call the method in the controller just use simController.[methodname]
-                //Use of file chooser dialog is above
+                int choice = jFileChooser1.showOpenDialog(null);
+                 if(choice == JFileChooser.APPROVE_OPTION) {
+                    File chosenFile = jFileChooser1.getSelectedFile();
+                    String fname = chosenFile.getPath();
+                    if(fname.lastIndexOf('.') != -1)
+                        fname = fname.substring(0, fname.lastIndexOf('.'));
+                   saveParameters(fname);
+                }
             }
         });
 
@@ -134,8 +140,14 @@ public class SophiaView {
         menuFile.add(itemLoadParam);
         itemLoadParam.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                //To call the method in the controller just use simController.[methodname]
-                //Use of file chooser dialog is above
+                int choice = jFileChooser1.showOpenDialog(null);
+                 if(choice == JFileChooser.APPROVE_OPTION) {
+                    File chosenFile = jFileChooser1.getSelectedFile();
+                    String fname = chosenFile.getPath();
+                    if(fname.lastIndexOf('.') != -1)
+                        fname = fname.substring(0, fname.lastIndexOf('.'));
+                    loadParameters(fname);
+                }
             }
         });
 
@@ -168,6 +180,12 @@ public class SophiaView {
                 switchView(PLOTPANEL);
             }
         });
+    }
+    public static void loadParameters(String settingsName){
+        simController.loadSimulationSettings(settingsName);
+    }
+    public static void saveParameters(String settingsName){
+        
     }
     public static void loadRecording(String recordName){
         vController.loadRecording(recordName);
