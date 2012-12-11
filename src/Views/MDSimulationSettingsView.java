@@ -2,6 +2,7 @@ package edu.gatech.sophia;
 
 import java.io.*;
 import java.security.CodeSource;
+import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 
 /**
@@ -34,6 +35,7 @@ public class MDSimulationSettingsView extends JPanel {
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField7;
+    private static JFileChooser jFileChooser1;
     // End of variables declaration//GEN-END:variables
 
     private SimulationController controller;
@@ -65,7 +67,7 @@ public class MDSimulationSettingsView extends JPanel {
         jComboBox1 = new javax.swing.JComboBox();
         jComboBox2 = new javax.swing.JComboBox();
         
-
+        jFileChooser1 = new JFileChooser();
 
         this.controller = simController;
 
@@ -136,7 +138,7 @@ public class MDSimulationSettingsView extends JPanel {
                 jButton2ActionPerformed(evt);
             }
         });
-        jButton4.setText("Load");
+        jButton4.setText("Save as");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
@@ -264,7 +266,14 @@ public class MDSimulationSettingsView extends JPanel {
         controller.simSettingsPrev();
     }
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {
-       loadDefaultSettings();
+         int choice = jFileChooser1.showOpenDialog(null);
+         if(choice == JFileChooser.APPROVE_OPTION) {
+         File chosenFile = jFileChooser1.getSelectedFile();
+         String fname = chosenFile.getPath();
+         if(fname.lastIndexOf('.') != -1)
+            fname = fname.substring(0, fname.lastIndexOf('.'));
+            writeSettings(fname);
+         }
     }
     //getters from the entry fields
     public double getTimeStep() {
@@ -387,7 +396,7 @@ public class MDSimulationSettingsView extends JPanel {
      */
     public void writeSettings(String name){
         try{
-            PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(name + "_EMSettings.txt")));
+            PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(name + "_MDSettings.txt")));
             if(jTextField2.getText().equals("")){
                  out.println("Timestep\t0");
             }

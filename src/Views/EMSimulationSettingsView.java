@@ -1,6 +1,7 @@
 package edu.gatech.sophia;
 import java.io.*;
 import java.security.CodeSource;
+import javax.swing.JFileChooser;
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -12,13 +13,13 @@ import java.security.CodeSource;
  */
 public class EMSimulationSettingsView extends javax.swing.JPanel {
     private SimulationController controller;
-
+    private static JFileChooser jFileChooser1;
     /**
      * Creates new form EMSimulationSettingsView
      */
     public EMSimulationSettingsView(SimulationController controller) {
         this.controller = controller;
-        
+        jFileChooser1 = new JFileChooser();
         initComponents();
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -219,7 +220,14 @@ public class EMSimulationSettingsView extends javax.swing.JPanel {
         writeDefaultSettings();
     }
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {
-        loadDefaultSettings();
+        int choice = jFileChooser1.showOpenDialog(null);
+        if(choice == JFileChooser.APPROVE_OPTION) {
+            File chosenFile = jFileChooser1.getSelectedFile();
+            String fname = chosenFile.getPath();
+            if(fname.lastIndexOf('.') != -1)
+                fname = fname.substring(0, fname.lastIndexOf('.'));
+            writeSettings(fname);
+        }
     }
     //variable getters
     public String getMethod() {
