@@ -252,10 +252,10 @@ public class EMSimulationSettingsView extends javax.swing.JPanel {
     /**
      * Loads  settings into othe fields of this class
      */
-    public void loadSettings(String recordName){
+    public void loadSettings(String settingsName){
         try{
            String curLine;
-           FileReader fr = new FileReader(recordName+".txt");//reads in the pdb
+           FileReader fr = new FileReader(settingsName+".txt");//reads in the pdb
             BufferedReader br = new BufferedReader(fr);
            //populate the fields in the settings view from the default settings file
           while ((curLine = br.readLine()) != null) {
