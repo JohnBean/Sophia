@@ -110,7 +110,7 @@ public class SophiaView {
         itemSave.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 //Get output name
-                int choice = jFileChooser1.showOpenDialog(null);
+                int choice = jFileChooser1.showSaveDialog(null);
                 if(choice == JFileChooser.APPROVE_OPTION) {
                     File chosenFile = jFileChooser1.getSelectedFile();
                     String fname = chosenFile.getPath();
@@ -125,7 +125,7 @@ public class SophiaView {
         menuFile.add(itemSaveParam);
         itemSaveParam.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                int choice = jFileChooser1.showOpenDialog(null);
+                int choice = jFileChooser1.showSaveDialog(null);
                  if(choice == JFileChooser.APPROVE_OPTION) {
                     File chosenFile = jFileChooser1.getSelectedFile();
                     String fname = chosenFile.getPath();
